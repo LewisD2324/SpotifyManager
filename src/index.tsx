@@ -1,11 +1,11 @@
 import App from "./app/App";
 import ReactDOM from "react-dom";
 import React from "react";
-import { AppProvider } from "./app/state/app.store";
+import { StateProvider } from "./store/spotifystore";
 
 ReactDOM.render(
-  <AppProvider>
+  <StateProvider>
     <App />
-  </AppProvider>,
+  </StateProvider>,
   document.getElementById("root")
 );

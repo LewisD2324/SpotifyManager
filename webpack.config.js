@@ -1,4 +1,6 @@
 const path = require("path");
+const autoprefixer = require("autoprefixer");
+const postcssImport = require("postcss-import");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 require("dotenv").config();
@@ -20,7 +22,7 @@ module.exports = {
     publicPath: "/",
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"],
+    extensions: [".ts", ".tsx", ".js", ".json", ".css"],
   },
   devtool: "source-map",
   devServer: {
@@ -35,13 +37,62 @@ module.exports = {
     port,
     proxy: {
       "/login": "http://localhost:8888",
+      "/api/**": "http://localhost:8888",
     },
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        include: /\.module\.css$/,
+        use: [
+          {
+            loader: "style-loader",
+            // TODO: Loading CSS in separate files breaks the specificity when using direct material-ui classes as selectors
+            // loader: isDevelopment
+            //     ? 'style-loader' /* inject CSS into the DOM as a style block */
+            //     : MiniCssExtractPlugin.loader /* extract CSS to separate files in prod (needs entry in the plugins section) */,
+          },
+          {
+            // convert the resulting CSS to Javascript to be bundled (modules:true to rename CSS classes in output to identifiers, except if wrapped in a :global(...) pseudo class)
+            loader: "css-loader",
+            options: {
+              modules: { localIdentName: "[name]__[local]--[hash:base64:5]" },
+            },
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              ident: "postcss",
+              plugins: () => [
+                // postcssCustomProperties() /* allow css vars */,
+                // postcssCustomMedia(/* pluginOptions */),
+                // postcssNested(),
+                postcssImport(), // allow @import foo.css
+                autoprefixer(), // browser prefixes
+                // cssnano(), // minification
+                // postcssPlugin(),
+                // postcssEasings(), // named easing functions from https://easings.net
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: [
+          {
+            loader: "style-loader",
+            // loader: isDevelopment
+            //     ? 'style-loader' /* inject CSS into the DOM as a style block */
+            //     : MiniCssExtractPlugin.loader /* extract CSS to separate files in prod (needs entry in the plugins section) */,
+          },
+          {
+            // convert the resulting CSS to Javascript to be bundled (modules:true to rename CSS classes in output to identifiers, except if wrapped in a :global(...) pseudo class)
+            loader: "css-loader",
+          },
+        ],
       },
       { test: /\.tsx?$/, loader: "babel-loader" },
       {

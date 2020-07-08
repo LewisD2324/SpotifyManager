@@ -6,7 +6,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import classes from "./Search.module.css";
+import "./Search.module.css";
 
 export interface SearchProps {
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,9 +17,9 @@ export interface SearchProps {
 
 const Search = (props: SearchProps) => {
   return (
-    <div className={classes.Search}>
+    <div className="Search">
       <Autocomplete
-        className={classes.SearchBox}
+        className="SearchBox"
         freeSolo
         id="searchbox"
         disableClearable
