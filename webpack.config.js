@@ -17,6 +17,7 @@ module.exports = {
   output: {
     filename: "[name].js",
     path: path.resolve(__dirname, "./dist"),
+    publicPath: "/",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".json"],
@@ -27,11 +28,14 @@ module.exports = {
     overlay: true,
     historyApiFallback: true,
     disableHostCheck: true,
-    headers: { "Access-Control-Allow-Origin": "*" },
+    // headers: { "Access-Control-Allow-Origin": "*" },
     https: false,
     contentBase: "dist",
     compress: true,
     port,
+    proxy: {
+      "/login": "http://localhost:8888",
+    },
   },
   module: {
     rules: [
