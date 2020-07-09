@@ -54,9 +54,7 @@ const SongList = (props: SongListProps) => {
             <button onClick={props.addtoplaylist} id={items.uri}>
               Add
             </button>
-            <button onClick={props.removefromplaylist} id={items.uri}>
-              Remove
-            </button>
+
             {/* <Icon
               color="secondary"
               onClick={props.addtoplaylist}

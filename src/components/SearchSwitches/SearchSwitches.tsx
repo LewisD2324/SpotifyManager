@@ -1,5 +1,12 @@
 import React from "react";
-import { FormGroup, FormControlLabel, Switch } from "@material-ui/core";
+import {
+  FormGroup,
+  FormControlLabel,
+  Switch,
+  Theme,
+  createStyles,
+  makeStyles,
+} from "@material-ui/core";
 
 export interface SearchSwitchesProps {
   artistchecked: boolean;
@@ -8,10 +15,22 @@ export interface SearchSwitchesProps {
   handleSwitchChange: (e: any) => void;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      // position: "absolute",
+      // top: "50%",
+      // left: "50%",
+    },
+  })
+);
+
 const SearchSwitches = (props: SearchSwitchesProps) => {
+  const classes = useStyles();
+
   return (
-    <div>
-      <FormGroup row>
+    <div style={{ display: "flex" }}>
+      <FormGroup row className={classes.root}>
         <FormControlLabel
           control={
             <Switch

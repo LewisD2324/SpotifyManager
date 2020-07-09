@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBar from "../../components/NavBar/NavBar";
 import AlbumSongs from "../../components/AlbumSongs/AlbumSongs";
+import styled from "styled-components";
 
 const LandingPage: React.FC = () => {
   const { dispatch, state } = useSpotifyContext();
@@ -155,24 +156,24 @@ const LandingPage: React.FC = () => {
     <div>
       <header>
         <NavBar />
-        <button onClick={() => dispatch(actions.refreshtoken())}>
-          refresh
-        </button>
       </header>
-      <p>Playlists</p>
+      <div style={{ display: "flex", marginLeft: "auto" }}>
+        <Search
+          handleChangeValue={handleSearchValue}
+          searchclick={handleSearchClick}
+          suggestions={handleSuggestions()}
+          handleOnSelect={handleOnSelect}
+        />
+        <SearchSwitches
+          artistchecked={artistcheck}
+          trackschecked={trackcheck}
+          albumschecked={albumscheck}
+          handleSwitchChange={handleSwitchChange}
+        />
+      </div>
+      <p style={{ marginLeft: "40px" }}>Add To Your Playlist</p>
       <Playlist playlists={state.playlists} onClick={handleOnClickPlaylist} />
-      <Search
-        handleChangeValue={handleSearchValue}
-        searchclick={handleSearchClick}
-        suggestions={handleSuggestions()}
-        handleOnSelect={handleOnSelect}
-      />
-      <SearchSwitches
-        artistchecked={artistcheck}
-        trackschecked={trackcheck}
-        albumschecked={albumscheck}
-        handleSwitchChange={handleSwitchChange}
-      />
+
       <ToastContainer autoClose={1000} />
       {rendersongs()}
       {renderalbums()}

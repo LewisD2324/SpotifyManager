@@ -6,6 +6,7 @@ import NavBar from "../../components/NavBar/NavBar";
 import SongList from "../../components/SongList/SongList";
 import PlayListSongs from "../../components/PlaylistSongs/PlaylistSongs";
 import { ToastContainer, toast } from "react-toastify";
+import { Paper } from "@material-ui/core";
 const PlaylistPage = () => {
   const { dispatch, state } = useSpotifyContext();
   console.log(state);
@@ -63,6 +64,7 @@ const PlaylistPage = () => {
   return (
     <div>
       <NavBar />
+
       <Playlist playlists={state.playlists} onClick={handleOnClickPlaylist} />
       {rendersongs()}
       <ToastContainer autoClose={1000} />

@@ -7,6 +7,7 @@ import querystring from "querystring";
 import request from "request";
 import { Request, Response } from "express";
 import authroute from "./routes/authRoute";
+import spotifyrouter from "./routes/spotifyRoute";
 
 //https://medium.com/@kiesp/playing-with-spotify-api-using-expressjs-bd8f25392ff3
 //https://blog.logrocket.com/use-hooks-and-context-not-react-and-redux/
@@ -22,6 +23,7 @@ app
   .use(bodyParser.json());
 
 authroute(app);
+spotifyrouter(app);
 
 console.log("Listening on 8888");
 app.listen(8888);

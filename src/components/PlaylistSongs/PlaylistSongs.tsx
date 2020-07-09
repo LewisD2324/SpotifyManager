@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -10,9 +10,11 @@ import IconButton from "@material-ui/core/IconButton";
 import CommentIcon from "@material-ui/icons/Comment";
 import AddIcon from "@material-ui/icons/Add";
 import Icon from "@material-ui/core/Icon";
-import { Box, Divider } from "@material-ui/core";
+import { Box, Divider, Paper } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
-
+import AudioControl from "../AudioControl/AudioControl";
+import { get_playlist_tracks } from "../../actions/spotifyactions";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 interface SongListProps {
   tracks: any;
   addtoplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
@@ -27,6 +29,8 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       maxWidth: 1000,
       backgroundColor: theme.palette.background.paper,
+      marginRight: "auto",
+      marginLeft: "auto",
     },
     paginator: {
       justifyContent: "center",
@@ -61,20 +65,12 @@ const PlaylistSongs = (props: SongListProps) => {
               primary={items.name}
               secondary={items.artists[0].name}
             />
-            <audio id="audioPlayer" controls>
-              <source src={items.preview_url} type="audio/mpeg" />
-              Your browser does not support HTML5 Audio
-            </audio>
-            <ListItemSecondaryAction>
-              <button onClick={props.removefromplaylist} id={items.uri}>
-                Remove
-              </button>
-              {/* <Icon
-              color="secondary"
-              onClick={props.addtoplaylist}
-              id={items.uri}
-            ></Icon> */}
-            </ListItemSecondaryAction>
+            <AudioControl preview_url={items.preview_url} id={items.id} />
+            {/* <ListItemSecondaryAction> */}
+            <div onClick={props.removefromplaylist} id={items.uri}>
+              <RemoveCircleIcon />
+            </div>
+            {/* </ListItemSecondaryAction> */}
           </ListItem>
         );
       });

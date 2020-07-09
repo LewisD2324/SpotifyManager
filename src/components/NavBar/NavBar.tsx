@@ -25,9 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const NavBar = () => {
   const classes = useStyles();
 
-  const handlePlaylistPage = () => {
-    return <Redirect to="/Playlist" />;
-  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -51,12 +48,13 @@ const NavBar = () => {
               Home
             </Link>
           </Button>
+          <Button color="inherit">Create a Playlist</Button>
           <Button color="inherit">
             <Link
               to="/Playlist"
               style={{ textDecoration: "none", color: "white" }}
             >
-              Playlists
+              My Playlists
             </Link>
           </Button>
         </Toolbar>

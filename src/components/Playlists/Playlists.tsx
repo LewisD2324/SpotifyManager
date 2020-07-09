@@ -4,6 +4,8 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
+import { Paper } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -12,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: "wrap",
       justifyContent: "space-around",
       overflow: "hidden",
+      margin: "40px",
       backgroundColor: theme.palette.background.paper,
     },
     gridList: {
@@ -20,6 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transform: "translateZ(0)",
     },
     gridListTile: {
+      transition: "ease 0.4s all",
       "&:hover": {
         background: "#f00",
         cursor: "pointer",
@@ -27,14 +31,22 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       color: theme.palette.primary.light,
+      textAlign: "center",
     },
     titleBar: {
       background:
         "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
     },
     playlistimage: {
-      height: "200px",
-      width: "200px",
+      height: "180px",
+      width: "180px",
+      display: "block",
+      marginLeft: "auto",
+      marginRight: "auto",
+      // "&:hover": {
+      //   height: "250px",
+      //   width: "250px",
+      // },
     },
   })
 );
@@ -82,11 +94,11 @@ const Playlists = (props: SongListProps) => {
   };
 
   return (
-    <div className={classes.root}>
+    <Paper className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
         {renderplaylists()}
       </GridList>
-    </div>
+    </Paper>
   );
 };
 

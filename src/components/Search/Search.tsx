@@ -6,7 +6,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import "./Search.module.css";
 
 export interface SearchProps {
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,12 +16,13 @@ export interface SearchProps {
 
 const Search = (props: SearchProps) => {
   return (
-    <div className="Search">
+    <div style={{ display: "flex" }}>
       <Autocomplete
-        className="SearchBox"
+        style={{ width: "500px" }}
         freeSolo
         id="searchbox"
         disableClearable
+        placeholder="Search by ...."
         // options={top100Films.map((option) => option.title)}
         options={props.suggestions}
         renderInput={(params) => (
@@ -37,7 +37,9 @@ const Search = (props: SearchProps) => {
           />
         )}
       />
-      <button onClick={props.searchclick}>Search</button>
+      <button onClick={props.searchclick} style={{ flexWrap: "nowrap" }}>
+        Search
+      </button>
     </div>
   );
 };
