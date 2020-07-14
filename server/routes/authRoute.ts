@@ -1,3 +1,4 @@
+import axios from "axios";
 import { client_id, client_secret, redirect_uri } from "../config/dev";
 import querystring from "querystring";
 import request from "request";
@@ -25,6 +26,21 @@ export let refresh_token = "";
 var stateKey = "spotify_auth_state";
 
 export default (app: any) => {
+  app.get("/api/userinfo", async (req: Request, res: Response) => {
+    try {
+      const headers = {
+        Authorization: "Bearer " + access_token,
+      };
+      var result = await axios.get("https://api.spotify.com/v1/me", {
+        headers,
+      });
+      console.log(result.data);
+      res.status(200).send(result.data);
+    } catch (err) {
+      res.status(400).send(err);
+    }
+  });
+
   app.get("/login", function (req: Request, res: Response) {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);

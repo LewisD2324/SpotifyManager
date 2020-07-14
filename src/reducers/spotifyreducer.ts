@@ -97,6 +97,11 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
         ...state,
         selected_playlist: action.payload,
       };
+    // case SpotifyActionTypeKeys.REMOVE_FROM_PLAYLIST_SUCCESS:
+    //   return {
+    //     ...state,
+    //     playlist_tracks: action.payload,
+    //   };
 
     default:
       return state;

@@ -37,7 +37,7 @@ const SongList = (props: SongListProps) => {
   const rendersongs = () => {
     return props.tracks.map((items: any) => {
       return (
-        <ListItem role={undefined} dense button>
+        <ListItem role={undefined} dense button key={props.tracks.id}>
           <ListItemIcon>
             <img src={items.album.images[2].url}></img>
           </ListItemIcon>

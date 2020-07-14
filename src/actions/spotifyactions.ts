@@ -43,9 +43,11 @@ export const removefromplaylist = (
   };
 };
 
-export const removefromplaylistsuccess = (): SpotifyAction => {
+export const removefromplaylistsuccess = (): // updatedPlaylistTracks: any
+SpotifyAction => {
   return {
     type: SpotifyActionTypeKeys.REMOVE_FROM_PLAYLIST_SUCCESS,
+    // payload: updatedPlaylistTracks,
   };
 };
 
@@ -142,9 +144,10 @@ export const search_albums_success = (result: any): SpotifyAction => {
   };
 };
 
-export const get_playlist = (): SpotifyAction => {
+export const get_playlist = (userId: string): SpotifyAction => {
   return {
     type: SpotifyActionTypeKeys.GET_PLAYLIST,
+    payload: userId,
   };
 };
 

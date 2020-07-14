@@ -22,10 +22,11 @@ const AudioControl = ({ preview_url, id }: AudioControlProps) => {
 
   return (
     <div>
+      {/* TODO - FIX issue of preview_url being null, disable the button or something */}
       <div onClick={() => handleAudioButton(preview_url)}>
         {isPlaying ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}
       </div>
-      <audio id={id} ref={player}>
+      <audio key={id} id={id} ref={player}>
         <source src={preview_url} type="audio/mpeg" />
         Your browser does not support HTML5 Audio
       </audio>

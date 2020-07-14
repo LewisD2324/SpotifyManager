@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import NavBar from "../../components/NavBar/NavBar";
 import AlbumSongs from "../../components/AlbumSongs/AlbumSongs";
 import styled from "styled-components";
+import TrackControls from "../../components/TrackControls/TrackControls";
 
 const LandingPage: React.FC = () => {
   const { dispatch, state } = useSpotifyContext();
@@ -18,11 +19,13 @@ const LandingPage: React.FC = () => {
   const [trackcheck, settrackcheck] = useState(true);
   const [albumscheck, setalbumscheck] = useState(false);
 
-  const [showtracks, setshowtracks] = useState(false);
+  const [showtracks, setshowtracks] = useState(true);
 
   const [showartisttracks, setshowartisttracks] = useState(false);
 
   const [showalbums, setshowalbums] = useState(false);
+
+  const [isLoading, setisLoading] = useState(true);
 
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(actions.searchvalue(e.currentTarget.value));
@@ -42,8 +45,11 @@ const LandingPage: React.FC = () => {
   }, [state.searchvalue]);
 
   useEffect(() => {
-    dispatch(actions.get_playlist());
-  }, []);
+    if (state.userinfo !== null) {
+      dispatch(actions.get_playlist(state.userinfo.id));
+      setisLoading(false);
+    }
+  }, [state.userinfo]);
 
   useEffect(() => {
     dispatch(actions.userinfo());
@@ -172,11 +178,17 @@ const LandingPage: React.FC = () => {
         />
       </div>
       <p style={{ marginLeft: "40px" }}>Add To Your Playlist</p>
-      <Playlist playlists={state.playlists} onClick={handleOnClickPlaylist} />
+      {isLoading ? (
+        <div>...loading</div>
+      ) : (
+        <Playlist playlists={state.playlists} onClick={handleOnClickPlaylist} />
+      )}
+      <TrackControls />
 
-      <ToastContainer autoClose={1000} />
       {rendersongs()}
       {renderalbums()}
+
+      <ToastContainer autoClose={1000} />
     </div>
   );
 };

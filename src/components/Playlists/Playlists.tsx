@@ -57,7 +57,6 @@ interface SongListProps {
 }
 const Playlists = (props: SongListProps) => {
   const classes = useStyles();
-
   const renderplaylists = () => {
     return props.playlists.map((items) => {
       let image: string = "";
@@ -71,6 +70,7 @@ const Playlists = (props: SongListProps) => {
           onClick={props.onClick}
           id={items.id}
           className={classes.gridListTile}
+          key={items.id}
         >
           <img
             src={items.images[0].url}

@@ -48,6 +48,7 @@ const PlaylistSongs = (props: SongListProps) => {
   const itemsPerPage = 30;
   const [page, setPage] = React.useState(1);
 
+  console.log(props.tracks);
   const handleChange = (event: any, value: any) => {
     setPage(value);
   };
@@ -57,7 +58,7 @@ const PlaylistSongs = (props: SongListProps) => {
       .slice((page - 1) * itemsPerPage, page * itemsPerPage)
       .map((items: any) => {
         return (
-          <ListItem role={undefined} dense button>
+          <ListItem role={undefined} dense button key={items.id}>
             <ListItemIcon>
               <img src={items.album.images[2].url}></img>
             </ListItemIcon>

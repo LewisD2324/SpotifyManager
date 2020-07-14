@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run start:dev\" \"npm run start:server\"",
     "start:dev": "webpack-dev-server --inline --hot --open",
-    "start:server": "ts-node server/server.ts",
+    "start:server": "nodemon ./server/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -23,7 +23,6 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "http-proxy-middleware": "^1.0.4",
-    "nodemon": "^2.0.4",
     "postcss-import": "^12.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -49,6 +48,7 @@
     "css-loader": "^3.6.0",
     "dotenv": "^8.2.0",
     "html-webpack-plugin": "^4.3.0",
+    "nodemon": "^2.0.4",
     "postcss-loader": "^3.0.0",
     "source-map-loader": "^1.0.1",
     "style-loader": "^1.2.1",

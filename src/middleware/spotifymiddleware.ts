@@ -12,16 +12,19 @@ export const spotifymiddleware = (
   switch (action.type) {
     case SpotifyActionTypeKeys.USER_INFO:
       try {
-        const userinfo = await axios.get("/api/userinfo");
-        dispatch(actions.userinfosucess(userinfo));
-        console.log(userinfo);
+        const response = await axios.get("/api/userinfo");
+        dispatch(actions.userinfosucess(response.data));
+        console.log(response.data);
       } catch {
         console.log("error USER_INFO");
       }
       break;
     case SpotifyActionTypeKeys.GET_PLAYLIST:
       try {
-        const response = await axios.get("/api/getplaylist");
+        const userId = {
+          userId: action.payload,
+        };
+        const response = await axios.post("/api/getplaylist", userId);
         const playlists = response.data;
         dispatch(actions.get_playlist_success(playlists));
         console.log(playlists);
@@ -132,6 +135,9 @@ export const spotifymiddleware = (
           "/api/removefromplaylist",
           playlistaddbody
         );
+        // const updatedPlaylistTracks = state.playlists.filter((item: any) => {
+        //   item.id !== playlistaddbody.track;
+        // });
         dispatch(actions.removefromplaylistsuccess());
         console.log(response.data);
       } catch {
