@@ -10,6 +10,9 @@ const App: React.FC = () => {
   const PlaylistPage = React.lazy(() =>
     import("../pages/PlaylistPage/PlaylistPage")
   );
+  const CreatePlaylistPage = React.lazy(() =>
+    import("../pages/CreatePlaylistPage/CreatePlaylistPage")
+  );
 
   const RouterPage = (
     props: { pageComponent: JSX.Element } & RouteComponentProps
@@ -44,6 +47,10 @@ const App: React.FC = () => {
           <RouterPage path="/" pageComponent={<AuthPage />} />
           <RouterPage path="/Landing" pageComponent={<LandingPage />} />
           <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
+          <RouterPage
+            path="/CreatePlaylist"
+            pageComponent={<CreatePlaylistPage />}
+          />
         </Router>
         {/* <NotFound default //TODO add notfound page default /> */}
       </Suspense>

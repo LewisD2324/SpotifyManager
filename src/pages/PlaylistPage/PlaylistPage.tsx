@@ -7,6 +7,7 @@ import SongList from "../../components/SongList/SongList";
 import PlayListSongs from "../../components/PlaylistSongs/PlaylistSongs";
 import { ToastContainer, toast } from "react-toastify";
 import { Paper } from "@material-ui/core";
+import { deleteplaylist } from "../../actions/spotifyactions";
 
 const PlaylistPage = () => {
   const { dispatch, state } = useSpotifyContext();
@@ -35,6 +36,7 @@ const PlaylistPage = () => {
   const handleOnClickPlaylist = (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
+    //  setshowPlaylistControls(e.currentTarget.id);
     dispatch(actions.selected_playlist(e.currentTarget.id));
     console.log(state.selected_playlist);
 
@@ -76,10 +78,20 @@ const PlaylistPage = () => {
     );
   };
 
+  const handleDeletePlaylist = () => {
+    //  dispatch(deleteplaylist(state.selected_playlist));
+    toast("Playlist Unfollowed");
+  };
+
   return (
     <div>
       <NavBar />
-      <Playlist playlists={state.playlists} onClick={handleOnClickPlaylist} />
+      <Playlist
+        playlists={state.playlists}
+        onClick={handleOnClickPlaylist}
+        deletePlaylist={handleDeletePlaylist}
+        //   showPlaylistControls={showPlaylistControls}
+      />
       {showsongs ? (
         <PlayListSongs
           tracks={state.playlist_tracks}

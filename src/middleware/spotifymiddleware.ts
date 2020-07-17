@@ -144,6 +144,24 @@ export const spotifymiddleware = (
         console.log("error REMOVE_FROM_PLAYLIST");
       }
       break;
+    case SpotifyActionTypeKeys.DELETE_PLAYLIST:
+      try {
+        const playlistaddbody = {
+          playlist_id: action.payload.playlist_id,
+        };
+
+        console.log(playlistaddbody);
+        const response = await axios.post(
+          "/api/deleteplaylist",
+          playlistaddbody
+        );
+
+        dispatch(actions.deleteplaylistsuccess());
+        console.log(response.data);
+      } catch {
+        console.log("error DELETE_PLAYLIST");
+      }
+      break;
     case SpotifyActionTypeKeys.GET_PLAYLIST_TRACKS:
       try {
         const body = {
@@ -157,6 +175,40 @@ export const spotifymiddleware = (
         console.log(response.data);
       } catch {
         console.log("error GET_PLAYLIST_TRACKS");
+      }
+      break;
+    case SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES:
+      try {
+        const body = {
+          track_ids: action.payload.track_ids,
+        };
+
+        console.log(body);
+        const response = await axios.post("/api/audiofeatures", body);
+        const audioFeatures = response.data;
+        console.log(response.data);
+
+        dispatch(actions.get_track_audio_features_success(response.data));
+        console.log(response.data);
+      } catch {
+        console.log("error GET_TRACK_AUDIO_FEATURES");
+      }
+      break;
+    case SpotifyActionTypeKeys.CREATE_PLAYLIST:
+      try {
+        const body = {
+          user_id: action.payload.user_id,
+          playlistName: action.payload.playlistName,
+          description: action.payload.description,
+        };
+
+        console.log(body);
+        const response = await axios.post("/api/createplaylist", body);
+        //TODO - need to pass response to dispatch success
+        dispatch(actions.createplaylistsuccess());
+        console.log(response.data);
+      } catch {
+        console.log("error CREATE_PLAYLIST");
       }
       break;
     case SpotifyActionTypeKeys.REFRESH_TOKEN:

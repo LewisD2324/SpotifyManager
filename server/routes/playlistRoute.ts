@@ -54,6 +54,61 @@ export default (app: any) => {
     }
   });
 
+  app.post("/api/deleteplaylist", async (req: Request, res: Response) => {
+    try {
+      const playlist_id = req.body.playlist_id;
+
+      console.log(playlist_id);
+
+      const response = await axios.delete(
+        `https://api.spotify.com/v1/playlists/${playlist_id}/followers`,
+        {
+          headers: { Authorization: "Bearer " + access_token },
+        }
+      );
+
+      console.log(response.data);
+
+      res.status(200).send(response.data);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  });
+
+  app.post("/api/createplaylist", async (req: Request, res: Response) => {
+    try {
+      const user_id = req.body.user_id;
+      const playlist_name = req.body.playlistName;
+      const description = req.body.description;
+
+      console.log(user_id, playlist_name, description);
+
+      const response = await axios.post(
+        `https://api.spotify.com/v1/users/${user_id}/playlists`,
+        {
+          name: playlist_name,
+          description: description,
+          public: false,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + access_token,
+            Accept: "application/json",
+            "content-type": "application/json",
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      res.status(200).send(response.data);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send(err);
+    }
+  });
+
   app.post("/api/playlisttracks", async (req: Request, res: Response) => {
     try {
       const playlist_id = req.body.playlist_id;
@@ -127,26 +182,4 @@ export default (app: any) => {
       console.log(err);
     }
   });
-
-  // app.get("/api/getplaylist", async (req: Request, res: Response) => {
-  //   try {
-  //     const playlist = await spotifyApi.getUserPlaylists();
-  //     console.log(playlist.body);
-  //     var playlistarray: playlistsarray[] = [];
-
-  //     playlist.body.items.map((item) => {
-  //       playlistarray.push({
-  //         name: item.name,
-  //         tracks: item.tracks,
-  //         images: item.images,
-  //       });
-  //     });
-
-  //     console.log(playlistarray);
-
-  //     res.status(200).send(playlistarray);
-  //   } catch (err) {
-  //     res.status(400).send(err);
-  //   }
-  // });
 };

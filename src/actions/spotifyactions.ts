@@ -33,6 +33,36 @@ export const addtoplaylistsuccess = (): SpotifyAction => {
   };
 };
 
+export const createplaylist = (
+  user_id: string,
+  playlistName: string,
+  description: string
+): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.CREATE_PLAYLIST,
+    payload: { user_id, playlistName, description },
+  };
+};
+
+export const createplaylistsuccess = (): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.CREATE_PLAYLIST_SUCCESS,
+  };
+};
+
+export const deleteplaylist = (playlist_id: string): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.DELETE_PLAYLIST,
+    payload: { playlist_id },
+  };
+};
+
+export const deleteplaylistsuccess = (): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.DELETE_PLAYLIST_SUCCESS,
+  };
+};
+
 export const removefromplaylist = (
   playlist_id: string,
   track: string
@@ -172,6 +202,24 @@ export const get_playlist_tracks_success = (tracks: any): SpotifyAction => {
   return {
     type: SpotifyActionTypeKeys.GET_PLAYLIST_TRACKS_SUCCESS,
     payload: tracks,
+  };
+};
+
+export const get_track_audio_features = (
+  track_ids: string[]
+): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES,
+    payload: { track_ids },
+  };
+};
+
+export const get_track_audio_features_success = (
+  trackAudioFeatures: any
+): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES_SUCCESS,
+    payload: trackAudioFeatures,
   };
 };
 

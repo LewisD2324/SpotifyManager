@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -6,6 +6,7 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import { Paper } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,41 +55,51 @@ const useStyles = makeStyles((theme: Theme) =>
 interface SongListProps {
   playlists: any[];
   onClick(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
+  deletePlaylist: (playlist_id: string) => any;
+  showPlaylistControls?: string;
 }
 const Playlists = (props: SongListProps) => {
   const classes = useStyles();
+  const [showPlaylistControls, setshowPlaylistControls] = useState("");
+
+  const handleShowPlaylistControls = (playlist_id: string) => {
+    setshowPlaylistControls(playlist_id);
+  };
+
   const renderplaylists = () => {
     return props.playlists.map((items) => {
       let image: string = "";
-      if (items.images.length < 3) {
+      if (items.images.length < 1) {
         image = "No image";
       } else {
         image = items.images[0].url;
       }
       return (
+        //TODO - Fix issue with showing controls and delete playlists firing more than once
+
+        // <div onClick={() => handleShowPlaylistControls(items.id)}>
         <GridListTile
           onClick={props.onClick}
           id={items.id}
           className={classes.gridListTile}
           key={items.id}
         >
-          <img
-            src={items.images[0].url}
-            alt={items.name}
-            className={classes.playlistimage}
-          />
+          {showPlaylistControls === items.id ? (
+            <div onClick={props.deletePlaylist(items.id)}>
+              <RemoveCircleIcon />
+            </div>
+          ) : null}
+
+          <img src={image} alt={items.name} className={classes.playlistimage} />
           <GridListTileBar
             title={items.name}
             classes={{
               root: classes.titleBar,
               title: classes.title,
             }}
-            // actionIcon={
-            //   <IconButton aria-label={`star ${tile.title}`}>
-            //   </IconButton>
-            // }
           />
         </GridListTile>
+        // </div>
       );
     });
   };

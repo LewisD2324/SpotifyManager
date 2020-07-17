@@ -48,7 +48,15 @@ const NavBar = () => {
               Home
             </Link>
           </Button>
-          <Button color="inherit">Create a Playlist</Button>
+          <Button color="inherit">
+            {" "}
+            <Link
+              to="/CreatePlaylist"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              Create a Playlist
+            </Link>
+          </Button>
           <Button color="inherit">
             <Link
               to="/Playlist"

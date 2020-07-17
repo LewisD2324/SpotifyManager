@@ -52,6 +52,13 @@ const LandingPage: React.FC = () => {
   }, [state.userinfo]);
 
   useEffect(() => {
+    if (state.tracks !== null) {
+      const track_ids = state.tracks.map((track: any) => track.id);
+      dispatch(actions.get_track_audio_features(track_ids));
+    }
+  }, [state.tracks]);
+
+  useEffect(() => {
     dispatch(actions.userinfo());
   }, []);
 
@@ -153,10 +160,12 @@ const LandingPage: React.FC = () => {
   const handleOnClickPlaylist = (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
-    console.log(e.currentTarget.id);
+    console.log(e.currentTarget);
     dispatch(actions.selected_playlist(e.currentTarget.id));
     e.currentTarget.style.backgroundColor = "#f00";
   };
+
+  const handleDeletePlaylist = () => {};
 
   return (
     <div>
@@ -181,7 +190,11 @@ const LandingPage: React.FC = () => {
       {isLoading ? (
         <div>...loading</div>
       ) : (
-        <Playlist playlists={state.playlists} onClick={handleOnClickPlaylist} />
+        <Playlist
+          playlists={state.playlists}
+          onClick={handleOnClickPlaylist}
+          deletePlaylist={handleDeletePlaylist}
+        />
       )}
       <TrackControls />
 

@@ -97,11 +97,27 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
         ...state,
         selected_playlist: action.payload,
       };
-    // case SpotifyActionTypeKeys.REMOVE_FROM_PLAYLIST_SUCCESS:
-    //   return {
-    //     ...state,
-    //     playlist_tracks: action.payload,
-    //   };
+    case SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES_SUCCESS:
+      const tracks = { ...state.tracks };
+      // for (const key in tracks) {
+      //   const audioFeature = action.payload.find(
+      //     (x: any) => x.id === tracks[key].id
+      //   );
+
+      //   tracks[key].push(audioFeature);
+      // }
+      // console.log(tracks);
+      // tracks.forEach((track: any) => {
+      //   action.payload.foreach((audioFeature: any) => {
+      //     if (track.id === audioFeature) tracks.push(audioFeature);
+      //   });
+      // });
+
+      // console.log(tracks);
+      return {
+        ...state,
+        // tracks: action.payload,
+      };
 
     default:
       return state;
