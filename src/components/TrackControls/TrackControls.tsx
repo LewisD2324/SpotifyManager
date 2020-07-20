@@ -27,7 +27,11 @@ const useStyles = makeStyles({
   },
 });
 
-const TrackControls = () => {
+interface TrackControlProps {
+  onBPMChange: any;
+}
+
+const TrackControls = ({ onBPMChange }: TrackControlProps) => {
   const classes = useStyles();
 
   const [value, setValue] = React.useState<number[]>([0, 220]);
@@ -61,6 +65,7 @@ const TrackControls = () => {
           <Slider
             value={value}
             onChange={handleChange}
+            onChangeCommitted={onBPMChange}
             valueLabelDisplay="auto"
             aria-labelledby="range-slider"
             //   valueLabelFormat={valueLabelFormat}

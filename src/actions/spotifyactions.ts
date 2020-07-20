@@ -81,6 +81,13 @@ SpotifyAction => {
   };
 };
 
+export const bpmChange = (value: number[]): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.BPM_CHANGE,
+    payload: value,
+  };
+};
+
 export const searchvalue = (searchvalue: any): SpotifyAction => {
   return {
     type: SpotifyActionTypeKeys.SEARCH_VALUE,

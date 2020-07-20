@@ -165,6 +165,10 @@ const LandingPage: React.FC = () => {
     e.currentTarget.style.backgroundColor = "#f00";
   };
 
+  const handleBPMChange = (event: React.ChangeEvent<{}>, value: number[]) => {
+    console.log(value);
+  };
+
   const handleDeletePlaylist = () => {};
 
   return (
@@ -196,7 +200,7 @@ const LandingPage: React.FC = () => {
           deletePlaylist={handleDeletePlaylist}
         />
       )}
-      <TrackControls />
+      <TrackControls onBPMChange={handleBPMChange} />
 
       {rendersongs()}
       {renderalbums()}

@@ -6,11 +6,13 @@ export interface AppState {
   playlists: any;
   searchvalue: string;
   tracks: any;
+  filtered_tracks: any;
   artists: any;
   albums: any;
   selected_playlist: string;
   playlist_tracks: any;
   album_tracks: any;
+  track_audio_features: any;
 
   //  access_token: string | null;
 }
@@ -28,11 +30,13 @@ export const initialState: AppState = {
   playlists: [],
   searchvalue: "",
   tracks: [],
+  filtered_tracks: [],
   artists: [],
   albums: [],
   selected_playlist: "",
   playlist_tracks: [],
   album_tracks: [],
+  track_audio_features: [],
   //  access_token: null,
 };
 
@@ -61,6 +65,7 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
       return {
         ...state,
         tracks: action.payload,
+        filtered_tracks: action.payload,
       };
     case SpotifyActionTypeKeys.SEARCH_ARTISTS_SUCCESS:
       return {
@@ -76,6 +81,7 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
       return {
         ...state,
         tracks: action.payload,
+        filtered_tracks: action.payload,
       };
     case SpotifyActionTypeKeys.SEARCH_ARTISTS_TRACKS_SUCCESS:
       return {
@@ -98,7 +104,7 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
         selected_playlist: action.payload,
       };
     case SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES_SUCCESS:
-      const tracks = { ...state.tracks };
+      //  const tracks = { ...state.tracks };
       // for (const key in tracks) {
       //   const audioFeature = action.payload.find(
       //     (x: any) => x.id === tracks[key].id
@@ -116,7 +122,30 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
       // console.log(tracks);
       return {
         ...state,
-        // tracks: action.payload,
+        track_audio_features: action.payload,
+      };
+    case SpotifyActionTypeKeys.BPM_CHANGE:
+      const tracks = { ...state.tracks };
+      // const maxBPM = Math.max(action.payload[0], action.payload[1]);
+      // const minBPM = Math.min(action.payload[0], action.payload[1]);
+
+      // const filtered_audio_features = state.track_audio_features.audio_features.filter(
+      //   (x: any) => {
+      //     x.tempo >= minBPM && x.tempo <= maxBPM;
+      //   }
+      // );
+      // console.log(filtered_audio_features);
+      //   for (var i=0; i<state.tracks.length; i++) {
+      //     if(value >= array[i]){
+      //         if(value < array[i+1]){
+      //             console.log('Found it between ' + array[i] + ' and ' + array[i+1]);
+      //         }
+      //     }
+      // }
+
+      return {
+        ...state,
+        track_audio_features: action.payload,
       };
 
     default:
