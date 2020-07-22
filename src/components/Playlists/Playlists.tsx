@@ -4,9 +4,13 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
-import { Paper } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
+import { useSpotifyContext } from "../../store/spotifystore";
+import { createplaylist } from "../../actions/spotifyactions";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,6 +33,9 @@ const useStyles = makeStyles((theme: Theme) =>
         background: "#f00",
         cursor: "pointer",
       },
+    },
+    createPlaylistTitle: {
+      textAlign: "center",
     },
     title: {
       color: theme.palette.primary.light,
@@ -60,10 +67,17 @@ interface SongListProps {
 }
 const Playlists = (props: SongListProps) => {
   const classes = useStyles();
+  const { dispatch, state } = useSpotifyContext();
+
   const [showPlaylistControls, setshowPlaylistControls] = useState("");
 
   const handleShowPlaylistControls = (playlist_id: string) => {
     setshowPlaylistControls(playlist_id);
+  };
+
+  const handleSubmit = (playlistName: string, description: string) => {
+    dispatch(createplaylist(state.userinfo.id, playlistName, description));
+    toast.success("Playlist Created");
   };
 
   const renderplaylists = () => {
@@ -78,6 +92,7 @@ const Playlists = (props: SongListProps) => {
         //TODO - Fix issue with showing controls and delete playlists firing more than once
 
         // <div onClick={() => handleShowPlaylistControls(items.id)}>
+
         <GridListTile
           onClick={props.onClick}
           id={items.id}
@@ -107,6 +122,13 @@ const Playlists = (props: SongListProps) => {
   return (
     <Paper className={classes.root}>
       <GridList className={classes.gridList} cols={2.5}>
+        {/* <GridListTile className={classes.gridListTile}>
+         
+        </GridListTile> */}
+        <GridListTile>
+          <CreatePlaylistForm onSubmit={handleSubmit} />
+        </GridListTile>
+
         {renderplaylists()}
       </GridList>
     </Paper>

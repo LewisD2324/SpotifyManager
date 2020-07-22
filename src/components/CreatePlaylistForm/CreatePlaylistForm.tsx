@@ -7,19 +7,23 @@ import {
   Paper,
   Avatar,
   Typography,
+  GridListTile,
 } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    Paper: {
-      marginTop: 100,
-      padding: 20,
-      flexDirection: "column",
+    root: {
+      display: "flex",
       alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
     },
 
     ErrorText: {
       color: "#f50057",
       marginBottom: 5,
+      textAlign: "center",
+    },
+    createPlaylistTitle: {
       textAlign: "center",
     },
   })
@@ -31,9 +35,10 @@ interface CreatePlaylistFormProps {
 }
 
 const CreatePlaylistForm = ({
-  // errormessage,
   onSubmit,
-}: CreatePlaylistFormProps) => {
+}: // errormessage,
+
+CreatePlaylistFormProps) => {
   const classes = useStyles();
 
   //TODO - change this to be done using 1 state 1 handlechange for both textboxes
@@ -52,47 +57,42 @@ const CreatePlaylistForm = ({
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Paper className={classes.Paper}>
-        <Typography component="h1" variant="h5">
-          Create A Playlist:
-        </Typography>
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          id="PlaylistName"
-          label="Playlist Name"
-          name="Playlist Name"
-          placeholder="Name"
-          onChange={handlePlaylistNameChange}
-        />
-        <TextField
-          variant="outlined"
-          margin="normal"
-          fullWidth
-          name="Description"
-          label="Description"
-          id="Description"
-          placeholder="Description"
-          onChange={handleDescriptionChange}
-        />
+    <div className={classes.root}>
+      {/* <Typography component="h6" className={classes.createPlaylistTitle}>
+        Create A Playlist:
+      </Typography> */}
+      <TextField
+        id="standard-basic"
+        margin="normal"
+        label="Playlist Name"
+        name="Playlist Name"
+        placeholder="Name"
+        required
+        onChange={handlePlaylistNameChange}
+      />
+      <TextField
+        id="standard-basic"
+        margin="normal"
+        name="Description"
+        label="Description"
+        placeholder="Description"
+        required
+        onChange={handleDescriptionChange}
+      />
 
-        {/* <Typography component="p" className={classes.ErrorText}>
+      {/* <Typography component="p" className={classes.ErrorText}>
           {errormessage}
         </Typography> */}
 
-        <Button
-          type="button"
-          fullWidth
-          variant="contained"
-          color="primary"
-          onClick={() => onSubmit(playlistName, description)}
-        >
-          SUBMIT
-        </Button>
-      </Paper>
-    </Container>
+      <Button
+        type="button"
+        variant="contained"
+        color="primary"
+        onClick={() => onSubmit(playlistName, description)}
+      >
+        SUBMIT
+      </Button>
+    </div>
   );
 };
 

@@ -20,7 +20,7 @@ const CreatePlaylistPage = () => {
       <header>
         <NavBar />
       </header>
-      <CreatePlaylistForm onSubmit={handleSubmit} />
+      {/* <CreatePlaylistForm onSubmit={handleSubmit} /> */}
     </div>
   );
 };
