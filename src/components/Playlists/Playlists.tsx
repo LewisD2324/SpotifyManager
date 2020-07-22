@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createRef, useRef, useEffect } from "react";
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -9,8 +9,9 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
 import { useSpotifyContext } from "../../store/spotifystore";
-import { createplaylist } from "../../actions/spotifyactions";
+import { createplaylist, get_playlist } from "../../actions/spotifyactions";
 import { toast } from "react-toastify";
+import OutsideClickHandler from "react-outside-click-handler";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,17 +68,42 @@ interface SongListProps {
 }
 const Playlists = (props: SongListProps) => {
   const classes = useStyles();
+  const createPlaylistRef = useRef<any>();
   const { dispatch, state } = useSpotifyContext();
 
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleCreatePlaylistClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleCreatePlaylistClick);
+    };
+  }, []);
+
   const [showPlaylistControls, setshowPlaylistControls] = useState("");
+  const [showCreatePlaylistForm, setshowCreatePlaylistForm] = useState(false);
 
   const handleShowPlaylistControls = (playlist_id: string) => {
     setshowPlaylistControls(playlist_id);
   };
 
-  const handleSubmit = (playlistName: string, description: string) => {
-    dispatch(createplaylist(state.userinfo.id, playlistName, description));
+  const handleSubmit = async (playlistName: string, description: string) => {
+    await dispatch(
+      createplaylist(state.userinfo.id, playlistName, description)
+    );
     toast.success("Playlist Created");
+    await dispatch(get_playlist(state.userinfo.id));
+    setshowCreatePlaylistForm(false);
+  };
+
+  const handleCreatePlaylistClick = (e: any) => {
+    if (createPlaylistRef.current.contains(e.target)) {
+      // inside click
+      setshowCreatePlaylistForm(true);
+      return;
+    }
+    //outside click
+    setshowCreatePlaylistForm(false);
   };
 
   const renderplaylists = () => {
@@ -125,8 +151,15 @@ const Playlists = (props: SongListProps) => {
         {/* <GridListTile className={classes.gridListTile}>
          
         </GridListTile> */}
-        <GridListTile>
-          <CreatePlaylistForm onSubmit={handleSubmit} />
+        <GridListTile
+          onClick={handleCreatePlaylistClick}
+          ref={createPlaylistRef}
+        >
+          {showCreatePlaylistForm ? (
+            <CreatePlaylistForm onSubmit={handleSubmit} />
+          ) : (
+            <Typography>Create a Playlist</Typography>
+          )}
         </GridListTile>
 
         {renderplaylists()}

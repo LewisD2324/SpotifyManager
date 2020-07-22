@@ -76,7 +76,6 @@ CreatePlaylistFormProps) => {
         name="Description"
         label="Description"
         placeholder="Description"
-        required
         onChange={handleDescriptionChange}
       />
 

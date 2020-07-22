@@ -16,11 +16,13 @@ import AudioControl from "../AudioControl/AudioControl";
 import { get_playlist_tracks } from "../../actions/spotifyactions";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import { FixedSizeList } from "react-window";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 interface SongListProps {
   tracks: any;
   addtoplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   removefromplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
+  showPlaylistTrackControls: boolean;
 }
 
 ///https://codesandbox.io/s/material-demo-g0xo5?file=/demo.js:1007-1062
@@ -28,15 +30,10 @@ interface SongListProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: "100%",
-      maxWidth: 1000,
-      backgroundColor: theme.palette.background.paper,
-      marginRight: "auto",
-      marginLeft: "auto",
-    },
-    paginator: {
-      justifyContent: "center",
-      padding: "10px",
+      // width: "100%",
+      // maxWidth: 1000,
+      // backgroundColor: theme.palette.background.paper,
+      marginRight: "180px",
     },
     // audiocontrols: {
     //   width: "100%",
@@ -47,39 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const PlaylistSongs = (props: SongListProps) => {
   const classes = useStyles();
-  const itemsPerPage = 30;
-  const [page, setPage] = React.useState(1);
-
-  console.log(props.tracks);
-  const handleChange = (event: any, value: any) => {
-    setPage(value);
-  };
-
-  const rendersongs = () => {
-    return (
-      props.tracks
-        //    .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-        .map((items: any) => {
-          return (
-            <ListItem role={undefined} dense button key={items.id}>
-              <ListItemIcon>
-                <img src={items.album.images[2].url}></img>
-              </ListItemIcon>
-              <ListItemText
-                primary={items.name}
-                secondary={items.artists[0].name}
-              />
-              <AudioControl preview_url={items.preview_url} id={items.id} />
-              {/* <ListItemSecondaryAction> */}
-              <div onClick={props.removefromplaylist} id={items.uri}>
-                <RemoveCircleIcon />
-              </div>
-              {/* </ListItemSecondaryAction> */}
-            </ListItem>
-          );
-        })
-    );
-  };
 
   const Row = ({ index, style }: any) => {
     // let image: string = "";
@@ -103,9 +67,18 @@ const PlaylistSongs = (props: SongListProps) => {
             id={props.tracks[index].id}
           />
           {/* <ListItemSecondaryAction> */}
-          <div onClick={props.removefromplaylist} id={props.tracks[index].uri}>
-            <RemoveCircleIcon />
-          </div>
+          {props.showPlaylistTrackControls ? (
+            <div
+              onClick={props.removefromplaylist}
+              id={props.tracks[index].uri}
+            >
+              <RemoveCircleIcon />
+            </div>
+          ) : (
+            <div onClick={props.addtoplaylist} id={props.tracks[index].uri}>
+              <AddCircleIcon />
+            </div>
+          )}
           {/* </ListItemSecondaryAction> */}
         </ListItem>
       </div>
@@ -114,23 +87,8 @@ const PlaylistSongs = (props: SongListProps) => {
 
   return (
     <div>
-      {/* <List className={classes.root}>{rendersongs()}</List>
-      
-      <Box component="span">
-        <Pagination
-          count={Math.ceil(props.tracks.length / itemsPerPage)}
-          page={page}
-          onChange={handleChange}
-          defaultPage={1}
-          color="primary"
-          size="large"
-          showFirstButton
-          showLastButton
-          classes={{ ul: classes.paginator }}
-        />
-      </Box> */}
-
       <FixedSizeList
+        className={classes.root}
         height={500}
         width={500}
         itemSize={80}

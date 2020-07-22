@@ -4,13 +4,13 @@ import { useSpotifyContext } from "../../store/spotifystore";
 import Search from "../../components/Search/Search";
 import SearchSwitches from "../../components/SearchSwitches/SearchSwitches";
 import Playlist from "../../components/Playlists/Playlists";
-import SongList from "../../components/SongList/SongList";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBar from "../../components/NavBar/NavBar";
 import AlbumSongs from "../../components/AlbumSongs/AlbumSongs";
 import styled from "styled-components";
 import TrackControls from "../../components/TrackControls/TrackControls";
+import TrackList from "../../components/TrackList/TrackList";
 
 const LandingPage: React.FC = () => {
   const { dispatch, state } = useSpotifyContext();
@@ -120,7 +120,11 @@ const LandingPage: React.FC = () => {
   const rendersongs = () => {
     if (showtracks || showartisttracks) {
       return (
-        <SongList tracks={state.tracks} addtoplaylist={handleAddtoPlaylist} />
+        <TrackList
+          tracks={state.tracks}
+          addtoplaylist={handleAddtoPlaylist}
+          showPlaylistTrackControls={false}
+        />
       );
     } else {
       return null;
@@ -200,11 +204,20 @@ const LandingPage: React.FC = () => {
           deletePlaylist={handleDeletePlaylist}
         />
       )}
-      <TrackControls onBPMChange={handleBPMChange} />
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        {showtracks || showartisttracks ? (
+          <TrackList
+            tracks={state.tracks}
+            addtoplaylist={handleAddtoPlaylist}
+            showPlaylistTrackControls={false}
+          />
+        ) : null}
+        <TrackControls onBPMChange={handleBPMChange} />
 
-      {rendersongs()}
-      {renderalbums()}
+        {/* {rendersongs()} */}
 
+        {renderalbums()}
+      </div>
       <ToastContainer autoClose={1000} />
     </div>
   );

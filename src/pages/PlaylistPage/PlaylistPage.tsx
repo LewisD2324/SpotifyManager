@@ -3,8 +3,7 @@ import * as actions from "../../actions/spotifyactions";
 import { useSpotifyContext } from "../../store/spotifystore";
 import Playlist from "../../components/Playlists/Playlists";
 import NavBar from "../../components/NavBar/NavBar";
-import SongList from "../../components/SongList/SongList";
-import PlayListSongs from "../../components/PlaylistSongs/PlaylistSongs";
+import TrackList from "../../components/TrackList/TrackList";
 import { ToastContainer, toast } from "react-toastify";
 import { Paper } from "@material-ui/core";
 import { deleteplaylist } from "../../actions/spotifyactions";
@@ -93,9 +92,10 @@ const PlaylistPage = () => {
         //   showPlaylistControls={showPlaylistControls}
       />
       {showsongs ? (
-        <PlayListSongs
+        <TrackList
           tracks={state.playlist_tracks}
           removefromplaylist={handleRemoveFromPlaylist}
+          showPlaylistTrackControls={true}
         />
       ) : null}
       <ToastContainer autoClose={1000} />

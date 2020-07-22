@@ -10,6 +10,8 @@ import Slider from "@material-ui/core/Slider";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    maxHeight: "480px",
+    marginRight: "40px",
   },
   bullet: {
     display: "inline-block",
@@ -57,10 +59,11 @@ const TrackControls = ({ onBPMChange }: TrackControlProps) => {
 
   return (
     <Card className={classes.root}>
+      <Typography>Track Controls</Typography>
       <CardContent>
         <div className={classes.slider}>
           <Typography id="range-slider" gutterBottom>
-            Temperature range
+            BPM range
           </Typography>
           <Slider
             value={value}
