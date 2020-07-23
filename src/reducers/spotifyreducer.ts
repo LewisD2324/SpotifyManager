@@ -10,6 +10,7 @@ export interface AppState {
   artists: any;
   albums: any;
   selected_playlist: string;
+  selected_album: string;
   playlist_tracks: any;
   album_tracks: any;
   track_audio_features: any;
@@ -34,6 +35,7 @@ export const initialState: AppState = {
   artists: [],
   albums: [],
   selected_playlist: "",
+  selected_album: "",
   playlist_tracks: [],
   album_tracks: [],
   track_audio_features: [],
@@ -91,7 +93,7 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
     case SpotifyActionTypeKeys.SEARCH_ALBUMS_TRACKS_SUCCESS:
       return {
         ...state,
-        album_tracks: action.payload,
+        tracks: action.payload,
       };
     case SpotifyActionTypeKeys.GET_PLAYLIST_TRACKS_SUCCESS:
       return {
@@ -102,6 +104,11 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
       return {
         ...state,
         selected_playlist: action.payload,
+      };
+    case SpotifyActionTypeKeys.SELECTED_ALBUM:
+      return {
+        ...state,
+        selected_album: action.payload,
       };
     case SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES_SUCCESS:
       //  const tracks = { ...state.tracks };

@@ -195,6 +195,13 @@ export const selected_playlist = (playlist_id: string): SpotifyAction => {
   };
 };
 
+export const selected_album = (album_id: string): SpotifyAction => {
+  return {
+    type: SpotifyActionTypeKeys.SELECTED_ALBUM,
+    payload: album_id,
+  };
+};
+
 export const get_playlist_tracks = (
   playlist_id: string,
   totaltracks: number

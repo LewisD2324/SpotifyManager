@@ -23,6 +23,7 @@ interface SongListProps {
   addtoplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   removefromplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   showPlaylistTrackControls: boolean;
+  album_image?: any;
 }
 
 ///https://codesandbox.io/s/material-demo-g0xo5?file=/demo.js:1007-1062
@@ -55,9 +56,15 @@ const PlaylistSongs = (props: SongListProps) => {
     return (
       <div style={style}>
         <ListItem role={undefined} dense button key={props.tracks[index].id}>
-          <ListItemIcon>
-            <img src={props.tracks[index].album.images[2].url}></img>
-          </ListItemIcon>
+          {props.album_image ? (
+            <ListItemIcon>
+              <img src={props.album_image.images[2].url}></img>
+            </ListItemIcon>
+          ) : (
+            <ListItemIcon>
+              <img src={props.tracks[index].album.images[2].url}></img>
+            </ListItemIcon>
+          )}
           <ListItemText
             primary={props.tracks[index].name}
             secondary={props.tracks[index].artists[0].name}

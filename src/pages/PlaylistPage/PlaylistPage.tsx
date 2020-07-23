@@ -7,6 +7,7 @@ import TrackList from "../../components/TrackList/TrackList";
 import { ToastContainer, toast } from "react-toastify";
 import { Paper } from "@material-ui/core";
 import { deleteplaylist } from "../../actions/spotifyactions";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const PlaylistPage = () => {
   const { dispatch, state } = useSpotifyContext();
@@ -85,12 +86,16 @@ const PlaylistPage = () => {
   return (
     <div>
       <NavBar />
-      <Playlist
-        playlists={state.playlists}
-        onClick={handleOnClickPlaylist}
-        deletePlaylist={handleDeletePlaylist}
-        //   showPlaylistControls={showPlaylistControls}
-      />
+      {state.playlists.length === 0 ? (
+        <CircularProgress />
+      ) : (
+        <Playlist
+          playlists={state.playlists}
+          onClick={handleOnClickPlaylist}
+          deletePlaylist={handleDeletePlaylist}
+          //   showPlaylistControls={showPlaylistControls}
+        />
+      )}
       {showsongs ? (
         <TrackList
           tracks={state.playlist_tracks}

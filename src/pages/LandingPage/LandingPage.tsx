@@ -11,6 +11,8 @@ import AlbumSongs from "../../components/AlbumSongs/AlbumSongs";
 import styled from "styled-components";
 import TrackControls from "../../components/TrackControls/TrackControls";
 import TrackList from "../../components/TrackList/TrackList";
+import Albums from "../../components/Albums/Albums";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const LandingPage: React.FC = () => {
   const { dispatch, state } = useSpotifyContext();
@@ -24,6 +26,8 @@ const LandingPage: React.FC = () => {
   const [showartisttracks, setshowartisttracks] = useState(false);
 
   const [showalbums, setshowalbums] = useState(false);
+
+  const [showalbumtracks, setshowalbumtracks] = useState(false);
 
   const [isLoading, setisLoading] = useState(true);
 
@@ -68,6 +72,7 @@ const LandingPage: React.FC = () => {
       settrackcheck(false);
       setalbumscheck(false);
 
+      setshowalbumtracks(false);
       setshowtracks(false);
       setshowalbums(false);
       setshowartisttracks(true);
@@ -76,6 +81,7 @@ const LandingPage: React.FC = () => {
       setartistcheck(false);
       setalbumscheck(false);
 
+      setshowalbumtracks(false);
       setshowartisttracks(false);
       setshowalbums(false);
       setshowtracks(true);
@@ -84,6 +90,7 @@ const LandingPage: React.FC = () => {
       settrackcheck(false);
       setartistcheck(false);
 
+      setshowalbumtracks(false);
       setshowartisttracks(false);
       setshowtracks(false);
       setshowalbums(true);
@@ -131,20 +138,26 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  const handleSearchAlbumTracks = (albumid: string) => {
-    dispatch(actions.search_album_tracks(albumid));
+  const handleSearchAlbumTracks = async (
+    e: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
+    console.log(e.currentTarget.id);
+    await dispatch(actions.selected_album(e.currentTarget.id));
+    await dispatch(actions.search_album_tracks(state.selected_album));
+    setshowalbumtracks(true);
   };
 
   const renderalbums = () => {
     if (showalbums) {
       return (
-        <AlbumSongs
-          tracks={state.album_tracks}
-          albums={state.albums}
-          searchalbumtracks={(albumid: string) => {
-            handleSearchAlbumTracks(albumid);
-          }}
-        />
+        // <AlbumSongs
+        //   tracks={state.album_tracks}
+        //   albums={state.albums}
+        //   searchalbumtracks={(albumid: string) => {
+        //     handleSearchAlbumTracks(albumid);
+        //   }}
+        // />
+        <Albums albums={state.albums} onClick={handleSearchAlbumTracks} />
       );
     } else {
       return null;
@@ -195,8 +208,8 @@ const LandingPage: React.FC = () => {
         />
       </div>
       <p style={{ marginLeft: "40px" }}>Add To Your Playlist</p>
-      {isLoading ? (
-        <div>...loading</div>
+      {state.playlists.length === 0 ? (
+        <CircularProgress />
       ) : (
         <Playlist
           playlists={state.playlists}
@@ -210,6 +223,15 @@ const LandingPage: React.FC = () => {
             tracks={state.tracks}
             addtoplaylist={handleAddtoPlaylist}
             showPlaylistTrackControls={false}
+          />
+        ) : showalbumtracks ? (
+          <TrackList
+            tracks={state.tracks}
+            addtoplaylist={handleAddtoPlaylist}
+            showPlaylistTrackControls={false}
+            album_image={state.albums.find(
+              (album: any) => album.id === state.selected_album
+            )}
           />
         ) : null}
         <TrackControls onBPMChange={handleBPMChange} />

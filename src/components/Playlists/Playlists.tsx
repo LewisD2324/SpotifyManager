@@ -11,7 +11,6 @@ import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
 import { useSpotifyContext } from "../../store/spotifystore";
 import { createplaylist, get_playlist } from "../../actions/spotifyactions";
 import { toast } from "react-toastify";
-import OutsideClickHandler from "react-outside-click-handler";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -147,7 +146,7 @@ const Playlists = (props: SongListProps) => {
 
   return (
     <Paper className={classes.root}>
-      <GridList className={classes.gridList} cols={2.5}>
+      <GridList className={classes.gridList} cols={4}>
         {/* <GridListTile className={classes.gridListTile}>
          
         </GridListTile> */}
