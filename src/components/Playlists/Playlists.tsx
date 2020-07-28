@@ -11,6 +11,7 @@ import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
 import { useSpotifyContext } from "../../store/spotifystore";
 import { createplaylist, get_playlist } from "../../actions/spotifyactions";
 import { toast } from "react-toastify";
+const no_image = require("../../../public/assets/no_image_available.png");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -65,7 +66,7 @@ interface SongListProps {
   deletePlaylist: (playlist_id: string) => any;
   showPlaylistControls?: string;
 }
-const Playlists = (props: SongListProps) => {
+const Playlists = React.memo((props: SongListProps) => {
   const classes = useStyles();
   const createPlaylistRef = useRef<any>();
   const { dispatch, state } = useSpotifyContext();
@@ -109,7 +110,7 @@ const Playlists = (props: SongListProps) => {
     return props.playlists.map((items) => {
       let image: string = "";
       if (items.images.length < 1) {
-        image = "No image";
+        image = no_image;
       } else {
         image = items.images[0].url;
       }
@@ -130,7 +131,7 @@ const Playlists = (props: SongListProps) => {
             </div>
           ) : null}
 
-          <img src={image} alt={items.name} className={classes.playlistimage} />
+          <img src={image} className={classes.playlistimage} />
           <GridListTileBar
             title={items.name}
             classes={{
@@ -165,6 +166,6 @@ const Playlists = (props: SongListProps) => {
       </GridList>
     </Paper>
   );
-};
+});
 
 export default Playlists;

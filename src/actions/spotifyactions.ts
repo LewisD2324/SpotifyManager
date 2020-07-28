@@ -229,11 +229,11 @@ export const get_track_audio_features = (
 };
 
 export const get_track_audio_features_success = (
-  trackAudioFeatures: any
+  tracksWithAudioFeatures: any
 ): SpotifyAction => {
   return {
     type: SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES_SUCCESS,
-    payload: trackAudioFeatures,
+    payload: tracksWithAudioFeatures,
   };
 };
 

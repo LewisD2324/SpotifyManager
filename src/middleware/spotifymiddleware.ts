@@ -39,7 +39,9 @@ export const spotifymiddleware = (
         };
         console.log(search);
         const response = await axios.post("/api/searchsongs", search);
-        dispatch(actions.search_tracks_success(response.data));
+        const tracks = response.data;
+        console.log(tracks);
+        dispatch(actions.search_tracks_success(tracks));
         console.log(response.data);
       } catch {
         console.log("error SEARCH_TRACKS");
@@ -186,9 +188,23 @@ export const spotifymiddleware = (
         console.log(body);
         const response = await axios.post("/api/audiofeatures", body);
         const audioFeatures = response.data;
-        console.log(response.data);
+        console.log(audioFeatures);
 
-        dispatch(actions.get_track_audio_features_success(response.data));
+        const tracksWithAudioFeatures = state.tracks.map((track: any) => {
+          const af = audioFeatures.audio_features.find(
+            (audio_f: any) => audio_f.id === track.id
+          );
+          return {
+            ...track,
+            audio_feature: af,
+          };
+        });
+
+        console.log(tracksWithAudioFeatures);
+
+        dispatch(
+          actions.get_track_audio_features_success(tracksWithAudioFeatures)
+        );
         console.log(response.data);
       } catch {
         console.log("error GET_TRACK_AUDIO_FEATURES");

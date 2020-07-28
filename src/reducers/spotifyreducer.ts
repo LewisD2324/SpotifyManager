@@ -111,25 +111,9 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
         selected_album: action.payload,
       };
     case SpotifyActionTypeKeys.GET_TRACK_AUDIO_FEATURES_SUCCESS:
-      //  const tracks = { ...state.tracks };
-      // for (const key in tracks) {
-      //   const audioFeature = action.payload.find(
-      //     (x: any) => x.id === tracks[key].id
-      //   );
-
-      //   tracks[key].push(audioFeature);
-      // }
-      // console.log(tracks);
-      // tracks.forEach((track: any) => {
-      //   action.payload.foreach((audioFeature: any) => {
-      //     if (track.id === audioFeature) tracks.push(audioFeature);
-      //   });
-      // });
-
-      // console.log(tracks);
       return {
         ...state,
-        track_audio_features: action.payload,
+        tracks: action.payload,
       };
     case SpotifyActionTypeKeys.BPM_CHANGE:
       const tracks = { ...state.tracks };

@@ -96,6 +96,21 @@ module.exports = {
       },
       { test: /\.tsx?$/, loader: "babel-loader" },
       {
+        test: /\.(gif|svg|jpg|png)$/,
+        loader: "file-loader",
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+      {
         test: /\.tsx?$/,
         loader: "ts-loader",
         exclude: [/node_modules/, require.resolve("./public/index.html")],

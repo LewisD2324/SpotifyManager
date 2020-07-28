@@ -29,8 +29,6 @@ const LandingPage: React.FC = () => {
 
   const [showalbumtracks, setshowalbumtracks] = useState(false);
 
-  const [isLoading, setisLoading] = useState(true);
-
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(actions.searchvalue(e.currentTarget.value));
   };
@@ -39,30 +37,33 @@ const LandingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (trackcheck) {
-      dispatch(actions.search_tracks(state.searchvalue));
-    } else if (artistcheck) {
-      dispatch(actions.search_artists(state.searchvalue));
-    } else if (albumscheck) {
-      dispatch(actions.search_albums(state.searchvalue));
+    if (state.searchvalue !== "") {
+      if (trackcheck) {
+        dispatch(actions.search_tracks(state.searchvalue));
+      } else if (artistcheck) {
+        dispatch(actions.search_artists(state.searchvalue));
+      } else if (albumscheck) {
+        dispatch(actions.search_albums(state.searchvalue));
+      }
     }
   }, [state.searchvalue]);
 
   useEffect(() => {
     if (state.userinfo !== null) {
       dispatch(actions.get_playlist(state.userinfo.id));
-      setisLoading(false);
     }
   }, [state.userinfo]);
 
-  useEffect(() => {
-    if (state.tracks !== null) {
-      const track_ids = state.tracks.map((track: any) => track.id);
-      dispatch(actions.get_track_audio_features(track_ids));
-    }
-  }, [state.tracks]);
+  // useEffect(() => {
+  //   if (state.tracks.length !== 0) {
+  //     const track_ids = state.tracks.map((track: any) => track.id);
+  //     console.log(track_ids);
+  //     dispatch(actions.get_track_audio_features(track_ids));
+  //   }
+  // }, [state.tracks]);
 
   useEffect(() => {
+    //TO-DO fix this dependancy
     dispatch(actions.userinfo());
   }, []);
 
@@ -108,19 +109,15 @@ const LandingPage: React.FC = () => {
     // setshowsongs(true);
   };
 
-  const handleAddtoPlaylist = (
+  const handleAddtoPlaylist = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     //TODO need an error to say "you need to select a playlist"
 
     console.log(state.selected_playlist, e.currentTarget.id);
-    dispatch(
+    await dispatch(
       actions.addtoplaylist(state.selected_playlist, e.currentTarget.id)
     );
-    Notify();
-  };
-
-  const Notify = () => {
     toast("Added to Playlist");
   };
 
