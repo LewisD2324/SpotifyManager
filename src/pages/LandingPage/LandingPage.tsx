@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import * as actions from "../../actions/spotifyactions";
 import { useSpotifyContext } from "../../store/spotifystore";
 import Search from "../../components/Search/Search";
@@ -138,9 +138,10 @@ const LandingPage: React.FC = () => {
   const handleSearchAlbumTracks = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
-    console.log(e.currentTarget.id);
-    await dispatch(actions.selected_album(e.currentTarget.id));
-    await dispatch(actions.search_album_tracks(state.selected_album));
+    const { id } = e.currentTarget;
+    setshowalbumtracks(false);
+    await dispatch(actions.selected_album(id));
+    await dispatch(actions.search_album_tracks(id));
     setshowalbumtracks(true);
   };
 
@@ -171,19 +172,23 @@ const LandingPage: React.FC = () => {
     }
   };
 
-  const handleOnClickPlaylist = (
-    e: React.MouseEvent<HTMLElement, MouseEvent>
-  ) => {
-    console.log(e.currentTarget);
-    dispatch(actions.selected_playlist(e.currentTarget.id));
-    e.currentTarget.style.backgroundColor = "#f00";
-  };
+  const handleOnClickPlaylist = useCallback(
+    (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      dispatch(actions.selected_playlist(e.currentTarget.id));
+      e.currentTarget.style.backgroundColor = "#f00";
+    },
+    []
+  );
 
-  const handleBPMChange = (event: React.ChangeEvent<{}>, value: number[]) => {
-    console.log(value);
-  };
+  const handleBPMChange = useCallback(
+    (event: React.ChangeEvent<{}>, value: number[]) => {
+      console.log(value);
+      dispatch(actions.bpmChange(value));
+    },
+    []
+  );
 
-  const handleDeletePlaylist = () => {};
+  const handleDeletePlaylist = useCallback(() => {}, []);
 
   return (
     <div>
@@ -217,7 +222,7 @@ const LandingPage: React.FC = () => {
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         {showtracks || showartisttracks ? (
           <TrackList
-            tracks={state.tracks}
+            tracks={state.filtered_tracks}
             addtoplaylist={handleAddtoPlaylist}
             showPlaylistTrackControls={false}
           />

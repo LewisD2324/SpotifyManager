@@ -80,6 +80,8 @@ const Playlists = React.memo((props: SongListProps) => {
     };
   }, []);
 
+  console.log("did i render");
+
   const [showPlaylistControls, setshowPlaylistControls] = useState("");
   const [showCreatePlaylistForm, setshowCreatePlaylistForm] = useState(false);
 

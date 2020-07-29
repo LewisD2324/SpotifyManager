@@ -27,7 +27,6 @@ export default (app: any) => {
   //https://stackoverflow.com/questions/40020946/how-to-get-all-songs-of-an-artist-on-spoitfy
 
   app.post("/api/allartisttracks", async (req: Request, res: Response) => {
-    // THIS IS TOP TRACKS
     try {
       const searchTerm = req.body.search;
       const headers = {
@@ -39,15 +38,35 @@ export default (app: any) => {
         { headers }
       );
 
-      // response.data.items = response.data.tracks.items.map((item: any) => {
-      //   return {
-      //     track: item,
-      //   };
-      // });
-
       console.log(response.data.tracks.items);
 
-      res.status(200).send(response.data.tracks.items);
+      const tracks = response.data.tracks.items;
+
+      const track_ids = tracks.map((track: any) => track.id);
+
+      const track_ids_formatted = track_ids.join();
+
+      const afresponse = await axios.get(
+        `https://api.spotify.com/v1/audio-features`,
+        {
+          params: { ids: track_ids_formatted },
+          headers: { Authorization: "Bearer " + access_token },
+        }
+      );
+      const audioFeatures = afresponse.data;
+      console.log(audioFeatures);
+
+      const tracksWithAudioFeatures = tracks.map((track: any) => {
+        const af = audioFeatures.audio_features.find(
+          (audio_f: any) => audio_f.id === track.id
+        );
+        return {
+          ...track,
+          audio_feature: af,
+        };
+      });
+
+      res.status(200).send(tracksWithAudioFeatures);
     } catch (err) {
       res.status(400).send(err);
       console.log(err);

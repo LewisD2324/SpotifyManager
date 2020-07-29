@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -36,7 +36,7 @@ interface TrackControlProps {
 const TrackControls = ({ onBPMChange }: TrackControlProps) => {
   const classes = useStyles();
 
-  const [value, setValue] = React.useState<number[]>([0, 220]);
+  const [value, setValue] = useState<number[]>([0, 220]);
 
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -83,4 +83,4 @@ const TrackControls = ({ onBPMChange }: TrackControlProps) => {
   );
 };
 
-export default TrackControls;
+export default React.memo(TrackControls);

@@ -89,6 +89,7 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
       return {
         ...state,
         tracks: action.payload,
+        filtered_tracks: action.payload,
       };
     case SpotifyActionTypeKeys.SEARCH_ALBUMS_TRACKS_SUCCESS:
       return {
@@ -116,27 +117,18 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
         tracks: action.payload,
       };
     case SpotifyActionTypeKeys.BPM_CHANGE:
-      const tracks = { ...state.tracks };
-      // const maxBPM = Math.max(action.payload[0], action.payload[1]);
-      // const minBPM = Math.min(action.payload[0], action.payload[1]);
+      const maxBPM = Math.max(action.payload[0], action.payload[1]);
+      const minBPM = Math.min(action.payload[0], action.payload[1]);
 
-      // const filtered_audio_features = state.track_audio_features.audio_features.filter(
-      //   (x: any) => {
-      //     x.tempo >= minBPM && x.tempo <= maxBPM;
-      //   }
-      // );
-      // console.log(filtered_audio_features);
-      //   for (var i=0; i<state.tracks.length; i++) {
-      //     if(value >= array[i]){
-      //         if(value < array[i+1]){
-      //             console.log('Found it between ' + array[i] + ' and ' + array[i+1]);
-      //         }
-      //     }
-      // }
+      //TODO - this will break if audio_features is undefined
+      const filtered_tracks = state.tracks.filter(
+        (x: any) =>
+          x.audio_feature.tempo >= minBPM && x.audio_feature.tempo <= maxBPM
+      );
 
       return {
         ...state,
-        track_audio_features: action.payload,
+        filtered_tracks: filtered_tracks,
       };
 
     default:
