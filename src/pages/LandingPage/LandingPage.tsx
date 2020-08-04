@@ -188,7 +188,9 @@ const LandingPage: React.FC = () => {
     []
   );
 
-  const handleDeletePlaylist = useCallback(() => {}, []);
+  const handleDeletePlaylist = useCallback(() => {
+    toast("Playlist Unfollowed");
+  }, []);
 
   return (
     <div>

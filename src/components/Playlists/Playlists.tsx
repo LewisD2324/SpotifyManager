@@ -120,7 +120,6 @@ const Playlists = React.memo((props: SongListProps) => {
         //TODO - Fix issue with showing controls and delete playlists firing more than once
 
         // <div onClick={() => handleShowPlaylistControls(items.id)}>
-
         <GridListTile
           onClick={props.onClick}
           id={items.id}

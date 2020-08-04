@@ -17,6 +17,9 @@ var generateRandomString = function (length: number) {
 
 export let access_token = "";
 export let refresh_token = "";
+export let expires_in = 0;
+
+export let expirationTime = 0;
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
@@ -98,9 +101,19 @@ export default (app: any) => {
         body: any
       ) {
         if (!error && response.statusCode === 200) {
+          console.log(body);
           access_token = body.access_token;
           refresh_token = body.refresh_token;
+          expires_in = body.expires_in;
 
+          expirationTime = new Date().getTime() + expires_in * 1000;
+
+          //Save as cookie
+          // res.cookie("jwt", access_token, {
+          //   httpOnly: true,
+          //   secure: true,
+          //   maxAge: 3600000,
+          // });
           var options = {
             url: "https://api.spotify.com/v1/me",
             headers: { Authorization: "Bearer " + access_token },
