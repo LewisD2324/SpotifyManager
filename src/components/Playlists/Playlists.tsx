@@ -11,7 +11,7 @@ import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
 import { useSpotifyContext } from "../../store/spotifystore";
 import { createplaylist, get_playlist } from "../../actions/spotifyactions";
 import { toast } from "react-toastify";
-const no_image = require("../../../public/assets/no_image_available.png");
+const no_image = require("../../../public/assets/No_image_available.png");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,6 +67,7 @@ interface SongListProps {
   showPlaylistControls?: string;
 }
 const Playlists = React.memo((props: SongListProps) => {
+  console.log(no_image);
   const classes = useStyles();
   const createPlaylistRef = useRef<any>();
   const { dispatch, state } = useSpotifyContext();

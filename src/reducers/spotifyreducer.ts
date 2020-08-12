@@ -11,11 +11,7 @@ export interface AppState {
   albums: any;
   selected_playlist: string;
   selected_album: string;
-  playlist_tracks: any;
-  album_tracks: any;
-  track_audio_features: any;
-
-  //  access_token: string | null;
+  //  playlist_tracks: any;
 }
 
 export interface artists {
@@ -28,18 +24,16 @@ export interface tracks {
 
 export const initialState: AppState = {
   userinfo: null,
-  playlists: [],
-  searchvalue: "",
-  tracks: [],
-  filtered_tracks: [],
-  artists: [],
-  albums: [],
   selected_playlist: "",
   selected_album: "",
-  playlist_tracks: [],
-  album_tracks: [],
-  track_audio_features: [],
-  //  access_token: null,
+  searchvalue: "",
+  artists: [],
+  albums: [],
+  tracks: [],
+  filtered_tracks: [],
+  playlists: [],
+
+  //playlist_tracks: [],
 };
 
 export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
@@ -99,7 +93,7 @@ export const spotifyreducer: React.Reducer<AppState, SpotifyAction> = (
     case SpotifyActionTypeKeys.GET_PLAYLIST_TRACKS_SUCCESS:
       return {
         ...state,
-        playlist_tracks: action.payload,
+        tracks: action.payload,
       };
     case SpotifyActionTypeKeys.SELECTED_PLAYLIST:
       return {

@@ -98,7 +98,7 @@ const PlaylistPage = () => {
       )}
       {showsongs ? (
         <TrackList
-          tracks={state.playlist_tracks}
+          tracks={state.tracks}
           removefromplaylist={handleRemoveFromPlaylist}
           showPlaylistTrackControls={true}
         />

@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
       height: "600px",
+      marginLeft: "40px",
     },
     gridList: {
       width: "210px",

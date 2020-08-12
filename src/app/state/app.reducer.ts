@@ -1,11 +1,15 @@
 import { AppAction, GlobalActionTypes } from "./app.action.types";
 
 export type AppState = {
-  isAuthticated: boolean;
+  userinfo: string;
+  playlists: any;
+  selected_playlist: string;
 };
 
 export const appInitialState: AppState = {
-  isAuthticated: false,
+  userinfo: "",
+  playlists: [],
+  selected_playlist: "",
 };
 
 export const AppReducer: React.Reducer<AppState, AppAction> = (
@@ -13,10 +17,21 @@ export const AppReducer: React.Reducer<AppState, AppAction> = (
   action
 ) => {
   switch (action.type) {
-    case GlobalActionTypes.LOGIN_SUCCESS:
-      return { ...state, isAuthticated: state.isAuthticated = true };
-    case GlobalActionTypes.LOGIN_ERROR:
-      return { ...state, isAuthticated: state.isAuthticated = false };
+    case GlobalActionTypes.USER_INFO_SUCCESS:
+      return {
+        ...state,
+        userinfo: action.payload,
+      };
+    case GlobalActionTypes.GET_PLAYLIST_SUCCESS:
+      return {
+        ...state,
+        playlists: action.payload,
+      };
+    case GlobalActionTypes.SELECTED_PLAYLIST:
+      return {
+        ...state,
+        selected_playlist: action.payload,
+      };
     default:
       return state;
   }

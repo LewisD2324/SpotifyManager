@@ -4,14 +4,9 @@ import { Router, RouteComponentProps, Redirect } from "@reach/router";
 import NavBar from "../components/NavBar/NavBar";
 const App: React.FC = () => {
   const AuthPage = React.lazy(() => import("../pages/AuthPage/AuthPage"));
-  const LandingPage = React.lazy(() =>
-    import("../pages/LandingPage/LandingPage")
-  );
+  const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
   const PlaylistPage = React.lazy(() =>
     import("../pages/PlaylistPage/PlaylistPage")
-  );
-  const CreatePlaylistPage = React.lazy(() =>
-    import("../pages/CreatePlaylistPage/CreatePlaylistPage")
   );
 
   const RouterPage = (
@@ -45,12 +40,8 @@ const App: React.FC = () => {
       <Suspense fallback={<div>...loading</div>}>
         <Router>
           <RouterPage path="/" pageComponent={<AuthPage />} />
-          <RouterPage path="/Landing" pageComponent={<LandingPage />} />
+          <RouterPage path="/Landing" pageComponent={<HomePage />} />
           <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
-          <RouterPage
-            path="/CreatePlaylist"
-            pageComponent={<CreatePlaylistPage />}
-          />
         </Router>
         {/* <NotFound default //TODO add notfound page default /> */}
       </Suspense>

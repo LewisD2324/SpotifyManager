@@ -18,7 +18,7 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import { FixedSizeList } from "react-window";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-interface SongListProps {
+interface TrackListProps {
   tracks: any;
   addtoplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   removefromplaylist?(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const PlaylistSongs = (props: SongListProps) => {
+const TrackList = (props: TrackListProps) => {
   const classes = useStyles();
 
   const Row = ({ index, style }: any) => {
@@ -107,4 +107,4 @@ const PlaylistSongs = (props: SongListProps) => {
   );
 };
 
-export default PlaylistSongs;
+export default TrackList;

@@ -96,8 +96,17 @@ module.exports = {
       },
       { test: /\.tsx?$/, loader: "babel-loader" },
       {
-        test: /\.(gif|svg|jpg|png)$/,
-        loader: "file-loader",
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        use: [
+          "file-loader",
+          {
+            loader: "image-webpack-loader",
+            // options: {
+            //   bypassOnDebug: true, // webpack@1.x
+            //   disable: true, // webpack@2.x and newer
+            // },
+          },
+        ],
       },
       {
         test: /\.(png|jpg|gif)$/i,

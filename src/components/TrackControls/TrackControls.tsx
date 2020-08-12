@@ -10,8 +10,7 @@ import Slider from "@material-ui/core/Slider";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
-    maxHeight: "480px",
-    marginRight: "40px",
+    minHeight: "480px",
   },
   bullet: {
     display: "inline-block",

@@ -14,7 +14,7 @@ import TrackList from "../../components/TrackList/TrackList";
 import Albums from "../../components/Albums/Albums";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const LandingPage: React.FC = () => {
+const HomePage: React.FC = () => {
   const { dispatch, state } = useSpotifyContext();
 
   const [artistcheck, setartistcheck] = useState(false);
@@ -194,22 +194,38 @@ const LandingPage: React.FC = () => {
 
   return (
     <div>
-      <header>
-        <NavBar />
-      </header>
-      <div style={{ display: "flex", marginLeft: "auto" }}>
-        <Search
-          handleChangeValue={handleSearchValue}
-          searchclick={handleSearchClick}
-          suggestions={handleSuggestions()}
-          handleOnSelect={handleOnSelect}
-        />
-        <SearchSwitches
-          artistchecked={artistcheck}
-          trackschecked={trackcheck}
-          albumschecked={albumscheck}
-          handleSwitchChange={handleSwitchChange}
-        />
+      <div
+        style={{
+          backgroundImage: "linear-gradient(-45deg, purple, #53025359)",
+
+          height: "300px",
+        }}
+      >
+        <header>
+          <NavBar />
+        </header>
+        <div
+          style={{
+            display: "flex",
+          }}
+        >
+          <div>
+            <Search
+              handleChangeValue={handleSearchValue}
+              searchclick={handleSearchClick}
+              suggestions={handleSuggestions()}
+              handleOnSelect={handleOnSelect}
+            />
+          </div>
+          <div style={{ marginTop: "186px" }}>
+            <SearchSwitches
+              artistchecked={artistcheck}
+              trackschecked={trackcheck}
+              albumschecked={albumscheck}
+              handleSwitchChange={handleSwitchChange}
+            />
+          </div>
+        </div>
       </div>
       <p style={{ marginLeft: "40px" }}>Add To Your Playlist</p>
       {state.playlists.length === 0 ? (
@@ -221,32 +237,42 @@ const LandingPage: React.FC = () => {
           deletePlaylist={handleDeletePlaylist}
         />
       )}
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        {showtracks || showartisttracks ? (
-          <TrackList
-            tracks={state.filtered_tracks}
-            addtoplaylist={handleAddtoPlaylist}
-            showPlaylistTrackControls={false}
-          />
-        ) : showalbumtracks ? (
-          <TrackList
-            tracks={state.tracks}
-            addtoplaylist={handleAddtoPlaylist}
-            showPlaylistTrackControls={false}
-            album_image={state.albums.find(
-              (album: any) => album.id === state.selected_album
-            )}
-          />
+      <div style={{ display: "flex" }}>
+        {showalbums ? (
+          <Albums albums={state.albums} onClick={handleSearchAlbumTracks} />
         ) : null}
+        <div style={{ position: "absolute", left: "450px" }}>
+          {showtracks || showartisttracks ? (
+            <TrackList
+              tracks={state.filtered_tracks}
+              addtoplaylist={handleAddtoPlaylist}
+              showPlaylistTrackControls={false}
+            />
+          ) : showalbumtracks ? (
+            <TrackList
+              tracks={state.tracks}
+              addtoplaylist={handleAddtoPlaylist}
+              showPlaylistTrackControls={false}
+              album_image={state.albums.find(
+                (album: any) => album.id === state.selected_album
+              )}
+            />
+          ) : null}
+        </div>
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          right: "7px",
+          top: "620px",
+          marginRight: "40px",
+        }}
+      >
         <TrackControls onBPMChange={handleBPMChange} />
-
-        {/* {rendersongs()} */}
-
-        {renderalbums()}
       </div>
       <ToastContainer autoClose={1000} />
     </div>
   );
 };
 
-export default LandingPage;
+export default HomePage;

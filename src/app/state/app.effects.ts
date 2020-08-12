@@ -7,16 +7,61 @@ export const applyAppEffects = (
   state: AppState
 ) => async (action: AppAction) => {
   switch (action.type) {
-    case GlobalActionTypes.LOGIN_IN:
+    case GlobalActionTypes.USER_INFO:
       try {
-        //   const loginbody = await axios.get("/login");
-        const loginbody = await axios.get("http://localhost:8888/login");
-
-        dispatch(actions.LogInSuccess());
-        console.log(loginbody);
+        const response = await axios.get("/api/userinfo");
+        dispatch(actions.userinfosuccess(response.data));
+        console.log(response.data);
       } catch {
-        dispatch(actions.LogInError());
-        console.log("error LOGIN_IN");
+        console.log("error USER_INFO");
+      }
+      break;
+    case GlobalActionTypes.GET_PLAYLIST:
+      try {
+        const userId = {
+          userId: action.payload,
+        };
+        const response = await axios.post("/api/getplaylist", userId);
+        const playlists = response.data;
+        dispatch(actions.get_playlist_success(playlists));
+        console.log(playlists);
+      } catch {
+        console.log("error playlist");
+      }
+      break;
+    case GlobalActionTypes.DELETE_PLAYLIST:
+      try {
+        const playlistaddbody = {
+          playlist_id: action.payload,
+        };
+
+        console.log(playlistaddbody);
+        const response = await axios.post(
+          "/api/deleteplaylist",
+          playlistaddbody
+        );
+
+        dispatch(actions.deleteplaylistsuccess());
+        console.log(response.data);
+      } catch {
+        console.log("error DELETE_PLAYLIST");
+      }
+      break;
+    case GlobalActionTypes.CREATE_PLAYLIST:
+      try {
+        const body = {
+          user_id: action.payload.user_id,
+          playlistName: action.payload.playlistName,
+          description: action.payload.description,
+        };
+
+        console.log(body);
+        const response = await axios.post("/api/createplaylist", body);
+        //TODO - need to pass response to dispatch success
+        dispatch(actions.createplaylistsuccess());
+        console.log(response.data);
+      } catch {
+        console.log("error CREATE_PLAYLIST");
       }
       break;
     default:

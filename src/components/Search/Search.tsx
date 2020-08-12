@@ -4,6 +4,10 @@ import {
   FormControlLabel,
   Switch,
   TextField,
+  Button,
+  createStyles,
+  makeStyles,
+  Theme,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -14,32 +18,51 @@ export interface SearchProps {
   handleOnSelect: any;
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    searchButton: {
+      marginTop: "170px",
+      marginLeft: "40px",
+    },
+  })
+);
+
 const Search = (props: SearchProps) => {
+  const classes = useStyles();
+
   return (
     <div style={{ display: "flex" }}>
-      <Autocomplete
-        style={{ width: "500px" }}
-        freeSolo
-        id="searchbox"
-        disableClearable
-        placeholder="Search by ...."
-        // options={top100Films.map((option) => option.title)}
-        options={props.suggestions}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search"
-            margin="normal"
-            variant="outlined"
-            onChange={props.handleChangeValue}
-            InputProps={{ ...params.InputProps, type: "search" }}
-            onSelect={props.handleOnSelect}
-          />
-        )}
-      />
-      <button onClick={props.searchclick} style={{ flexWrap: "nowrap" }}>
+      <div>
+        <Autocomplete
+          style={{
+            width: "500px",
+            transition: "background-color .2s eas",
+            border: "1px solid #f3f3f5",
+            marginLeft: "40px",
+            marginTop: "160px",
+          }}
+          freeSolo
+          id="searchbox"
+          disableClearable
+          placeholder="Search by ...."
+          // options={top100Films.map((option) => option.title)}
+          options={props.suggestions}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search"
+              margin="normal"
+              variant="outlined"
+              onChange={props.handleChangeValue}
+              InputProps={{ ...params.InputProps, type: "search" }}
+              onSelect={props.handleOnSelect}
+            />
+          )}
+        />
+      </div>
+      <Button onClick={props.searchclick} className={classes.searchButton}>
         Search
-      </button>
+      </Button>
     </div>
   );
 };

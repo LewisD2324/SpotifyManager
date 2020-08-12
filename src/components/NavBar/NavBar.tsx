@@ -11,13 +11,15 @@ import { Redirect, Link } from "@reach/router";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      flexGrow: 1,
+      display: "flex",
     },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
+    // menuButton: {
+    //   marginRight: theme.spacing(2),
+    // },
     title: {
-      // flexGrow: 1
+      flexGrow: 1,
+      marginLeft: "40px",
+      color: "white",
     },
   })
 );
@@ -27,7 +29,22 @@ const NavBar = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      {/* <nav> */}
+      <Typography variant="h6" className={classes.title}>
+        Spotify Manager
+      </Typography>
+      <Button color="inherit">
+        <Link to="/Landing" style={{ textDecoration: "none", color: "white" }}>
+          Home
+        </Link>
+      </Button>
+      <Button color="inherit">
+        <Link to="/Playlist" style={{ textDecoration: "none", color: "white" }}>
+          My Playlists
+        </Link>
+      </Button>
+      {/* </nav> */}
+      {/* <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             Spotify Manager
@@ -49,7 +66,7 @@ const NavBar = () => {
             </Link>
           </Button>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
     </div>
   );
 };
