@@ -38,6 +38,9 @@ const App: React.FC = () => {
     <div className="App">
       {authRedirect}
       <Suspense fallback={<div>...loading</div>}>
+        <header style={{ position: "absolute" }}>
+          <NavBar />
+        </header>
         <Router>
           <RouterPage path="/" pageComponent={<AuthPage />} />
           <RouterPage path="/Landing" pageComponent={<HomePage />} />

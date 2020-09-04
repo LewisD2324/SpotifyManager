@@ -85,7 +85,13 @@ const PlaylistPage = () => {
 
   return (
     <div>
-      <NavBar />
+      <div
+        style={{
+          backgroundImage: "linear-gradient(-45deg, purple, #53025359)",
+
+          height: "300px",
+        }}
+      ></div>
       {state.playlists.length === 0 ? (
         <CircularProgress />
       ) : (

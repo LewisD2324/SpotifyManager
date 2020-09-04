@@ -201,9 +201,6 @@ const HomePage: React.FC = () => {
           height: "300px",
         }}
       >
-        <header>
-          <NavBar />
-        </header>
         <div
           style={{
             display: "flex",

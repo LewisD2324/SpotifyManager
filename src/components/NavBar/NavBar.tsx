@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
     //   marginRight: theme.spacing(2),
     // },
     title: {
-      flexGrow: 1,
+      // flexGrow: 1,
       marginLeft: "40px",
       color: "white",
     },
@@ -34,7 +34,14 @@ const NavBar = () => {
         Spotify Manager
       </Typography>
       <Button color="inherit">
-        <Link to="/Landing" style={{ textDecoration: "none", color: "white" }}>
+        <Link
+          to="/Landing"
+          style={{
+            textDecoration: "none",
+            color: "white",
+            marginLeft: "1080px",
+          }}
+        >
           Home
         </Link>
       </Button>
