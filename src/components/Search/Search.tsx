@@ -8,6 +8,7 @@ import {
   createStyles,
   makeStyles,
   Theme,
+  withStyles,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
@@ -24,15 +25,33 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: "170px",
       marginLeft: "40px",
     },
+    inputRoot: {
+      '&&[class*="MuiOutlinedInput-root"] $input': {
+        backgroundColour: "white",
+      },
+    },
   })
 );
+
+// const Autocomplete : any= withStyles({
+//   root: {
+//     width: "500px",
+//           transition: "background-color .2s eas",
+//           border: "1px solid #f3f3f5",
+//           marginLeft: "40px",
+//           marginTop: "160px",
+//   },
+//   label: {
+//     textTransform: 'capitalize',
+//   },
+// })(Autocomplete);
 
 const Search = (props: SearchProps) => {
   const classes = useStyles();
 
   return (
     <div style={{ display: "flex" }}>
-      <div>
+      <div className={classes.inputRoot}>
         <Autocomplete
           style={{
             width: "500px",
@@ -41,6 +60,7 @@ const Search = (props: SearchProps) => {
             marginLeft: "40px",
             marginTop: "160px",
           }}
+          classes={{ inputRoot: classes.inputRoot }}
           freeSolo
           id="searchbox"
           disableClearable
@@ -66,13 +86,5 @@ const Search = (props: SearchProps) => {
     </div>
   );
 };
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-// const top100Films = [
-//   { title: "The Shawshank Redemption", year: 1994 },
-//   { title: "The Godfather", year: 1972 },
-//   { title: "The Godfather: Part II", year: 1974 },
-//   { title: "The Dark Knight", year: 2008 },
-// ];
 
 export default Search;
