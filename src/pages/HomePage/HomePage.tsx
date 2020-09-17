@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import * as actions from "../../actions/spotifyactions";
+import * as actions from "./state/home.actions";
 import { useSpotifyContext } from "../../store/spotifystore";
 import Search from "../../components/Search/Search";
 import SearchSwitches from "../../components/SearchSwitches/SearchSwitches";
@@ -13,9 +13,13 @@ import TrackControls from "../../components/TrackControls/TrackControls";
 import TrackList from "../../components/TrackList/TrackList";
 import Albums from "../../components/Albums/Albums";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import { useHome } from "./state/home.store";
+import { useAppContext } from "../../app/state/app.store";
+import { get_playlist, userinfo } from "../../app/state/app.actions";
 const HomePage: React.FC = () => {
-  const { dispatch, state } = useSpotifyContext();
+  //  const { dispatch, state } = useSpotifyContext();
+  const { dispatch, state } = useHome();
+  const appContext = useAppContext();
 
   const [artistcheck, setartistcheck] = useState(false);
   const [trackcheck, settrackcheck] = useState(true);
@@ -30,29 +34,38 @@ const HomePage: React.FC = () => {
   const [showalbumtracks, setshowalbumtracks] = useState(false);
 
   const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(actions.searchvalue(e.currentTarget.value));
-  };
-  const handleOnSelect = (e: any) => {
-    dispatch(actions.searchvalue(e.target.value));
-  };
-
-  useEffect(() => {
-    if (state.searchvalue !== "") {
+    if (e.currentTarget.value !== "") {
       if (trackcheck) {
-        dispatch(actions.search_tracks(state.searchvalue));
+        dispatch(actions.search_tracks(e.currentTarget.value));
       } else if (artistcheck) {
-        dispatch(actions.search_artists(state.searchvalue));
+        dispatch(actions.search_artists(e.currentTarget.value));
       } else if (albumscheck) {
-        dispatch(actions.search_albums(state.searchvalue));
+        dispatch(actions.search_albums(e.currentTarget.value));
       }
     }
-  }, [state.searchvalue]);
+    //  dispatch(actions.searchvalue(e.currentTarget.value));
+  };
+  // const handleOnSelect = (e: any) => {
+  //   dispatch(actions.searchvalue(e.target.value));
+  // };
+
+  // useEffect(() => {
+  //   if (state.searchvalue !== "") {
+  //     if (trackcheck) {
+  //       dispatch(actions.search_tracks(state.searchvalue));
+  //     } else if (artistcheck) {
+  //       dispatch(actions.search_artists(state.searchvalue));
+  //     } else if (albumscheck) {
+  //       dispatch(actions.search_albums(state.searchvalue));
+  //     }
+  //   }
+  // }, [state.searchvalue]);
 
   useEffect(() => {
-    if (state.userinfo !== null) {
-      dispatch(actions.get_playlist(state.userinfo.id));
+    if (appContext.state.userinfo !== null) {
+      appContext.dispatch(get_playlist(appContext.state.userinfo.id));
     }
-  }, [state.userinfo]);
+  }, [appContext.state.userinfo]);
 
   // useEffect(() => {
   //   if (state.tracks.length !== 0) {
@@ -64,7 +77,7 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     //TO-DO fix this dependancy
-    dispatch(actions.userinfo());
+    appContext.dispatch(userinfo());
   }, []);
 
   const handleSwitchChange = (e: any) => {
@@ -211,7 +224,6 @@ const HomePage: React.FC = () => {
               handleChangeValue={handleSearchValue}
               searchclick={handleSearchClick}
               suggestions={handleSuggestions()}
-              handleOnSelect={handleOnSelect}
             />
           </div>
           <div style={{ marginTop: "186px" }}>
@@ -225,11 +237,11 @@ const HomePage: React.FC = () => {
         </div>
       </div>
       <p style={{ marginLeft: "40px" }}>Add To Your Playlist</p>
-      {state.playlists.length === 0 ? (
+      {appContext.state.playlists.length === 0 ? (
         <CircularProgress />
       ) : (
         <Playlist
-          playlists={state.playlists}
+          playlists={appContext.state.playlists}
           onClick={handleOnClickPlaylist}
           deletePlaylist={handleDeletePlaylist}
         />

@@ -16,7 +16,6 @@ export interface SearchProps {
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
   searchclick(): void;
   suggestions: any;
-  handleOnSelect: any;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -75,7 +74,6 @@ const Search = (props: SearchProps) => {
               variant="outlined"
               onChange={props.handleChangeValue}
               InputProps={{ ...params.InputProps, type: "search" }}
-              onSelect={props.handleOnSelect}
             />
           )}
         />

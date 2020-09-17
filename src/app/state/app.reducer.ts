@@ -1,7 +1,7 @@
 import { AppAction, GlobalActionTypes } from "./app.action.types";
 
 export type AppState = {
-  userinfo: string;
+  userinfo: any;
   playlists: any;
   selected_playlist: string;
 };

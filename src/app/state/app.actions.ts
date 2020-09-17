@@ -50,7 +50,7 @@ export const deleteplaylistsuccess = (): AppAction => {
   };
 };
 
-export const get_playlist = (userId: string): AppAction => {
+export const get_playlist = (userId: any): AppAction => {
   return {
     type: GlobalActionTypes.GET_PLAYLIST,
     payload: userId,
