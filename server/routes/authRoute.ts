@@ -3,8 +3,17 @@ import { client_id, client_secret, redirect_uri } from "../config/dev";
 import querystring from "querystring";
 import request from "request";
 import { Request, Response } from "express";
+import Cryptojs from "crypto-js";
 
-var generateRandomString = function (length: number) {
+export let access_token = "";
+export let refresh_token = "";
+export let expires_in = 0;
+export let expirationTime = 0;
+const stateKey = "spotify_auth_state";
+const code_verifier = generateRandomString(128);
+const code_challenge = generateCodeChallenge(code_verifier);
+
+function generateRandomString(length: number) {
   var text = "";
   var possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -13,20 +22,19 @@ var generateRandomString = function (length: number) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
-};
+}
 
-export let access_token = "";
-export let refresh_token = "";
-export let expires_in = 0;
+function base64URL(string: any) {
+  return string
+    .toString(Cryptojs.enc.Base64)
+    .replace(/=/g, "")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_");
+}
 
-export let expirationTime = 0;
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
-
-var stateKey = "spotify_auth_state";
+function generateCodeChallenge(code_verifier: any) {
+  return base64URL(Cryptojs.SHA256(code_verifier));
+}
 
 export default (app: any) => {
   app.get("/api/userinfo", async (req: Request, res: Response) => {
@@ -56,6 +64,8 @@ export default (app: any) => {
         querystring.stringify({
           response_type: "code",
           client_id: client_id,
+          code_challenge_method: "S256",
+          code_challenge: code_challenge,
           scope: scope,
           redirect_uri: redirect_uri,
           state: state,
@@ -83,14 +93,14 @@ export default (app: any) => {
       var authOptions = {
         url: "https://accounts.spotify.com/api/token",
         form: {
+          client_id: client_id,
           code: code,
           redirect_uri: redirect_uri,
           grant_type: "authorization_code",
+          code_verifier: code_verifier,
         },
         headers: {
-          Authorization:
-            "Basic " +
-            new Buffer(client_id + ":" + client_secret).toString("base64"),
+          "Content-Type": "application/x-www-form-urlencoded",
         },
         json: true,
       };
@@ -137,34 +147,5 @@ export default (app: any) => {
         }
       });
     }
-  });
-
-  app.get("/api/refresh_token", function (req: Request, res: Response) {
-    // requesting access token from refresh token
-    // refresh_token = req.query.refresh_token.toString();
-
-    var authOptions = {
-      url: "https://accounts.spotify.com/api/token",
-      headers: {
-        Authorization:
-          "Basic " +
-          new Buffer(client_id + ":" + client_secret).toString("base64"),
-      },
-      form: {
-        grant_type: "refresh_token",
-        refresh_token: refresh_token,
-      },
-      json: true,
-    };
-
-    request.post(authOptions, function (error: any, response: any, body: any) {
-      if (!error && response.statusCode === 200) {
-        access_token = body.access_token;
-        console.log(access_token);
-        res.send({
-          access_token: access_token,
-        });
-      }
-    });
   });
 };
