@@ -11,7 +11,6 @@ export const applyAppEffects = (
       try {
         const response = await axios.get("/api/userinfo");
         dispatch(actions.userinfosuccess(response.data));
-        console.log(response.data);
       } catch {
         console.log("error USER_INFO");
       }
@@ -24,7 +23,6 @@ export const applyAppEffects = (
         const response = await axios.post("/api/getplaylist", userId);
         const playlists = response.data;
         dispatch(actions.get_playlist_success(playlists));
-        console.log(playlists);
       } catch {
         console.log("error playlist");
       }
@@ -42,7 +40,6 @@ export const applyAppEffects = (
         );
 
         dispatch(actions.deleteplaylistsuccess());
-        console.log(response.data);
       } catch {
         console.log("error DELETE_PLAYLIST");
       }
@@ -55,11 +52,9 @@ export const applyAppEffects = (
           description: action.payload.description,
         };
 
-        console.log(body);
         const response = await axios.post("/api/createplaylist", body);
         //TODO - need to pass response to dispatch success
         dispatch(actions.createplaylistsuccess());
-        console.log(response.data);
       } catch {
         console.log("error CREATE_PLAYLIST");
       }

@@ -124,18 +124,7 @@ export default (app: any) => {
           //   secure: true,
           //   maxAge: 3600000,
           // });
-          var options = {
-            url: "https://api.spotify.com/v1/me",
-            headers: { Authorization: "Bearer " + access_token },
-            json: true,
-          };
 
-          // use the access token to access the Spotify Web API
-          request.get(options, function (error: any, response: any, body: any) {
-            console.log(body);
-          });
-
-          // we can also pass the token to the browser to make requests from there
           res.redirect("http://localhost:3000/Landing/");
         } else {
           res.redirect(

@@ -9,16 +9,16 @@ export default (app: any) => {
     async (req: Request, res: Response) => {
       try {
         const userId = req.body.userId;
-        const headers = {
-          Authorization: "Bearer " + req.body.access_token,
-        };
 
         const response = await axios.get(
           `https://api.spotify.com/v1/me/playlists`,
-          { headers }
+          {
+            headers: {
+              Authorization: "Bearer " + req.body.access_token,
+            },
+          }
         );
 
-        console.log(response.data.items);
         const userOwnedPlaylists = response.data.items.filter(
           (item: any) => item.owner.id === userId
         );
@@ -26,6 +26,7 @@ export default (app: any) => {
         res.status(200).send(userOwnedPlaylists);
       } catch (err) {
         res.status(400).send(err);
+        console.log(err);
       }
     }
   );
@@ -36,9 +37,7 @@ export default (app: any) => {
     async (req: Request, res: Response) => {
       try {
         const playlist_id = req.body.playlist_id;
-
         const track = req.body.track;
-        console.log(playlist_id, track);
 
         const response = await axios.post(
           `https://api.spotify.com/v1/playlists/${playlist_id}/tracks?uris=${track}`,
@@ -69,8 +68,6 @@ export default (app: any) => {
       try {
         const playlist_id = req.body.playlist_id;
 
-        console.log(playlist_id);
-
         const response = await axios.delete(
           `https://api.spotify.com/v1/playlists/${playlist_id}/followers`,
           {
@@ -97,8 +94,6 @@ export default (app: any) => {
         const playlist_name = req.body.playlistName;
         const description = req.body.description;
 
-        console.log(user_id, playlist_name, description);
-
         const response = await axios.post(
           `https://api.spotify.com/v1/users/${user_id}/playlists`,
           {
@@ -119,8 +114,8 @@ export default (app: any) => {
 
         res.status(200).send(response.data);
       } catch (err) {
-        console.log(err);
         res.status(400).send(err);
+        console.log(err);
       }
     }
   );
@@ -133,9 +128,7 @@ export default (app: any) => {
         const playlist_id = req.body.playlist_id;
         const totaltracks = req.body.totaltracks;
 
-        console.log(playlist_id);
-        console.log(totaltracks);
-        var playlisttracks: any[] = [];
+        const playlisttracks: any[] = [];
         for (var i = 0; i < totaltracks; i += 100) {
           const response = await axios.get(
             `https://api.spotify.com/v1/playlists/${playlist_id}/tracks?offset=${i}&limit=100`,
@@ -157,8 +150,8 @@ export default (app: any) => {
 
         res.status(200).send(playlisttracks);
       } catch (err) {
-        console.log(err);
         res.status(400).send(err);
+        console.log(err);
       }
     }
   );
@@ -169,19 +162,6 @@ export default (app: any) => {
     async (req: Request, res: Response) => {
       try {
         const playlist_id = req.body.playlist_id;
-        console.log(playlist_id);
-        const headers = {
-          Authorization: "Bearer " + req.body.access_token,
-        };
-
-        const body = {
-          tracks: [
-            {
-              uri: req.body.track,
-            },
-          ],
-        };
-        console.log(body);
 
         const response = await axios.delete(
           `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,

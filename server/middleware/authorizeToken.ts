@@ -8,6 +8,7 @@ export default function (req: Request, res: Response, next: NextFunction) {
 
   if (!expirationTime || new Date().getTime() > expirationTime) {
     console.log("expired");
+    console.log("refreshtoken: " + refresh_token);
     var authOptions = {
       url: "https://accounts.spotify.com/api/token",
       headers: {
@@ -27,6 +28,9 @@ export default function (req: Request, res: Response, next: NextFunction) {
         console.log(body);
         req.body.access_token = body.access_token;
         next();
+      } else {
+        //throw error response.statuscode
+        console.log(error, body);
       }
     });
   } else {

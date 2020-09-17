@@ -20,16 +20,12 @@ export const applyMyPlaylistsEffects = (
           track: action.payload.track,
         };
 
-        console.log(playlistaddbody);
         const response = await axios.post(
           "/api/removefromplaylist",
           playlistaddbody
         );
-        // const updatedPlaylistTracks = state.playlists.filter((item: any) => {
-        //   item.id !== playlistaddbody.track;
-        // });
+
         dispatch(actions.removefromplaylistsuccess());
-        console.log(response.data);
       } catch {
         console.log("error REMOVE_FROM_PLAYLIST");
       }
@@ -41,10 +37,8 @@ export const applyMyPlaylistsEffects = (
           totaltracks: action.payload.totaltracks,
         };
 
-        console.log(body);
         const response = await axios.post("/api/playlisttracks", body);
         dispatch(actions.get_playlist_tracks_success(response.data));
-        console.log(response.data);
       } catch {
         console.log("error GET_PLAYLIST_TRACKS");
       }

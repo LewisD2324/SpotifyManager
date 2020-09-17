@@ -12,15 +12,12 @@ export const applyHomeEffects = (
   switch (action.type) {
     case HomeActionTypes.SEARCH_TRACKS:
       try {
-        var search = {
+        const search = {
           search: action.payload,
         };
-        console.log(search);
         const response = await axios.post("/api/searchsongs", search);
         const tracks = response.data;
-        console.log(tracks);
         dispatch(actions.search_tracks_success(tracks));
-        console.log(response.data);
       } catch {
         console.log("error SEARCH_TRACKS");
       }
@@ -31,7 +28,6 @@ export const applyHomeEffects = (
           search: action.payload,
         };
         const response = await axios.post("/api/searchartists", search);
-        console.log(response.data);
         dispatch(actions.search_artists_success(response.data));
       } catch {
         console.log("error SEARCH_ARTISTS");
@@ -56,7 +52,6 @@ export const applyHomeEffects = (
         };
         const response = await axios.post("/api/searchalbumtracks", albumid);
         dispatch(actions.search_album_tracks_success(response.data));
-        console.log(response.data);
       } catch {
         console.log("error SEARCH_ALBUMS_TRACKS");
       }
@@ -68,7 +63,6 @@ export const applyHomeEffects = (
         };
         const response = await axios.post("/api/searchalbums", search);
         dispatch(actions.search_albums_success(response.data));
-        console.log(response.data);
       } catch {
         console.log("error SEARCH_ALBUMS");
       }
@@ -79,14 +73,11 @@ export const applyHomeEffects = (
           playlist_id: action.payload.playlist_id,
           track: action.payload.track,
         };
-
-        console.log(playlistaddbody);
         const response = await axios.post(
           "/api/addtoplaylist",
           playlistaddbody
         );
         dispatch(actions.addtoplaylistsuccess());
-        console.log(response.data);
       } catch {
         console.log("error ADD_TO_PLAYLIST");
       }
