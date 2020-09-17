@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import * as actions from "../../actions/spotifyactions";
-import { useSpotifyContext } from "../../store/spotifystore";
+import * as actions from "./state/myplaylists.actions";
 import Playlist from "../../components/Playlists/Playlists";
 import NavBar from "../../components/NavBar/NavBar";
 import TrackList from "../../components/TrackList/TrackList";
 import { ToastContainer, toast } from "react-toastify";
 import { Paper } from "@material-ui/core";
-import { deleteplaylist } from "../../actions/spotifyactions";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { useMyPlaylists } from "./state/myplaylists.store";
+import { useAppContext } from "../../app/state/app.store";
+import { get_playlist, selected_playlist } from "../../app/state/app.actions";
 
 const PlaylistPage = () => {
-  const { dispatch, state } = useSpotifyContext();
-  console.log(state);
-
+  const { dispatch, state, ContextProvider } = useMyPlaylists();
+  const appContext = useAppContext();
+  console.log(appContext.state);
   const [showsongs, setshowsongs] = useState(false);
 
   useEffect(() => {
-    dispatch(actions.get_playlist(state.userinfo.id));
+    appContext.dispatch(get_playlist(appContext.state.userinfo.id));
   }, []);
 
   // useEffect(() => {
@@ -37,14 +38,11 @@ const PlaylistPage = () => {
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     //  setshowPlaylistControls(e.currentTarget.id);
-    dispatch(actions.selected_playlist(e.currentTarget.id));
-    console.log(state.selected_playlist);
+    appContext.dispatch(selected_playlist(e.currentTarget.id));
 
-    const selectedPlaylist = state.playlists.filter(
+    const selectedPlaylist = appContext.state.playlists.filter(
       (x: any) => x.id === e.currentTarget.id
     );
-
-    console.log(selectedPlaylist[0].tracks.total);
 
     dispatch(
       actions.get_playlist_tracks(
@@ -60,19 +58,22 @@ const PlaylistPage = () => {
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     await dispatch(
-      actions.removefromplaylist(state.selected_playlist, e.currentTarget.id)
+      actions.removefromplaylist(
+        appContext.state.selected_playlist,
+        e.currentTarget.id
+      )
     );
     toast("Removed From Playlist");
 
-    const selectedPlaylist = state.playlists.filter(
-      (x: any) => x.id === state.selected_playlist
+    const selectedPlaylist = appContext.state.playlists.filter(
+      (x: any) => x.id === appContext.state.selected_playlist
     );
 
     console.log(selectedPlaylist);
 
     await dispatch(
       actions.get_playlist_tracks(
-        state.selected_playlist,
+        appContext.state.selected_playlist,
         selectedPlaylist[0].tracks.total
       )
     );
@@ -84,33 +85,35 @@ const PlaylistPage = () => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          backgroundImage: "linear-gradient(-45deg, purple, #53025359)",
+    <ContextProvider>
+      <div>
+        <div
+          style={{
+            backgroundImage: "linear-gradient(-45deg, purple, #53025359)",
 
-          height: "300px",
-        }}
-      ></div>
-      {state.playlists.length === 0 ? (
-        <CircularProgress />
-      ) : (
-        <Playlist
-          playlists={state.playlists}
-          onClick={handleOnClickPlaylist}
-          deletePlaylist={handleDeletePlaylist}
-          //   showPlaylistControls={showPlaylistControls}
-        />
-      )}
-      {showsongs ? (
-        <TrackList
-          tracks={state.tracks}
-          removefromplaylist={handleRemoveFromPlaylist}
-          showPlaylistTrackControls={true}
-        />
-      ) : null}
-      <ToastContainer autoClose={1000} />
-    </div>
+            height: "300px",
+          }}
+        ></div>
+        {appContext.state.playlists.length === 0 ? (
+          <CircularProgress />
+        ) : (
+          <Playlist
+            playlists={appContext.state.playlists}
+            onClick={handleOnClickPlaylist}
+            deletePlaylist={handleDeletePlaylist}
+            //   showPlaylistControls={showPlaylistControls}
+          />
+        )}
+        {showsongs ? (
+          <TrackList
+            tracks={state.tracks}
+            removefromplaylist={handleRemoveFromPlaylist}
+            showPlaylistTrackControls={true}
+          />
+        ) : null}
+        <ToastContainer autoClose={1000} />
+      </div>
+    </ContextProvider>
   );
 };
 

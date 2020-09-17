@@ -8,9 +8,9 @@ import { Paper, Typography } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
-import { useSpotifyContext } from "../../store/spotifystore";
-import { createplaylist, get_playlist } from "../../actions/spotifyactions";
+import * as actions from "../../app/state/app.actions";
 import { toast } from "react-toastify";
+import { useAppContext } from "../../app/state/app.store";
 const no_image = require("../../../public/assets/No_image_available.png");
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -70,7 +70,7 @@ const Playlists = React.memo((props: SongListProps) => {
   console.log(no_image);
   const classes = useStyles();
   const createPlaylistRef = useRef<any>();
-  const { dispatch, state } = useSpotifyContext();
+  const { dispatch, state } = useAppContext();
 
   useEffect(() => {
     // add when mounted
@@ -92,10 +92,10 @@ const Playlists = React.memo((props: SongListProps) => {
 
   const handleSubmit = async (playlistName: string, description: string) => {
     await dispatch(
-      createplaylist(state.userinfo.id, playlistName, description)
+      actions.createplaylist(state.userinfo.id, playlistName, description)
     );
     toast.success("Playlist Created");
-    await dispatch(get_playlist(state.userinfo.id));
+    await dispatch(actions.get_playlist(state.userinfo.id));
     setshowCreatePlaylistForm(false);
   };
 

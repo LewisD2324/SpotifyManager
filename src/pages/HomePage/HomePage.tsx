@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import * as actions from "./state/home.actions";
-import { useSpotifyContext } from "../../store/spotifystore";
 import Search from "../../components/Search/Search";
 import SearchSwitches from "../../components/SearchSwitches/SearchSwitches";
 import Playlist from "../../components/Playlists/Playlists";
@@ -17,7 +16,6 @@ import { useHome } from "./state/home.store";
 import { useAppContext } from "../../app/state/app.store";
 import { get_playlist, userinfo } from "../../app/state/app.actions";
 const HomePage: React.FC = () => {
-  //  const { dispatch, state } = useSpotifyContext();
   const { dispatch, state } = useHome();
   const appContext = useAppContext();
 
