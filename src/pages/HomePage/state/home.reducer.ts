@@ -55,6 +55,7 @@ export const HomeReducer: Reducer = (state = initialState, action) => {
       return {
         ...state,
         tracks: action.payload,
+        filtered_tracks: action.payload,
       };
     case HomeActionTypes.SELECTED_PLAYLIST:
       return {

@@ -257,7 +257,7 @@ const HomePage: React.FC = () => {
             />
           ) : showalbumtracks ? (
             <TrackList
-              tracks={state.tracks}
+              tracks={state.filtered_tracks}
               addtoplaylist={handleAddtoPlaylist}
               showPlaylistTrackControls={false}
               album_image={state.albums.find(
@@ -277,7 +277,6 @@ const HomePage: React.FC = () => {
       >
         <TrackControls onBPMChange={handleBPMChange} />
       </div>
-      <ToastContainer autoClose={1000} />
     </div>
   );
 };

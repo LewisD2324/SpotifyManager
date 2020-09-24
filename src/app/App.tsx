@@ -2,52 +2,41 @@ import React, { Suspense, useEffect } from "react";
 import "./App.css";
 import { Router, RouteComponentProps, Redirect } from "@reach/router";
 import NavBar from "../components/NavBar/NavBar";
+import Footer from "../components/Footer/Footer";
+import { ToastContainer } from "react-toastify";
 const App: React.FC = () => {
   const AuthPage = React.lazy(() => import("../pages/AuthPage/AuthPage"));
   const HomePage = React.lazy(() => import("../pages/HomePage/HomePage"));
-  const PlaylistPage = React.lazy(() =>
-    import("../pages/PlaylistPage/PlaylistPage")
+  const PageNotFound = React.lazy(
+    () => import("../pages/PageNotFound/PageNotFound")
+  );
+
+  const PlaylistPage = React.lazy(
+    () => import("../pages/PlaylistPage/PlaylistPage")
   );
 
   const RouterPage = (
     props: { pageComponent: JSX.Element } & RouteComponentProps
   ) => props.pageComponent;
 
-  let authRedirect = null;
-
-  useEffect(() => {
-    let hashParams: any = {};
-    let e,
-      r = /([^&;=]+)=?([^&;]*)/g,
-      q = window.location.hash.substring(1);
-    while ((e = r.exec(q))) {
-      hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-
-    if (!hashParams.access_token) {
-      console.log(hashParams.access_token);
-      authRedirect = <Redirect noThrow to="/Auth" />;
-    } else {
-      console.log(hashParams.access_token);
-      authRedirect = <Redirect noThrow to="/" />;
-      //dispatch(actions.set_token(hashParams.access_token));
-    }
-  }, []);
-
   return (
     <div className="App">
-      {authRedirect}
-      <Suspense fallback={<div>...loading</div>}>
-        <header style={{ position: "absolute" }}>
-          <NavBar />
-        </header>
-        <Router>
-          <RouterPage path="/" pageComponent={<AuthPage />} />
-          <RouterPage path="/Landing" pageComponent={<HomePage />} />
-          <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
-        </Router>
-        {/* <NotFound default //TODO add notfound page default /> */}
-      </Suspense>
+      <div className="page-contents">
+        <Suspense fallback={<div>...loading</div>}>
+          <header style={{ position: "absolute" }}>
+            {location.pathname === "/" ? null : <NavBar />}
+          </header>
+          <Router>
+            <RouterPage path="/" pageComponent={<AuthPage />} />
+            <RouterPage path="/Landing" pageComponent={<HomePage />} />
+            <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
+            <RouterPage default pageComponent={<PageNotFound />} />
+          </Router>
+        </Suspense>
+      </div>
+      {/* {location.pathname === "/" ? null : <Footer />} */}
+
+      <ToastContainer autoClose={1000} />
     </div>
   );
 };

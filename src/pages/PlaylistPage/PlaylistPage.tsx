@@ -111,7 +111,6 @@ const PlaylistPage = () => {
             showPlaylistTrackControls={true}
           />
         ) : null}
-        <ToastContainer autoClose={1000} />
       </div>
     </ContextProvider>
   );

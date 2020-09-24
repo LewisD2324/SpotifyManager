@@ -4,7 +4,7 @@ import { NextFunction, Request, Response, response } from "express";
 import request from "request";
 import { client_id } from "../config/dev";
 export default function (req: Request, res: Response, next: NextFunction) {
-  if (access_token === null) return res.sendStatus(401);
+  if (access_token === "") return res.redirect("https://localhost:8888/login");
 
   if (!expirationTime || new Date().getTime() > expirationTime) {
     console.log("expired");
