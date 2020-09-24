@@ -30,6 +30,12 @@ export const searchvalue = (searchvalue: any): HomeAction => {
   };
 };
 
+export const clear_tracks = (): HomeAction => {
+  return {
+    type: HomeActionTypes.CLEAR_TRACKS,
+  };
+};
+
 export const search_tracks = (searchvalue: any): HomeAction => {
   return {
     type: HomeActionTypes.SEARCH_TRACKS,

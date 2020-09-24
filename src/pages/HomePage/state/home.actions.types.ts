@@ -6,6 +6,7 @@ export enum HomeActionTypes {
   SEARCH_ARTISTS_TRACKS = "SEARCH_ARTISTS_TRACKS",
   SEARCH_ARTISTS_SUCCESS = "SEARCH_ARTISTS_SUCCESS",
   SEARCH_ARTISTS_TRACKS_SUCCESS = "SEARCH_ARTISTS_TRACKS_SUCCESS",
+  CLEAR_TRACKS = "CLEAR_TRACKS",
 
   ADD_TO_PLAYLIST = "ADD_TO_PLAYLIST",
   ADD_TO_PLAYLIST_SUCCESS = "ADD_TO_PLAYLIST_SUCCESS",
@@ -96,6 +97,10 @@ type SearchAlbumTracksSuccessAction = {
   payload: any;
 };
 
+type ClearTracksAction = {
+  type: HomeActionTypes.CLEAR_TRACKS;
+};
+
 type BPMChangeAction = {
   type: HomeActionTypes.BPM_CHANGE;
   payload: number[];
@@ -117,4 +122,5 @@ export type HomeAction =
   | SearchAlbumsSuccessAction
   | SearchAlbumTracksAction
   | SearchAlbumTracksSuccessAction
-  | BPMChangeAction;
+  | BPMChangeAction
+  | ClearTracksAction;

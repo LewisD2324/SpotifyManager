@@ -31,47 +31,27 @@ const HomePage: React.FC = () => {
 
   const [showalbumtracks, setshowalbumtracks] = useState(false);
 
-  const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value !== "") {
+  const handleSearchValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    value: string
+  ) => {
+    if (value !== "") {
       if (trackcheck) {
-        dispatch(actions.search_tracks(e.currentTarget.value));
+        dispatch(actions.search_tracks(value));
       } else if (artistcheck) {
-        dispatch(actions.search_artists(e.currentTarget.value));
+        dispatch(actions.search_artists(value));
       } else if (albumscheck) {
-        dispatch(actions.search_albums(e.currentTarget.value));
+        dispatch(actions.search_albums(value));
       }
     }
-    //  dispatch(actions.searchvalue(e.currentTarget.value));
+    dispatch(actions.searchvalue(value));
   };
-  // const handleOnSelect = (e: any) => {
-  //   dispatch(actions.searchvalue(e.target.value));
-  // };
-
-  // useEffect(() => {
-  //   if (state.searchvalue !== "") {
-  //     if (trackcheck) {
-  //       dispatch(actions.search_tracks(state.searchvalue));
-  //     } else if (artistcheck) {
-  //       dispatch(actions.search_artists(state.searchvalue));
-  //     } else if (albumscheck) {
-  //       dispatch(actions.search_albums(state.searchvalue));
-  //     }
-  //   }
-  // }, [state.searchvalue]);
 
   useEffect(() => {
     if (appContext.state.userinfo !== null) {
       appContext.dispatch(get_playlist(appContext.state.userinfo.id));
     }
   }, [appContext.state.userinfo]);
-
-  // useEffect(() => {
-  //   if (state.tracks.length !== 0) {
-  //     const track_ids = state.tracks.map((track: any) => track.id);
-  //     console.log(track_ids);
-  //     dispatch(actions.get_track_audio_features(track_ids));
-  //   }
-  // }, [state.tracks]);
 
   useEffect(() => {
     //TO-DO fix this dependancy
@@ -80,6 +60,7 @@ const HomePage: React.FC = () => {
 
   const handleSwitchChange = (e: any) => {
     if (e.target.name === "artistcheck") {
+      dispatch(actions.clear_tracks());
       setartistcheck(e.target.checked);
       settrackcheck(false);
       setalbumscheck(false);
@@ -89,6 +70,7 @@ const HomePage: React.FC = () => {
       setshowalbums(false);
       setshowartisttracks(true);
     } else if (e.target.name === "trackscheck") {
+      dispatch(actions.clear_tracks());
       settrackcheck(e.target.checked);
       setartistcheck(false);
       setalbumscheck(false);
@@ -98,6 +80,7 @@ const HomePage: React.FC = () => {
       setshowalbums(false);
       setshowtracks(true);
     } else if (e.target.name === "albumscheck") {
+      dispatch(actions.clear_tracks());
       setalbumscheck(e.target.checked);
       settrackcheck(false);
       setartistcheck(false);
@@ -158,16 +141,7 @@ const HomePage: React.FC = () => {
 
   const renderalbums = () => {
     if (showalbums) {
-      return (
-        // <AlbumSongs
-        //   tracks={state.album_tracks}
-        //   albums={state.albums}
-        //   searchalbumtracks={(albumid: string) => {
-        //     handleSearchAlbumTracks(albumid);
-        //   }}
-        // />
-        <Albums albums={state.albums} onClick={handleSearchAlbumTracks} />
-      );
+      return <Albums albums={state.albums} onClick={handleSearchAlbumTracks} />;
     } else {
       return null;
     }

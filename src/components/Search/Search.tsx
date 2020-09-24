@@ -13,7 +13,7 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export interface SearchProps {
-  handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChangeValue: (event: any, value: string) => void;
   searchclick(): void;
   suggestions: any;
 }
@@ -64,6 +64,7 @@ const Search = (props: SearchProps) => {
           id="searchbox"
           disableClearable
           placeholder="Search by ...."
+          onInputChange={props.handleChangeValue}
           // options={top100Films.map((option) => option.title)}
           options={props.suggestions}
           renderInput={(params) => (
@@ -72,7 +73,6 @@ const Search = (props: SearchProps) => {
               label="Search"
               margin="normal"
               variant="outlined"
-              onChange={props.handleChangeValue}
               InputProps={{ ...params.InputProps, type: "search" }}
             />
           )}
