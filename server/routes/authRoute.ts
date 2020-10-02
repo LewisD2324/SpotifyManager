@@ -32,7 +32,7 @@ function base64URL(string: any) {
     .replace(/\//g, "_");
 }
 
-function generateCodeChallenge(code_verifier: any) {
+function generateCodeChallenge(code_verifier: string) {
   return base64URL(Cryptojs.SHA256(code_verifier));
 }
 

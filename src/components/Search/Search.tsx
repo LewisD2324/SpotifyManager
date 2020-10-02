@@ -11,11 +11,16 @@ import {
   withStyles,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import SearchSwitches from "../SearchSwitches/SearchSwitches";
 
 export interface SearchProps {
   handleChangeValue: (event: any, value: string) => void;
   searchclick(): void;
   suggestions: any;
+  artistchecked: boolean;
+  trackschecked: boolean;
+  albumschecked: boolean;
+  handleSwitchChange: (e: any) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -81,6 +86,12 @@ const Search = (props: SearchProps) => {
       <Button onClick={props.searchclick} className={classes.searchButton}>
         Search
       </Button>
+      <SearchSwitches
+        artistchecked={props.artistchecked}
+        trackschecked={props.trackschecked}
+        albumschecked={props.albumschecked}
+        handleSwitchChange={props.handleSwitchChange}
+      />
     </div>
   );
 };

@@ -196,16 +196,13 @@ const HomePage: React.FC = () => {
               handleChangeValue={handleSearchValue}
               searchclick={handleSearchClick}
               suggestions={handleSuggestions()}
-            />
-          </div>
-          <div style={{ marginTop: "186px" }}>
-            <SearchSwitches
               artistchecked={artistcheck}
               trackschecked={trackcheck}
               albumschecked={albumscheck}
               handleSwitchChange={handleSwitchChange}
             />
           </div>
+          <div style={{ marginTop: "186px" }}></div>
         </div>
       </div>
       <p style={{ marginLeft: "40px" }}>Add To Your Playlist</p>

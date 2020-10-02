@@ -20,20 +20,6 @@ const PlaylistPage = () => {
     appContext.dispatch(get_playlist(appContext.state.userinfo.id));
   }, []);
 
-  // useEffect(() => {
-  //   if (state.selected_playlist !== "" && state.playlists.length > 0) {
-  //     const selectedPlaylist = state.playlists.filter(
-  //       (x: any) => x.id === state.selected_playlist
-  //     );
-  //     dispatch(
-  //       actions.get_playlist_tracks(
-  //         state.selected_playlist,
-  //         selectedPlaylist[0].tracks.total
-  //       )
-  //     );
-  //   }
-  // }, [state.selected_playlist, state.playlist_tracks]);
-
   const handleOnClickPlaylist = (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
