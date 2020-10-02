@@ -1,7 +1,8 @@
+const webpack = require("webpack");
 const path = require("path");
-const autoprefixer = require("autoprefixer");
-const postcssImport = require("postcss-import");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const TerserPlugin = require("terser-webpack-plugin");
 
 require("dotenv").config();
 
@@ -10,127 +11,144 @@ const isProduction = process.env.NODE_ENV === "production";
 const isDevelopment = process.env.NODE_ENV === "development";
 
 module.exports = {
-  mode: "development",
-  watch: true,
-  entry: {
-    app: path.join(__dirname, "src", "index.tsx"),
-  },
+  mode: isProduction ? "production" : "development",
   target: "web",
+  entry: "./src/index.tsx",
   output: {
-    filename: "[name].js",
     path: path.resolve(__dirname, "./dist"),
+    pathinfo: isDevelopment,
+    filename: isDevelopment
+      ? "static/js/bundle.js"
+      : "static/js/[name].[contenthash:8].js",
+    chunkFilename: isDevelopment
+      ? "static/js/[name].chunk.js"
+      : "static/js/[name].[contenthash:8].chunk.js",
     publicPath: "/",
   },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json", ".css"],
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+    usedExports: true,
+    sideEffects: true,
+    splitChunks: {
+      chunks: "all",
+    },
   },
-  devtool: "source-map",
+  watchOptions: {
+    poll: 1000,
+  },
+  devtool: isProduction ? "none" : "source-map",
   devServer: {
     stats: "minimal",
-    overlay: true,
+    overlay: {
+      warnings: true,
+      errors: true,
+    },
     historyApiFallback: true,
-    disableHostCheck: true,
-    // headers: { "Access-Control-Allow-Origin": "*" },
-    https: false,
-    contentBase: "dist",
-    compress: true,
+    contentBase: path.resolve(__dirname, "./dist"),
     port,
+    headers: { "Access-Control-Allow-Origin": "*" },
+    https: false,
     proxy: {
       "/login": "http://localhost:8888",
       "/api/**": "http://localhost:8888",
     },
   },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        include: /\.module\.css$/,
-        use: [
-          {
-            loader: "style-loader",
-            // TODO: Loading CSS in separate files breaks the specificity when using direct material-ui classes as selectors
-            // loader: isDevelopment
-            //     ? 'style-loader' /* inject CSS into the DOM as a style block */
-            //     : MiniCssExtractPlugin.loader /* extract CSS to separate files in prod (needs entry in the plugins section) */,
-          },
-          {
-            // convert the resulting CSS to Javascript to be bundled (modules:true to rename CSS classes in output to identifiers, except if wrapped in a :global(...) pseudo class)
-            loader: "css-loader",
-            options: {
-              modules: { localIdentName: "[name]__[local]--[hash:base64:5]" },
-            },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              ident: "postcss",
-              plugins: () => [
-                // postcssCustomProperties() /* allow css vars */,
-                // postcssCustomMedia(/* pluginOptions */),
-                // postcssNested(),
-                postcssImport(), // allow @import foo.css
-                autoprefixer(), // browser prefixes
-                // cssnano(), // minification
-                // postcssPlugin(),
-                // postcssEasings(), // named easing functions from https://easings.net
-              ],
-            },
-          },
-        ],
-      },
-      {
-        test: /\.css$/,
-        exclude: /\.module\.css$/,
-        use: [
-          {
-            loader: "style-loader",
-            // loader: isDevelopment
-            //     ? 'style-loader' /* inject CSS into the DOM as a style block */
-            //     : MiniCssExtractPlugin.loader /* extract CSS to separate files in prod (needs entry in the plugins section) */,
-          },
-          {
-            // convert the resulting CSS to Javascript to be bundled (modules:true to rename CSS classes in output to identifiers, except if wrapped in a :global(...) pseudo class)
-            loader: "css-loader",
-          },
-        ],
-      },
-      { test: /\.tsx?$/, loader: "babel-loader" },
-      {
-        test: /\.(gif|png|jpe?g|svg)$/i,
-        use: [
-          "file-loader",
-          {
-            loader: "image-webpack-loader",
-            // options: {
-            //   bypassOnDebug: true, // webpack@1.x
-            //   disable: true, // webpack@2.x and newer
-            // },
-          },
-        ],
-      },
-      {
-        test: /\.(png|jpg|gif)$/i,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8192,
-            },
-          },
-        ],
-      },
-      {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        exclude: [/node_modules/, require.resolve("./public/index.html")],
-      },
-      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
-    ],
-  },
+
   plugins: [
+    isProduction &&
+      new BundleAnalyzerPlugin({
+        openAnalyzer: false,
+        generateStatsFile: true,
+        analyzerMode: "static",
+      }),
+    new TerserPlugin({
+      parallel: true,
+      terserOptions: {
+        ecma: 6,
+        output: {
+          comments: false,
+        },
+      },
+      extractComments: false,
+    }),
     new HtmlWebpackPlugin({
+      inject: true,
       template: "public/index.html",
       favicon: "public/favicon.ico",
     }),
-  ],
+  ].filter(Boolean),
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".css", ".json"],
+  },
+  module: {
+    rules: [
+      {
+        oneOf: [
+          {
+            test: /\.(ts|tsx)$/,
+            exclude: ["/node_modules/"],
+            use: ["ts-loader"],
+          },
+          {
+            test: /(\.css)$/,
+            include: /\.module\.css$/,
+            use: [
+              {
+                loader: "style-loader",
+              },
+              {
+                loader: "css-loader",
+                options: {
+                  modules: {
+                    localIdentName: "[name]__[local]--[hash:base64:5]",
+                  },
+                },
+              },
+            ],
+          },
+
+          {
+            test: /\.css$/,
+            exclude: /\.module\.css$/,
+            use: [
+              {
+                loader: "style-loader",
+              },
+              {
+                loader: "css-loader",
+              },
+            ],
+          },
+          {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ["babel-loader", "eslint-loader"],
+          },
+
+          {
+            enforce: "pre",
+            test: /\.js$/,
+            loader: "source-map-loader",
+          },
+          {
+            loader: require.resolve("url-loader"),
+            exclude: [/\.(js|mjs|jsx|ts|tsx|svg|css)$/, /\.html$/, /\.json$/],
+            options: {
+              name: "static/media/[name].[hash:8].[ext]",
+              limit: 8192, // inline files <= 8kb
+            },
+          },
+          {
+            // fire network request for files > 8kb
+            loader: require.resolve("file-loader"),
+            exclude: [/\.(js|mjs|jsx|ts|tsx|svg|css)$/, /\.html$/, /\.json$/],
+            options: {
+              name: "static/media/[name].[hash:8].[ext]",
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
