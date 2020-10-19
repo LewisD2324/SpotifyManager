@@ -1,100 +1,93 @@
-import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import {
-  Button,
-  Container,
-  Paper,
-  Avatar,
-  Typography,
-  GridListTile,
-} from "@material-ui/core";
+import React, { useState } from 'react';
+import TextField from '@material-ui/core/TextField';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Button, Container, Paper, Avatar, Typography, GridListTile } from '@material-ui/core';
 const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      flexDirection: "column",
-    },
+    createStyles({
+        root: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+        },
 
-    ErrorText: {
-      color: "#f50057",
-      marginBottom: 5,
-      textAlign: "center",
-    },
-    createPlaylistTitle: {
-      textAlign: "center",
-    },
-  })
+        ErrorText: {
+            color: '#f50057',
+            marginBottom: 5,
+            textAlign: 'center',
+        },
+        createPlaylistTitle: {
+            textAlign: 'center',
+        },
+    })
 );
 
 interface CreatePlaylistFormProps {
-  onSubmit: (playlistName: string, description: string) => void;
-  //  errormessage: string;
+    onSubmit: (playlistName: string, description: string) => void;
+    //  errormessage: string;
 }
 
 const CreatePlaylistForm = ({
-  onSubmit,
+    onSubmit,
 }: // errormessage,
 
 CreatePlaylistFormProps) => {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  //TODO - change this to be done using 1 state 1 handlechange for both textboxes
-  const [playlistName, setPlaylistName] = useState<string>("");
+    //TODO - change this to be done using 1 state 1 handlechange for both textboxes
+    const [playlistName, setPlaylistName] = useState<string>('');
 
-  const [description, setDescription] = useState<string>("");
+    const [description, setDescription] = useState<string>('');
 
-  const handlePlaylistNameChange = (event: any) => {
-    const { name, value } = event.target;
-    setPlaylistName(value);
-  };
+    const handlePlaylistNameChange = (event: any) => {
+        const { name, value } = event.target;
+        setPlaylistName(value);
+    };
 
-  const handleDescriptionChange = (event: any) => {
-    const { name, value } = event.target;
-    setDescription(value);
-  };
+    const handleDescriptionChange = (event: any) => {
+        const { name, value } = event.target;
+        setDescription(value);
+    };
 
-  return (
-    <div className={classes.root}>
-      {/* <Typography component="h6" className={classes.createPlaylistTitle}>
+    return (
+        <div className={classes.root}>
+            {/* <Typography component="h6" className={classes.createPlaylistTitle}>
         Create A Playlist:
       </Typography> */}
-      <TextField
-        id="standard-basic"
-        margin="normal"
-        label="Playlist Name"
-        name="Playlist Name"
-        inputProps={{ "data-testid": "playlistname-input" }}
-        placeholder="Name"
-        required
-        onChange={handlePlaylistNameChange}
-      />
-      <TextField
-        id="standard-basic"
-        margin="normal"
-        name="Description"
-        inputProps={{ "data-testid": "playlistdescription-input" }}
-        label="Description"
-        placeholder="Description"
-        onChange={handleDescriptionChange}
-      />
+            <TextField
+                id="standard-basic"
+                margin="normal"
+                label="Playlist Name"
+                name="Playlist Name"
+                inputProps={{ 'data-testid': 'playlistname-input' }}
+                placeholder="Name"
+                required
+                onChange={handlePlaylistNameChange}
+            />
+            <TextField
+                id="standard-basic"
+                margin="normal"
+                name="Description"
+                inputProps={{ 'data-testid': 'playlistdescription-input' }}
+                label="Description"
+                placeholder="Description"
+                onChange={handleDescriptionChange}
+            />
 
-      {/* <Typography component="p" className={classes.ErrorText}>
+            {/* <Typography component="p" className={classes.ErrorText}>
           {errormessage}
         </Typography> */}
 
-      <Button
-        type="button"
-        variant="contained"
-        color="primary"
-        onClick={() => onSubmit(playlistName, description)}
-      >
-        SUBMIT
-      </Button>
-    </div>
-  );
+            <Button
+                type="button"
+                variant="contained"
+                color="primary"
+                onClick={() => onSubmit(playlistName, description)}
+            >
+                SUBMIT
+            </Button>
+        </div>
+    );
 };
 
 export default CreatePlaylistForm;

@@ -1,0 +1,50 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "prettier/@typescript-eslint",
+        "plugin:jest/recommended",
+        "plugin:prettier/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "settings": {
+        "react": {
+          "version": "detect"
+        }
+      },
+    "plugins": [
+        "react",
+        "@typescript-eslint", 
+        "jest",
+        "react-hooks"
+    ],
+    "rules": {
+        "import/no-unresolved": [1],
+        "node/no-unsupported-features/es-syntax": "off",
+        "no-console": "warn",
+        "@typescript-eslint/explicit-function-return-type": "warn",
+        "@typescript-eslint/no-use-before-define": "error",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/ban-ts-comment": "warn",
+        "jest/no-try-expect": "off",
+        "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+      }
+}

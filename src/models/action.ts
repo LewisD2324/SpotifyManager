@@ -1,4 +1,4 @@
 export type Action<TypesEnum> = {
-  type: TypesEnum;
-  payload?: any;
+    type: TypesEnum;
+    payload?: any;
 };
