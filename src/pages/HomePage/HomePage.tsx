@@ -6,7 +6,6 @@ import Playlist from "../../components/Playlists/Playlists";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NavBar from "../../components/NavBar/NavBar";
-import AlbumSongs from "../../components/AlbumSongs/AlbumSongs";
 import styled from "styled-components";
 import TrackControls from "../../components/TrackControls/TrackControls";
 import TrackList from "../../components/TrackList/TrackList";
@@ -42,6 +41,7 @@ const HomePage: React.FC = () => {
         dispatch(actions.search_artists(value));
       } else if (albumscheck) {
         dispatch(actions.search_albums(value));
+        console.log(state.albums)
       }
     }
     dispatch(actions.searchvalue(value));
@@ -91,7 +91,7 @@ const HomePage: React.FC = () => {
       setshowalbums(true);
     }
   };
-
+  console.log(state.tracks)
   const handleSearchClick = () => {
     if (trackcheck) {
       dispatch(actions.search_tracks(state.searchvalue));
@@ -178,7 +178,7 @@ const HomePage: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div data-testid="home-page">
       <div
         style={{
           backgroundImage: "linear-gradient(-45deg, purple, #53025359)",

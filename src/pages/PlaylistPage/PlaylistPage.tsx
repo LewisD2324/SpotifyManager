@@ -72,7 +72,7 @@ const PlaylistPage = () => {
 
   return (
     <ContextProvider>
-      <div>
+      <div data-testid="playlist-page">
         <div
           style={{
             backgroundImage: "linear-gradient(-45deg, purple, #53025359)",

@@ -66,6 +66,7 @@ CreatePlaylistFormProps) => {
         margin="normal"
         label="Playlist Name"
         name="Playlist Name"
+        inputProps={{ "data-testid": "playlistname-input" }}
         placeholder="Name"
         required
         onChange={handlePlaylistNameChange}
@@ -74,6 +75,7 @@ CreatePlaylistFormProps) => {
         id="standard-basic"
         margin="normal"
         name="Description"
+        inputProps={{ "data-testid": "playlistdescription-input" }}
         label="Description"
         placeholder="Description"
         onChange={handleDescriptionChange}

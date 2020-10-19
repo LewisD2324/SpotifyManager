@@ -25,8 +25,6 @@ interface TrackListProps {
   album_image?: any;
 }
 
-///https://codesandbox.io/s/material-demo-g0xo5?file=/demo.js:1007-1062
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -53,8 +51,8 @@ const TrackList = (props: TrackListProps) => {
     //  let image = props.tracks[index].images[0].url;
     // }
     return (
-      <div style={style}>
-        <ListItem role={undefined} dense button key={props.tracks[index].id}>
+      <div style={style} data-testid = "tracklist-item" id = {props.tracks[index].id}>
+        <ListItem role={undefined} dense button key={props.tracks[index].id} >
           {props.album_image ? (
             <ListItemIcon>
               <img src={props.album_image.images[2].url}></img>

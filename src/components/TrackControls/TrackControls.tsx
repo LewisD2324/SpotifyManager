@@ -52,10 +52,6 @@ const TrackControls = ({ onBPMChange }: TrackControlProps) => {
     },
   ];
 
-  //   function valueLabelFormat(value: number) {
-  //     return marks.findIndex((mark) => mark.value === value) + 1;
-  //   }
-
   return (
     <Card className={classes.root}>
       <Typography>Track Controls</Typography>

@@ -28,7 +28,7 @@ const NavBar = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} data-testid={"nav-bar"}>
       {/* <nav> */}
       <Typography variant="h6" className={classes.title}>
         Spotify Manager

@@ -11,7 +11,7 @@ import CreatePlaylistForm from "../CreatePlaylistForm/CreatePlaylistForm";
 import * as actions from "../../app/state/app.actions";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../app/state/app.store";
-const no_image = require("../../../public/assets/No_image_available.png");
+//const no_image = require("../../../public/assets/No_image_available.png");
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,14 +60,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface SongListProps {
+interface PlaylistsProps {
   playlists: any[];
   onClick(e: React.MouseEvent<HTMLElement, MouseEvent>): void;
   deletePlaylist: (playlist_id: string) => any;
   showPlaylistControls?: string;
 }
-const Playlists = React.memo((props: SongListProps) => {
-  console.log(no_image);
+const Playlists = React.memo((props: PlaylistsProps) => {
+ 
   const classes = useStyles();
   const createPlaylistRef = useRef<any>();
   const { dispatch, state } = useAppContext();
@@ -113,7 +113,7 @@ const Playlists = React.memo((props: SongListProps) => {
     return props.playlists.map((items) => {
       let image: string = "";
       if (items.images.length < 1) {
-        image = no_image;
+        image = "no_image";
       } else {
         image = items.images[0].url;
       }
@@ -126,6 +126,7 @@ const Playlists = React.memo((props: SongListProps) => {
           id={items.id}
           className={classes.gridListTile}
           key={items.id}
+          data-testid = "playlist-item"
         >
           {showPlaylistControls === items.id ? (
             <div onClick={props.deletePlaylist(items.id)}>

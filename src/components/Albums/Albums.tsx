@@ -24,7 +24,7 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import { FixedSizeList } from "react-window";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-interface SongListProps {
+interface AlbumsProps {
   albums: any;
   onClick: any;
 }
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Albums = (props: SongListProps) => {
+const Albums = (props: AlbumsProps) => {
   const classes = useStyles();
 
   const renderalbums = () => {
@@ -74,6 +74,7 @@ const Albums = (props: SongListProps) => {
           id={items.id}
           className={classes.gridListTile}
           key={items.id}
+          data-testid = "album-item"
         >
           <img src={image} alt={items.name} />
           <GridListTileBar

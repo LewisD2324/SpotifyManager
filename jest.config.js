@@ -8,19 +8,19 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-
   // Runs special logic, such as cleaning up components
   // when using React Testing Library and adds special
   // extended assertions to Jest
-  setupFilesAfterEnv: [
-    "@testing-library/react/cleanup-after-each",
-    "@testing-library/jest-dom/extend-expect",
-  ],
-
+  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
   // Test spec file resolution pattern
   // Matches parent folder `__tests__` and filename
   // should contain `test` or `spec`.
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+  moduleNameMapper: {
+    "^.+\\.css$": "identity-obj-proxy",
+    "\\worker$": "identity-obj-proxy",
+  },
+  testURL: "http://localhost:3000",
   //Can Filter Tests By FileName
   watchPlugins: [
     "jest-watch-typeahead/filename",

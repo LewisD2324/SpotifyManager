@@ -70,7 +70,6 @@ const Search = (props: SearchProps) => {
           disableClearable
           placeholder="Search by ...."
           onInputChange={props.handleChangeValue}
-          // options={top100Films.map((option) => option.title)}
           options={props.suggestions}
           renderInput={(params) => (
             <TextField
