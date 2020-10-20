@@ -1,3 +1,5 @@
+import { Track } from "../../../models/track";
+
 export enum MyPlaylistsActionTypes {
     REMOVE_FROM_PLAYLIST = 'REMOVE_FROM_PLAYLIST',
     REMOVE_FROM_PLAYLIST_SUCCESS = 'REMOVE_FROM_PLAYLIST_SUCCESS',
@@ -27,7 +29,7 @@ type GetPlaylistTrackAction = {
 
 type GetPlaylistTracksSuccessAction = {
     type: MyPlaylistsActionTypes.GET_PLAYLIST_TRACKS_SUCCESS;
-    payload: any;
+    payload: Track[];
 };
 
 export type MyPlaylistsAction =

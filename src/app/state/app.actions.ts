@@ -1,4 +1,5 @@
-import { GlobalActionTypes, AppAction } from './app.action.types';
+import { Playlist } from '../../models/playlist';
+import { AppAction, GlobalActionTypes } from './app.action.types';
 
 export const userinfo = (): AppAction => {
     return {
@@ -53,7 +54,7 @@ export const get_playlist = (userId: any): AppAction => {
     };
 };
 
-export const get_playlist_success = (playlists: any): AppAction => {
+export const get_playlist_success = (playlists: Playlist[]): AppAction => {
     return {
         type: GlobalActionTypes.GET_PLAYLIST_SUCCESS,
         payload: playlists,

@@ -1,3 +1,7 @@
+import { Album } from "../../../models/album";
+import { Artist } from "../../../models/artist";
+import { Track } from "../../../models/track";
+
 export enum HomeActionTypes {
     SEARCH_VALUE = 'SEARCH_VALUE',
     SEARCH_TRACKS = 'SEARCH_TRACKS',
@@ -32,7 +36,7 @@ type SearchTracksAction = {
 };
 type SearchTracksSuccessAction = {
     type: HomeActionTypes.SEARCH_TRACKS_SUCCESS;
-    payload: any;
+    payload: Track[];
 };
 
 type SearchArtistsAction = {
@@ -42,7 +46,7 @@ type SearchArtistsAction = {
 
 type SearchArtistsSuccessAction = {
     type: HomeActionTypes.SEARCH_ARTISTS_SUCCESS;
-    payload: any;
+    payload: Artist[];
 };
 
 type SearchArtistsTracksAction = {
@@ -52,7 +56,7 @@ type SearchArtistsTracksAction = {
 
 type SearchArtistsTracksSuccessAction = {
     type: HomeActionTypes.SEARCH_ARTISTS_TRACKS_SUCCESS;
-    payload: any;
+    payload: Track[];
 };
 
 type AddToPlaylistAction = {
@@ -84,7 +88,7 @@ type SearchAlbumsAction = {
 
 type SearchAlbumsSuccessAction = {
     type: HomeActionTypes.SEARCH_ALBUMS_SUCCESS;
-    payload: any;
+    payload: Album[];
 };
 
 type SearchAlbumTracksAction = {
@@ -94,7 +98,7 @@ type SearchAlbumTracksAction = {
 
 type SearchAlbumTracksSuccessAction = {
     type: HomeActionTypes.SEARCH_ALBUMS_TRACKS_SUCCESS;
-    payload: any;
+    payload: Track[];
 };
 
 type ClearTracksAction = {

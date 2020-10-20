@@ -1,3 +1,6 @@
+import { Album } from '../../../models/album';
+import { Artist } from '../../../models/artist';
+import { Track } from '../../../models/track';
 import { HomeAction, HomeActionTypes } from './home.actions.types';
 
 export const addtoplaylist = (playlist_id: string, track: string): HomeAction => {
@@ -20,7 +23,7 @@ export const bpmChange = (value: number[]): HomeAction => {
     };
 };
 
-export const searchvalue = (searchvalue: any): HomeAction => {
+export const searchvalue = (searchvalue: string): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_VALUE,
         payload: searchvalue,
@@ -33,21 +36,21 @@ export const clear_tracks = (): HomeAction => {
     };
 };
 
-export const search_tracks = (searchvalue: any): HomeAction => {
+export const search_tracks = (searchvalue: string): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_TRACKS,
         payload: searchvalue,
     };
 };
 
-export const search_tracks_success = (result: any): HomeAction => {
+export const search_tracks_success = (result: Track[]): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_TRACKS_SUCCESS,
         payload: result,
     };
 };
 
-export const search_artists = (searchvalue: any): HomeAction => {
+export const search_artists = (searchvalue: string): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_ARTISTS,
         payload: searchvalue,
@@ -61,7 +64,7 @@ export const search_artists_tracks = (artistid: string): HomeAction => {
     };
 };
 
-export const search_artists_tracks_success = (result: any): HomeAction => {
+export const search_artists_tracks_success = (result: Track[]): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_ARTISTS_TRACKS_SUCCESS,
         payload: result,
@@ -75,28 +78,28 @@ export const search_album_tracks = (albumid: string): HomeAction => {
     };
 };
 
-export const search_album_tracks_success = (result: any): HomeAction => {
+export const search_album_tracks_success = (result: Track[]): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_ALBUMS_TRACKS_SUCCESS,
         payload: result,
     };
 };
 
-export const search_artists_success = (result: any): HomeAction => {
+export const search_artists_success = (result: Artist[]): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_ARTISTS_SUCCESS,
         payload: result,
     };
 };
 
-export const search_albums = (searchvalue: any): HomeAction => {
+export const search_albums = (searchvalue: string): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_ALBUMS,
         payload: searchvalue,
     };
 };
 
-export const search_albums_success = (result: any): HomeAction => {
+export const search_albums_success = (result: Album[]): HomeAction => {
     return {
         type: HomeActionTypes.SEARCH_ALBUMS_SUCCESS,
         payload: result,

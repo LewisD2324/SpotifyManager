@@ -1,19 +1,20 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import * as actions from './state/home.actions';
-import Search from '../../components/Search/Search';
-import SearchSwitches from '../../components/SearchSwitches/SearchSwitches';
-import Playlist from '../../components/Playlists/Playlists';
-import { ToastContainer, toast } from 'react-toastify';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import NavBar from '../../components/NavBar/NavBar';
-import styled from 'styled-components';
+import { get_playlist, userinfo } from '../../app/state/app.actions';
+import { useAppContext } from '../../app/state/app.store';
+import Albums from '../../components/Albums/Albums';
+import Playlists from '../../components/Playlists/Playlists';
+import Search from '../../components/Search/Search';
 import TrackControls from '../../components/TrackControls/TrackControls';
 import TrackList from '../../components/TrackList/TrackList';
-import Albums from '../../components/Albums/Albums';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Album } from "../../models/album";
+import { Artist } from "../../models/artist";
+import { Track } from "../../models/track";
+import * as actions from './state/home.actions';
 import { useHome } from './state/home.store';
-import { useAppContext } from '../../app/state/app.store';
-import { get_playlist, userinfo } from '../../app/state/app.actions';
+
 const HomePage: React.FC = () => {
     const { dispatch, state } = useHome();
     const appContext = useAppContext();
@@ -88,7 +89,7 @@ const HomePage: React.FC = () => {
             setshowalbums(true);
         }
     };
-    console.log(state.tracks);
+
     const handleSearchClick = () => {
         if (trackcheck) {
             dispatch(actions.search_tracks(state.searchvalue));
@@ -140,11 +141,11 @@ const HomePage: React.FC = () => {
 
     const handleSuggestions = () => {
         if (trackcheck) {
-            return state.tracks.map((x: any) => x.name);
+            return state.tracks.map((x: Track) => x.name);
         } else if (artistcheck) {
-            return state.artists.map((x: any) => x.name);
+            return state.artists.map((x: Artist) => x.name);
         } else if (albumscheck) {
-            return state.albums.map((x: any) => x.name);
+            return state.albums.map((x: Album) => x.name);
         }
     };
 
@@ -194,7 +195,7 @@ const HomePage: React.FC = () => {
             {appContext.state.playlists.length === 0 ? (
                 <CircularProgress />
             ) : (
-                <Playlist
+                <Playlists
                     playlists={appContext.state.playlists}
                     onClick={handleOnClickPlaylist}
                     deletePlaylist={handleDeletePlaylist}

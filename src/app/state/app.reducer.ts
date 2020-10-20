@@ -1,8 +1,9 @@
+import { Playlist } from '../../models/playlist';
 import { AppAction, GlobalActionTypes } from './app.action.types';
 
 export type AppState = {
     userinfo: any;
-    playlists: any;
+    playlists: Playlist[];
     selected_playlist: string;
 };
 

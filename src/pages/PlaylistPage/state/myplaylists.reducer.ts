@@ -1,9 +1,10 @@
+import { Track } from '../../../models/track';
 import { MyPlaylistsAction, MyPlaylistsActionTypes } from './myplaylists.actions.types';
 
 type Reducer = React.Reducer<MyPlaylistsState, MyPlaylistsAction>;
 
 export type MyPlaylistsState = {
-    tracks: any;
+    tracks: Track[];
 };
 
 export const initialState: MyPlaylistsState = {

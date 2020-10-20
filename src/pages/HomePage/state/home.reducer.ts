@@ -1,13 +1,16 @@
+import { Album } from '../../../models/album';
+import { Artist } from '../../../models/artist';
+import { Track } from '../../../models/track';
 import { HomeAction, HomeActionTypes } from './home.actions.types';
 
 type Reducer = React.Reducer<HomeState, HomeAction>;
 
 export type HomeState = {
     searchvalue: string;
-    tracks: any;
-    filtered_tracks: any;
-    artists: any;
-    albums: any;
+    tracks: Track[];
+    filtered_tracks: Track[];
+    artists: Artist[];
+    albums: Album[];
     selected_playlist: string;
     selected_album: string;
 };
@@ -79,7 +82,7 @@ export const HomeReducer: Reducer = (state = initialState, action) => {
 
             //TODO - this will break if audio_features is undefined
             const filtered_tracks = state.tracks.filter(
-                (x: any) => x.audio_feature.tempo >= minBPM && x.audio_feature.tempo <= maxBPM
+                (track: Track) => track.audio_feature.tempo >= minBPM && track.audio_feature.tempo <= maxBPM
             );
 
             return {

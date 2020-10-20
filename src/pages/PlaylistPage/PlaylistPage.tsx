@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import * as actions from './state/myplaylists.actions';
-import Playlist from '../../components/Playlists/Playlists';
-import NavBar from '../../components/NavBar/NavBar';
-import TrackList from '../../components/TrackList/TrackList';
-import { ToastContainer, toast } from 'react-toastify';
-import { Paper } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { useMyPlaylists } from './state/myplaylists.store';
-import { useAppContext } from '../../app/state/app.store';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { get_playlist, selected_playlist } from '../../app/state/app.actions';
+import { useAppContext } from '../../app/state/app.store';
+import Playlists from '../../components/Playlists/Playlists';
+import TrackList from '../../components/TrackList/TrackList';
+import { Playlist } from '../../models/playlist';
+import * as actions from './state/myplaylists.actions';
+import { useMyPlaylists } from './state/myplaylists.store';
 
 const PlaylistPage = () => {
     const { dispatch, state, ContextProvider } = useMyPlaylists();
     const appContext = useAppContext();
-    console.log(appContext.state);
+
     const [showsongs, setshowsongs] = useState(false);
 
     useEffect(() => {
@@ -21,10 +20,10 @@ const PlaylistPage = () => {
     }, []);
 
     const handleOnClickPlaylist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        //  setshowPlaylistControls(e.currentTarget.id);
+  
         appContext.dispatch(selected_playlist(e.currentTarget.id));
 
-        const selectedPlaylist = appContext.state.playlists.filter((x: any) => x.id === e.currentTarget.id);
+        const selectedPlaylist = appContext.state.playlists.filter((playlist: Playlist) => playlist.id === e.currentTarget.id);
 
         dispatch(actions.get_playlist_tracks(e.currentTarget.id, selectedPlaylist[0].tracks.total));
 
@@ -36,10 +35,9 @@ const PlaylistPage = () => {
         toast('Removed From Playlist');
 
         const selectedPlaylist = appContext.state.playlists.filter(
-            (x: any) => x.id === appContext.state.selected_playlist
+            (playlist: Playlist) => playlist.id === appContext.state.selected_playlist
         );
 
-        console.log(selectedPlaylist);
 
         await dispatch(
             actions.get_playlist_tracks(appContext.state.selected_playlist, selectedPlaylist[0].tracks.total)
@@ -64,7 +62,7 @@ const PlaylistPage = () => {
                 {appContext.state.playlists.length === 0 ? (
                     <CircularProgress />
                 ) : (
-                    <Playlist
+                    <Playlists
                         playlists={appContext.state.playlists}
                         onClick={handleOnClickPlaylist}
                         deletePlaylist={handleDeletePlaylist}

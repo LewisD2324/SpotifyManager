@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { HomeAction, HomeActionTypes } from './home.actions.types';
 import { AppAction } from '../../../app/state/app.action.types';
 import { AppState } from '../../../app/state/app.reducer';
 import * as actions from './home.actions';
+import { HomeAction, HomeActionTypes } from './home.actions.types';
 
 export const applyHomeEffects = (
     dispatch: React.Dispatch<HomeAction>,
@@ -16,7 +16,7 @@ export const applyHomeEffects = (
                     search: action.payload,
                 };
                 const response = await axios.post('/api/searchsongs', search);
-                const tracks = response.data;
+                const tracks  = response.data;
                 dispatch(actions.search_tracks_success(tracks));
             } catch {
                 console.log('error SEARCH_TRACKS');
@@ -38,7 +38,7 @@ export const applyHomeEffects = (
                 const search = {
                     search: action.payload,
                 };
-                const response = await axios.post('/api/allartisttracks', search);
+                const response  = await axios.post('/api/allartisttracks', search);
                 dispatch(actions.search_artists_tracks_success(response.data));
                 console.log(response.data);
             } catch {

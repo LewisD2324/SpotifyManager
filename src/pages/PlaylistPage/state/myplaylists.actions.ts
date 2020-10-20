@@ -1,3 +1,4 @@
+import { Track } from '../../../models/track';
 import { MyPlaylistsAction, MyPlaylistsActionTypes } from './myplaylists.actions.types';
 export const get_playlist_tracks = (playlist_id: string, totaltracks: number): MyPlaylistsAction => {
     return {
@@ -6,7 +7,7 @@ export const get_playlist_tracks = (playlist_id: string, totaltracks: number): M
     };
 };
 
-export const get_playlist_tracks_success = (tracks: any): MyPlaylistsAction => {
+export const get_playlist_tracks_success = (tracks: Track[]): MyPlaylistsAction => {
     return {
         type: MyPlaylistsActionTypes.GET_PLAYLIST_TRACKS_SUCCESS,
         payload: tracks,

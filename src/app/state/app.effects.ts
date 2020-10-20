@@ -1,7 +1,7 @@
-import { AppAction, GlobalActionTypes } from './app.action.types';
-import { AppState } from './app.reducer';
 import axios from 'axios';
 import * as actions from '../state/app.actions';
+import { AppAction, GlobalActionTypes } from './app.action.types';
+import { AppState } from './app.reducer';
 export const applyAppEffects = (dispatch: React.Dispatch<AppAction>, state: AppState) => async (action: AppAction) => {
     switch (action.type) {
         case GlobalActionTypes.USER_INFO:
@@ -18,8 +18,7 @@ export const applyAppEffects = (dispatch: React.Dispatch<AppAction>, state: AppS
                     userId: action.payload,
                 };
                 const response = await axios.post('/api/getplaylist', userId);
-                const playlists = response.data;
-                dispatch(actions.get_playlist_success(playlists));
+                dispatch(actions.get_playlist_success(response.data));
             } catch {
                 console.log('error playlist');
             }
