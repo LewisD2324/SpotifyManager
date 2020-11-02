@@ -1,15 +1,15 @@
-import React, { Suspense, useEffect } from 'react';
-import './App.css';
-import { Router, RouteComponentProps, Redirect } from '@reach/router';
-import NavBar from '../components/NavBar/NavBar';
-import Footer from '../components/Footer/Footer';
+import { RouteComponentProps, Router } from '@reach/router';
+import React, { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
+import NavBar from '../components/NavBar/NavBar';
+import './App.css';
+
 const App: React.FC = () => {
     const AuthPage = React.lazy(() => import('../pages/AuthPage/AuthPage'));
-    const HomePage = React.lazy(() => import('../pages/HomePage/HomePage'));
+    const Home = React.lazy(() => import('../pages/HomePage/Home'));
     const PageNotFound = React.lazy(() => import('../pages/PageNotFound/PageNotFound'));
 
-    const PlaylistPage = React.lazy(() => import('../pages/PlaylistPage/PlaylistPage'));
+    const Playlist = React.lazy(() => import('../pages/PlaylistPage/Playlist'));
 
     const RouterPage = (props: { pageComponent: JSX.Element } & RouteComponentProps) => props.pageComponent;
 
@@ -20,8 +20,8 @@ const App: React.FC = () => {
                     <header style={{ position: 'absolute' }}>{location.pathname === '/' ? null : <NavBar />}</header>
                     <Router>
                         <RouterPage path="/" pageComponent={<AuthPage />} />
-                        <RouterPage path="/Landing" pageComponent={<HomePage />} />
-                        <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
+                        <RouterPage path="/Landing" pageComponent={<Home />} />
+                        <RouterPage path="/Playlist" pageComponent={<Playlist />} />
                         <RouterPage default pageComponent={<PageNotFound />} />
                     </Router>
                 </Suspense>

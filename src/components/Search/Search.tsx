@@ -1,11 +1,11 @@
 import {
-  Button,
-  createStyles,
-  makeStyles, TextField,
+    Button,
+    createStyles,
+    makeStyles, TextField,
 
 
 
-  Theme
+    Theme
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
@@ -15,9 +15,7 @@ export interface SearchProps {
     handleChangeValue: (event: any, value: string) => void;
     searchclick(): void;
     suggestions: any;
-    artistchecked: boolean;
-    trackschecked: boolean;
-    albumschecked: boolean;
+    searchToggles: any[];
     handleSwitchChange: (e: any) => void;
 }
 
@@ -84,9 +82,7 @@ const Search = (props: SearchProps) => {
                 Search
             </Button>
             <SearchSwitches
-                artistchecked={props.artistchecked}
-                trackschecked={props.trackschecked}
-                albumschecked={props.albumschecked}
+                searchToggles={props.searchToggles}
                 handleSwitchChange={props.handleSwitchChange}
             />
         </div>

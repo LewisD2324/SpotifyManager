@@ -1,21 +1,6 @@
-import React, { useState, useRef } from 'react';
+import { GridList, GridListTile, GridListTileBar, Paper } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
-import AddIcon from '@material-ui/icons/Add';
-import Icon from '@material-ui/core/Icon';
-import { Box, Divider, Paper, GridListTile, GridListTileBar, GridList } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
-import AudioControl from '../AudioControl/AudioControl';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import { FixedSizeList } from 'react-window';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import React from 'react';
 
 interface AlbumsProps {
     albums: any;

@@ -1,16 +1,14 @@
-import React, { useState, createRef, useRef, useEffect } from 'react';
-import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
+import { Paper, Typography } from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import { Paper, Typography } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import CreatePlaylistForm from '../CreatePlaylistForm/CreatePlaylistForm';
-import * as actions from '../../app/state/app.actions';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import * as actions from '../../app/state/app.actions';
 import { useAppContext } from '../../app/state/app.store';
+import CreatePlaylistForm from '../CreatePlaylistForm/CreatePlaylistForm';
 //const no_image = require("../../../public/assets/No_image_available.png");
 
 const useStyles = makeStyles((theme: Theme) =>

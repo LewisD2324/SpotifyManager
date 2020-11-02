@@ -1,23 +1,24 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { get_playlist, selected_playlist } from '../../app/state/app.actions';
-import { useAppContext } from '../../app/state/app.store';
+import { selected_playlist } from '../../app/state/app.actions';
+import { AppContextType } from '../../app/state/app.store';
 import Playlists from '../../components/Playlists/Playlists';
 import TrackList from '../../components/TrackList/TrackList';
 import { Playlist } from '../../models/playlist';
 import * as actions from './state/myplaylists.actions';
-import { useMyPlaylists } from './state/myplaylists.store';
+import { MyPlaylistsContextType } from './state/myplaylists.store';
 
-const PlaylistPage = () => {
-    const { dispatch, state, ContextProvider } = useMyPlaylists();
-    const appContext = useAppContext();
+interface PlaylistPageProps {
+    appContext : AppContextType;
+    myPlaylistsContext: MyPlaylistsContextType;
+}
+
+const PlaylistPage : React.FC<PlaylistPageProps> = ({appContext,myPlaylistsContext }) => {
+    const { dispatch, state, ContextProvider } = myPlaylistsContext;
+   
 
     const [showsongs, setshowsongs] = useState(false);
-
-    useEffect(() => {
-        appContext.dispatch(get_playlist(appContext.state.userinfo.id));
-    }, []);
 
     const handleOnClickPlaylist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
   

@@ -1,9 +1,8 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { get_playlist, userinfo } from '../../app/state/app.actions';
-import { useAppContext } from '../../app/state/app.store';
+import { AppContextType } from '../../app/state/app.store';
 import Albums from '../../components/Albums/Albums';
 import Playlists from '../../components/Playlists/Playlists';
 import Search from '../../components/Search/Search';
@@ -11,159 +10,98 @@ import TrackControls from '../../components/TrackControls/TrackControls';
 import TrackList from '../../components/TrackList/TrackList';
 import { Album } from "../../models/album";
 import { Artist } from "../../models/artist";
+import { Toggle } from "../../models/toggle";
 import { Track } from "../../models/track";
+import { toggleValues } from "../../utils/constants/toggleValues";
 import * as actions from './state/home.actions';
-import { useHome } from './state/home.store';
+import { HomeContextType } from './state/home.store';
+interface HomePageProps {
+    appContext : AppContextType;
+    homeContext: HomeContextType
+}
+const HomePage: React.FC<HomePageProps> = ({appContext, homeContext}) => {
+    
+    const {
+        state,
+        dispatch,
+    } = homeContext;
 
-const HomePage: React.FC = () => {
-    const { dispatch, state } = useHome();
-    const appContext = useAppContext();
-
-    const [artistcheck, setartistcheck] = useState(false);
-    const [trackcheck, settrackcheck] = useState(true);
-    const [albumscheck, setalbumscheck] = useState(false);
-
-    const [showtracks, setshowtracks] = useState(true);
-
-    const [showartisttracks, setshowartisttracks] = useState(false);
-
-    const [showalbums, setshowalbums] = useState(false);
-
-    const [showalbumtracks, setshowalbumtracks] = useState(false);
-
-    const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
-        if (value !== '') {
-            if (trackcheck) {
+    const [searchToggles, setSearchToggles] = useState<Toggle[]>(toggleValues);
+ 
+    const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
+            if (searchToggles[0].checked) {
                 dispatch(actions.search_tracks(value));
-            } else if (artistcheck) {
+            } else if (searchToggles[1].checked) {
                 dispatch(actions.search_artists(value));
-            } else if (albumscheck) {
+            } else if (searchToggles[2].checked) {
                 dispatch(actions.search_albums(value));
                 console.log(state.albums);
-            }
-        }
+            } 
         dispatch(actions.searchvalue(value));
     };
 
-    useEffect(() => {
-        if (appContext.state.userinfo !== null) {
-            appContext.dispatch(get_playlist(appContext.state.userinfo.id));
-        }
-    }, [appContext.state.userinfo]);
-
-    useEffect(() => {
-        //TO-DO fix this dependancy
-        appContext.dispatch(userinfo());
-    }, []);
-
-    const handleSwitchChange = (e: any) => {
-        if (e.target.name === 'artistcheck') {
-            dispatch(actions.clear_tracks());
-            setartistcheck(e.target.checked);
-            settrackcheck(false);
-            setalbumscheck(false);
-
-            setshowalbumtracks(false);
-            setshowtracks(false);
-            setshowalbums(false);
-            setshowartisttracks(true);
-        } else if (e.target.name === 'trackscheck') {
-            dispatch(actions.clear_tracks());
-            settrackcheck(e.target.checked);
-            setartistcheck(false);
-            setalbumscheck(false);
-
-            setshowalbumtracks(false);
-            setshowartisttracks(false);
-            setshowalbums(false);
-            setshowtracks(true);
-        } else if (e.target.name === 'albumscheck') {
-            dispatch(actions.clear_tracks());
-            setalbumscheck(e.target.checked);
-            settrackcheck(false);
-            setartistcheck(false);
-
-            setshowalbumtracks(false);
-            setshowartisttracks(false);
-            setshowtracks(false);
-            setshowalbums(true);
-        }
+    const handleSwitchChange = (event: any) => {
+        const { name, value, id, checked } = event.target;
+        dispatch(actions.clear_tracks());
+        
+        let newArr = searchToggles.map((searchToggle, i) => {
+            if (parseInt(id) === i) {
+              return { ...searchToggle, 'checked': checked, };
+            } else {
+              return { ...searchToggle, 'checked': !checked, };
+            }
+          });
+          setSearchToggles(newArr);
     };
 
     const handleSearchClick = () => {
-        if (trackcheck) {
+        if (searchToggles[0].checked) {
             dispatch(actions.search_tracks(state.searchvalue));
-        } else if (artistcheck) {
+        } else if (searchToggles[1].checked) {
             dispatch(actions.search_artists_tracks(state.searchvalue));
-        } else if (albumscheck) {
+        } else if (searchToggles[2].checked) {
             dispatch(actions.search_albums(state.searchvalue));
         }
-        // setshowsongs(true);
     };
 
     const handleAddtoPlaylist = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         //TODO need an error to say "you need to select a playlist"
 
-        console.log(state.selected_playlist, e.currentTarget.id);
         await dispatch(actions.addtoplaylist(state.selected_playlist, e.currentTarget.id));
         toast('Added to Playlist');
     };
 
-    const rendersongs = () => {
-        if (showtracks || showartisttracks) {
-            return (
-                <TrackList
-                    tracks={state.tracks}
-                    addtoplaylist={handleAddtoPlaylist}
-                    showPlaylistTrackControls={false}
-                />
-            );
-        } else {
-            return null;
-        }
-    };
-
     const handleSearchAlbumTracks = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         const { id } = e.currentTarget;
-        setshowalbumtracks(false);
         await dispatch(actions.selected_album(id));
         await dispatch(actions.search_album_tracks(id));
-        setshowalbumtracks(true);
-    };
-
-    const renderalbums = () => {
-        if (showalbums) {
-            return <Albums albums={state.albums} onClick={handleSearchAlbumTracks} />;
-        } else {
-            return null;
-        }
     };
 
     const handleSuggestions = () => {
-        if (trackcheck) {
+        if (searchToggles[0].checked) {
             return state.tracks.map((x: Track) => x.name);
-        } else if (artistcheck) {
+        } else if (searchToggles[1].checked) {
             return state.artists.map((x: Artist) => x.name);
-        } else if (albumscheck) {
+        } else if (searchToggles[2].checked) {
             return state.albums.map((x: Album) => x.name);
         }
     };
 
-    const handleOnClickPlaylist = useCallback((e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const handleOnClickPlaylist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         dispatch(actions.selected_playlist(e.currentTarget.id));
         e.currentTarget.style.backgroundColor = '#f00';
-    }, []);
+    };
 
-    const handleBPMChange = useCallback((event: React.ChangeEvent<{}>, value: number[]) => {
-        console.log(value);
+    const handleBPMChange = (event: React.ChangeEvent<{}>, value: number[]) => {
         dispatch(actions.bpmChange(value));
-    }, []);
+    };
 
-    const handleDeletePlaylist = useCallback(() => {
+    const handleDeletePlaylist = () => {
         toast('Playlist Unfollowed');
-    }, []);
+    };
 
     return (
+       
         <div data-testid="home-page">
             <div
                 style={{
@@ -179,12 +117,10 @@ const HomePage: React.FC = () => {
                 >
                     <div>
                         <Search
-                            handleChangeValue={handleSearchValue}
+                            handleChangeValue={handleSearchOnChange}
                             searchclick={handleSearchClick}
                             suggestions={handleSuggestions()}
-                            artistchecked={artistcheck}
-                            trackschecked={trackcheck}
-                            albumschecked={albumscheck}
+                            searchToggles={searchToggles}
                             handleSwitchChange={handleSwitchChange}
                         />
                     </div>
@@ -202,15 +138,15 @@ const HomePage: React.FC = () => {
                 />
             )}
             <div style={{ display: 'flex' }}>
-                {showalbums ? <Albums albums={state.albums} onClick={handleSearchAlbumTracks} /> : null}
+                {searchToggles[2].checked ? <Albums albums={state.albums} onClick={handleSearchAlbumTracks} /> : null}
                 <div style={{ position: 'absolute', left: '450px' }}>
-                    {showtracks || showartisttracks ? (
+                    {searchToggles[0].checked || searchToggles[1].checked ? (
                         <TrackList
                             tracks={state.filtered_tracks}
                             addtoplaylist={handleAddtoPlaylist}
                             showPlaylistTrackControls={false}
                         />
-                    ) : showalbumtracks ? (
+                    ) : searchToggles[2].checked ? (
                         <TrackList
                             tracks={state.filtered_tracks}
                             addtoplaylist={handleAddtoPlaylist}
@@ -231,7 +167,8 @@ const HomePage: React.FC = () => {
                 <TrackControls onBPMChange={handleBPMChange} />
             </div>
         </div>
+        
     );
 };
 
-export default HomePage;
+export default React.memo(HomePage);
