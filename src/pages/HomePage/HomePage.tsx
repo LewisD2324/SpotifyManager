@@ -2,56 +2,59 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import styled from 'styled-components';
 import { AppContextType } from '../../app/state/app.store';
 import Albums from '../../components/Albums/Albums';
 import Playlists from '../../components/Playlists/Playlists';
 import Search from '../../components/Search/Search';
 import TrackControls from '../../components/TrackControls/TrackControls';
 import TrackList from '../../components/TrackList/TrackList';
-import { Album } from "../../models/album";
-import { Artist } from "../../models/artist";
-import { Toggle } from "../../models/toggle";
-import { Track } from "../../models/track";
-import { toggleValues } from "../../utils/constants/toggleValues";
+import { Album } from '../../models/album';
+import { Artist } from '../../models/artist';
+import { Toggle } from '../../models/toggle';
+import { Track } from '../../models/track';
+import { toggleValues } from '../../utils/constants/toggleValues';
 import * as actions from './state/home.actions';
 import { HomeContextType } from './state/home.store';
 interface HomePageProps {
-    appContext : AppContextType;
-    homeContext: HomeContextType
+    appContext: AppContextType;
+    homeContext: HomeContextType;
 }
-const HomePage: React.FC<HomePageProps> = ({appContext, homeContext}) => {
-    
-    const {
-        state,
-        dispatch,
-    } = homeContext;
+const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
+    const { state, dispatch } = homeContext;
 
     const [searchToggles, setSearchToggles] = useState<Toggle[]>(toggleValues);
- 
+
     const handleSearchOnChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
-            if (searchToggles[0].checked) {
-                dispatch(actions.search_tracks(value));
-            } else if (searchToggles[1].checked) {
-                dispatch(actions.search_artists(value));
-            } else if (searchToggles[2].checked) {
-                dispatch(actions.search_albums(value));
-                console.log(state.albums);
-            } 
+        if (searchToggles[0].checked) {
+            dispatch(actions.search_tracks(value));
+        } else if (searchToggles[1].checked) {
+            dispatch(actions.search_artists(value));
+        } else if (searchToggles[2].checked) {
+            dispatch(actions.search_albums(value));
+        }
         dispatch(actions.searchvalue(value));
     };
 
     const handleSwitchChange = (event: any) => {
         const { name, value, id, checked } = event.target;
         dispatch(actions.clear_tracks());
-        
-        let newArr = searchToggles.map((searchToggle, i) => {
+
+        const newArr = searchToggles.map((searchToggle, i) => {
             if (parseInt(id) === i) {
-              return { ...searchToggle, 'checked': checked, };
-            } else {
-              return { ...searchToggle, 'checked': !checked, };
+                return { ...searchToggle, checked: checked };
+            } 
+            else {
+                return { ...searchToggle, checked: false};
             }
-          });
-          setSearchToggles(newArr);
+        });
+
+        //ensures track toggle ticked when all are unchecked
+        newArr.every(x => x.checked === false) ? newArr.map(arr => {
+         return  arr.id === 0 ? arr.checked = true : arr;
+        }) : newArr;
+
+        setSearchToggles(newArr);
     };
 
     const handleSearchClick = () => {
@@ -67,7 +70,7 @@ const HomePage: React.FC<HomePageProps> = ({appContext, homeContext}) => {
     const handleAddtoPlaylist = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         //TODO need an error to say "you need to select a playlist"
 
-        await dispatch(actions.addtoplaylist(state.selected_playlist, e.currentTarget.id));
+        await dispatch(actions.addtoplaylist(state.selected_playlist_id, e.currentTarget.id));
         toast('Added to Playlist');
     };
 
@@ -100,16 +103,14 @@ const HomePage: React.FC<HomePageProps> = ({appContext, homeContext}) => {
         toast('Playlist Unfollowed');
     };
 
-    return (
-       
-        <div data-testid="home-page">
-            <div
-                style={{
-                    backgroundImage: 'linear-gradient(-45deg, purple, #53025359)',
+    const SearchContainer = styled.div`
+        background-image: linear-gradient(-45deg, purple, #53025359);
+        height: 300px;
+    `;
 
-                    height: '300px',
-                }}
-            >
+    return (
+        <div data-testid="home-page">
+            <SearchContainer>
                 <div
                     style={{
                         display: 'flex',
@@ -126,7 +127,7 @@ const HomePage: React.FC<HomePageProps> = ({appContext, homeContext}) => {
                     </div>
                     <div style={{ marginTop: '186px' }}></div>
                 </div>
-            </div>
+            </SearchContainer>
             <p style={{ marginLeft: '40px' }}>Add To Your Playlist</p>
             {appContext.state.playlists.length === 0 ? (
                 <CircularProgress />
@@ -167,7 +168,6 @@ const HomePage: React.FC<HomePageProps> = ({appContext, homeContext}) => {
                 <TrackControls onBPMChange={handleBPMChange} />
             </div>
         </div>
-        
     );
 };
 

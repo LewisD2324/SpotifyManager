@@ -1,6 +1,6 @@
-import { Album } from "../../../models/album";
-import { Artist } from "../../../models/artist";
-import { Track } from "../../../models/track";
+import { Album } from '../../../models/album';
+import { Artist } from '../../../models/artist';
+import { Track } from '../../../models/track';
 
 export enum HomeActionTypes {
     SEARCH_VALUE = 'SEARCH_VALUE',

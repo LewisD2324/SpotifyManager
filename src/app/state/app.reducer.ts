@@ -4,13 +4,13 @@ import { AppAction, GlobalActionTypes } from './app.action.types';
 export type AppState = {
     userinfo: any;
     playlists: Playlist[];
-    selected_playlist: string;
+    selected_playlist_id: string;
 };
 
 export const appInitialState: AppState = {
     userinfo: '',
     playlists: [],
-    selected_playlist: '',
+    selected_playlist_id: '',
 };
 
 export const AppReducer: React.Reducer<AppState, AppAction> = (state = appInitialState, action) => {

@@ -47,7 +47,7 @@ export const mockAppStore = () => {
 
             href: 'https://api.spotify.com/v1/users/1',
 
-            id: "1115009143",
+            id: '1115009143',
             images: {
                 height: null,
                 url:
@@ -57,7 +57,7 @@ export const mockAppStore = () => {
             product: 'premium',
 
             type: 'user',
-            uri: "spotify:user:1115009143",
+            uri: 'spotify:user:1115009143',
         },
         selected_playlist: '',
         playlists: [],
@@ -67,39 +67,40 @@ export const mockAppStore = () => {
 
 export const renderApp = () => {
     mockStore('/app/state/app.store', 'useAppContext', {
-        state:  { userinfo: {
-            country: 'GB',
-            display_name: 'Test User',
-            email: 'test@hotmail.co.uk',
-            explicit_content: {
-                filter_enabled: false,
-                filter_locked: false,
-            },
-            external_urls: {
-                spotify: 'https://open.spotify.com/user/1',
-            },
-            followers: {
-                href: null,
-                total: 10,
-            },
+        state: {
+            userinfo: {
+                country: 'GB',
+                display_name: 'Test User',
+                email: 'test@hotmail.co.uk',
+                explicit_content: {
+                    filter_enabled: false,
+                    filter_locked: false,
+                },
+                external_urls: {
+                    spotify: 'https://open.spotify.com/user/1',
+                },
+                followers: {
+                    href: null,
+                    total: 10,
+                },
 
-            href: 'https://api.spotify.com/v1/users/1',
+                href: 'https://api.spotify.com/v1/users/1',
 
-            id: "1115009143",
-            images: {
-                height: null,
-                url:
-                    'https://scontent.flux1-1.fna.fbcdn.net/v/t1.0-1/p320x320/13906822_10209372977776921_6915171336165266008_n.jpg?_nc_cat=102&_nc_sid=0c64ff&_nc_ohc=XVx14Qvdq6IAX8K-vsu&_nc_ht=scontent.flux1-1.fna&tp=6&oh=0fa850d35c32d7f88674200adb810316&oe=5FA1053A',
-                width: null,
+                id: '1115009143',
+                images: {
+                    height: null,
+                    url:
+                        'https://scontent.flux1-1.fna.fbcdn.net/v/t1.0-1/p320x320/13906822_10209372977776921_6915171336165266008_n.jpg?_nc_cat=102&_nc_sid=0c64ff&_nc_ohc=XVx14Qvdq6IAX8K-vsu&_nc_ht=scontent.flux1-1.fna&tp=6&oh=0fa850d35c32d7f88674200adb810316&oe=5FA1053A',
+                    width: null,
+                },
+                product: 'premium',
+
+                type: 'user',
+                uri: 'spotify:user:1115009143',
             },
-            product: 'premium',
-
-            type: 'user',
-            uri: "spotify:user:1115009143",
+            selected_playlist: '',
+            playlists: [],
         },
-        selected_playlist: '',
-        playlists: [],
-    }
     });
 
     let rendered: RenderResult = {} as RenderResult;

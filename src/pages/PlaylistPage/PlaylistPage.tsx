@@ -1,6 +1,7 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 import { selected_playlist } from '../../app/state/app.actions';
 import { AppContextType } from '../../app/state/app.store';
 import Playlists from '../../components/Playlists/Playlists';
@@ -10,21 +11,21 @@ import * as actions from './state/myplaylists.actions';
 import { MyPlaylistsContextType } from './state/myplaylists.store';
 
 interface PlaylistPageProps {
-    appContext : AppContextType;
+    appContext: AppContextType;
     myPlaylistsContext: MyPlaylistsContextType;
 }
 
-const PlaylistPage : React.FC<PlaylistPageProps> = ({appContext,myPlaylistsContext }) => {
+const PlaylistPage: React.FC<PlaylistPageProps> = ({ appContext, myPlaylistsContext }) => {
     const { dispatch, state, ContextProvider } = myPlaylistsContext;
-   
 
     const [showsongs, setshowsongs] = useState(false);
 
     const handleOnClickPlaylist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-  
         appContext.dispatch(selected_playlist(e.currentTarget.id));
 
-        const selectedPlaylist = appContext.state.playlists.filter((playlist: Playlist) => playlist.id === e.currentTarget.id);
+        const selectedPlaylist = appContext.state.playlists.filter(
+            (playlist: Playlist) => playlist.id === e.currentTarget.id
+        );
 
         dispatch(actions.get_playlist_tracks(e.currentTarget.id, selectedPlaylist[0].tracks.total));
 
@@ -32,16 +33,15 @@ const PlaylistPage : React.FC<PlaylistPageProps> = ({appContext,myPlaylistsConte
     };
 
     const handleRemoveFromPlaylist = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        await dispatch(actions.removefromplaylist(appContext.state.selected_playlist, e.currentTarget.id));
+        await dispatch(actions.removefromplaylist(appContext.state.selected_playlist_id, e.currentTarget.id));
         toast('Removed From Playlist');
 
         const selectedPlaylist = appContext.state.playlists.filter(
-            (playlist: Playlist) => playlist.id === appContext.state.selected_playlist
+            (playlist: Playlist) => playlist.id === appContext.state.selected_playlist_id
         );
 
-
         await dispatch(
-            actions.get_playlist_tracks(appContext.state.selected_playlist, selectedPlaylist[0].tracks.total)
+            actions.get_playlist_tracks(appContext.state.selected_playlist_id, selectedPlaylist[0].tracks.total)
         );
     };
 
@@ -50,16 +50,15 @@ const PlaylistPage : React.FC<PlaylistPageProps> = ({appContext,myPlaylistsConte
         toast('Playlist Unfollowed');
     };
 
+    const SearchContainer = styled.div`
+        background-image: linear-gradient(-45deg, purple, #53025359);
+        height: 300px;
+    `;
+
     return (
         <ContextProvider>
             <div data-testid="playlist-page">
-                <div
-                    style={{
-                        backgroundImage: 'linear-gradient(-45deg, purple, #53025359)',
-
-                        height: '300px',
-                    }}
-                ></div>
+                <SearchContainer />
                 {appContext.state.playlists.length === 0 ? (
                     <CircularProgress />
                 ) : (

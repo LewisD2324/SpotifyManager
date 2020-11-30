@@ -5,9 +5,8 @@ import HomePage from './HomePage';
 import { useHome } from './state/home.store';
 
 const Home: React.FC = () => {
-
-const appContext = useAppContext();
-const homeContext = useHome();
+    const appContext = useAppContext();
+    const homeContext = useHome();
 
     useEffect(() => {
         if (appContext.state.userinfo !== null) {
@@ -20,12 +19,11 @@ const homeContext = useHome();
         appContext.dispatch(userinfo());
     }, []);
 
-    
     return (
         <>
-            <HomePage appContext = {appContext} homeContext = {homeContext}/>
+            <HomePage appContext={appContext} homeContext={homeContext} />
         </>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

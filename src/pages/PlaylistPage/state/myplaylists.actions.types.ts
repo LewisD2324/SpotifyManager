@@ -1,4 +1,4 @@
-import { Track } from "../../../models/track";
+import { Track } from '../../../models/track';
 
 export enum MyPlaylistsActionTypes {
     REMOVE_FROM_PLAYLIST = 'REMOVE_FROM_PLAYLIST',

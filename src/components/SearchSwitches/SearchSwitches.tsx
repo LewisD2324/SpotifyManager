@@ -31,18 +31,23 @@ const SearchSwitches = (props: SearchSwitchesProps) => {
                     }
                     label="Artist"
                 /> */}
-                {
-          props.searchToggles.map((toggle : any) => {
-            return ( <FormControlLabel
-                control={
-                    <Switch checked={toggle.checked} id = {toggle.id} onChange={props.handleSwitchChange} name={toggle.name} />
-                }
-                label={toggle.label}
-                id = {toggle.id}
-                key = {toggle.name}
-            />)
-          })
-        }
+                {props.searchToggles.map((toggle: any) => {
+                    return (
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={toggle.checked}
+                                    id={toggle.id}
+                                    onChange={props.handleSwitchChange}
+                                    name={toggle.name}
+                                />
+                            }
+                            label={toggle.label}
+                            id={toggle.id}
+                            key={toggle.name}
+                        />
+                    );
+                })}
                 {/* <FormControlLabel
                     control={
                         <Switch checked={props.trackschecked} onChange={props.handleSwitchChange} name="trackscheck" />

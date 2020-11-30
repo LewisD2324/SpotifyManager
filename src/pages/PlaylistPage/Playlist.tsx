@@ -12,12 +12,11 @@ const Playlist = () => {
         appContext.dispatch(get_playlist(appContext.state.userinfo.id));
     }, []);
 
-    
     return (
         <>
-            <PlaylistPage appContext = {appContext} myPlaylistsContext = {myPlaylistsContext}/>
+            <PlaylistPage appContext={appContext} myPlaylistsContext={myPlaylistsContext} />
         </>
-    )
-}
+    );
+};
 
-export default Playlist
+export default Playlist;

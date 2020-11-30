@@ -11,12 +11,12 @@ export type HomeState = {
     filtered_tracks: Track[];
     artists: Artist[];
     albums: Album[];
-    selected_playlist: string;
+    selected_playlist_id: string;
     selected_album: string;
 };
 
 export const initialState: HomeState = {
-    selected_playlist: '',
+    selected_playlist_id: '',
     selected_album: '',
     searchvalue: '',
     artists: [],

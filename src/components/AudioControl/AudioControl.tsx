@@ -1,7 +1,7 @@
-import React, { useRef, useState } from 'react';
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import React, { useRef, useState } from 'react';
 export interface AudioControlProps {
     preview_url: string;
     id: string;

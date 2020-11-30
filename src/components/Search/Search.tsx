@@ -1,12 +1,4 @@
-import {
-    Button,
-    createStyles,
-    makeStyles, TextField,
-
-
-
-    Theme
-} from '@material-ui/core';
+import { Button, createStyles, makeStyles, TextField, Theme } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 import SearchSwitches from '../SearchSwitches/SearchSwitches';
@@ -81,10 +73,7 @@ const Search = (props: SearchProps) => {
             <Button onClick={props.searchclick} className={classes.searchButton}>
                 Search
             </Button>
-            <SearchSwitches
-                searchToggles={props.searchToggles}
-                handleSwitchChange={props.handleSwitchChange}
-            />
+            <SearchSwitches searchToggles={props.searchToggles} handleSwitchChange={props.handleSwitchChange} />
         </div>
     );
 };
