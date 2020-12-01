@@ -1,13 +1,14 @@
 import { Button, createStyles, makeStyles, TextField, Theme } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
+import { Toggle } from '../../models/toggle';
 import SearchSwitches from '../SearchSwitches/SearchSwitches';
 
 export interface SearchProps {
     handleChangeValue: (event: any, value: string) => void;
     searchclick(): void;
     suggestions: any;
-    searchToggles: any[];
+    searchToggles: Toggle[];
     handleSwitchChange: (e: any) => void;
 }
 

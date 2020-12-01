@@ -40,7 +40,7 @@ test('renders playlists page', async () => {
 
     const { getByTestId, debug } = render(
         <myPlaylistsContext.ContextProvider>
-            <PlaylistPage myPlaylistsContext={myPlaylistsContext} appContext={appContext} />
+            <PlaylistPage />
         </myPlaylistsContext.ContextProvider>
     );
 

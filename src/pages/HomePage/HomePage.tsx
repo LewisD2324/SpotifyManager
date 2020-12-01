@@ -1,11 +1,12 @@
 import CircularProgress from '@material-ui/core/CircularProgress';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
-import { AppContextType } from '../../app/state/app.store';
+import { get_playlist, userinfo } from '../../app/state/app.actions';
+import { useAppContext } from '../../app/state/app.store';
 import Albums from '../../components/Albums/Albums';
-import Playlists from '../../components/Playlists/Playlists';
+import Playlist from '../../components/Playlists/Playlists';
 import Search from '../../components/Search/Search';
 import TrackControls from '../../components/TrackControls/TrackControls';
 import TrackList from '../../components/TrackList/TrackList';
@@ -15,13 +16,11 @@ import { Toggle } from '../../models/toggle';
 import { Track } from '../../models/track';
 import { toggleValues } from '../../utils/constants/toggleValues';
 import * as actions from './state/home.actions';
-import { HomeContextType } from './state/home.store';
-interface HomePageProps {
-    appContext: AppContextType;
-    homeContext: HomeContextType;
-}
-const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
-    const { state, dispatch } = homeContext;
+import { useHome } from './state/home.store';
+
+const HomePage: React.FC = () => {
+    const { dispatch, state } = useHome();
+    const appContext = useAppContext();
 
     const [searchToggles, setSearchToggles] = useState<Toggle[]>(toggleValues);
 
@@ -36,6 +35,17 @@ const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
         dispatch(actions.searchvalue(value));
     };
 
+    useEffect(() => {
+        if (appContext.state.userinfo !== null) {
+            appContext.dispatch(get_playlist(appContext.state.userinfo.id));
+        }
+    }, [appContext.state.userinfo]);
+
+    useEffect(() => {
+        //TO-DO fix this dependancy
+        appContext.dispatch(userinfo());
+    }, []);
+
     const handleSwitchChange = (event: any) => {
         const { name, value, id, checked } = event.target;
         dispatch(actions.clear_tracks());
@@ -43,16 +53,17 @@ const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
         const newArr = searchToggles.map((searchToggle, i) => {
             if (parseInt(id) === i) {
                 return { ...searchToggle, checked: checked };
-            } 
-            else {
-                return { ...searchToggle, checked: false};
+            } else {
+                return { ...searchToggle, checked: false };
             }
         });
 
         //ensures track toggle ticked when all are unchecked
-        newArr.every(x => x.checked === false) ? newArr.map(arr => {
-         return  arr.id === 0 ? arr.checked = true : arr;
-        }) : newArr;
+        newArr.every((x) => x.checked === false)
+            ? newArr.map((arr) => {
+                  return arr.id === 0 ? (arr.checked = true) : arr;
+              })
+            : newArr;
 
         setSearchToggles(newArr);
     };
@@ -89,7 +100,6 @@ const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
             return state.albums.map((x: Album) => x.name);
         }
     };
-
     const handleOnClickPlaylist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         dispatch(actions.selected_playlist(e.currentTarget.id));
         e.currentTarget.style.backgroundColor = '#f00';
@@ -99,14 +109,9 @@ const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
         dispatch(actions.bpmChange(value));
     };
 
-    const handleDeletePlaylist = () => {
+    const handleDeletePlaylist = useCallback(() => {
         toast('Playlist Unfollowed');
-    };
-
-    const SearchContainer = styled.div`
-        background-image: linear-gradient(-45deg, purple, #53025359);
-        height: 300px;
-    `;
+    }, []);
 
     return (
         <div data-testid="home-page">
@@ -132,7 +137,7 @@ const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
             {appContext.state.playlists.length === 0 ? (
                 <CircularProgress />
             ) : (
-                <Playlists
+                <Playlist
                     playlists={appContext.state.playlists}
                     onClick={handleOnClickPlaylist}
                     deletePlaylist={handleDeletePlaylist}
@@ -171,4 +176,9 @@ const HomePage: React.FC<HomePageProps> = ({ appContext, homeContext }) => {
     );
 };
 
-export default React.memo(HomePage);
+export default HomePage;
+
+const SearchContainer = styled.div`
+    background-image: linear-gradient(-45deg, purple, #53025359);
+    height: 300px;
+`;

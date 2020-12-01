@@ -1,11 +1,9 @@
 import { createStyles, FormControlLabel, FormGroup, makeStyles, Switch, Theme } from '@material-ui/core';
 import React from 'react';
+import { Toggle } from '../../models/toggle';
 
 export interface SearchSwitchesProps {
-    // artistchecked: boolean;
-    // trackschecked: boolean;
-    // albumschecked: boolean;
-    searchToggles: any[];
+    searchToggles: Toggle[];
     handleSwitchChange: (e: any) => void;
 }
 
@@ -25,41 +23,23 @@ const SearchSwitches = (props: SearchSwitchesProps) => {
     return (
         <div style={{ display: 'flex' }}>
             <FormGroup row className={classes.root}>
-                {/* <FormControlLabel
-                    control={
-                        <Switch checked={props.artistchecked} onChange={props.handleSwitchChange} name="artistcheck" />
-                    }
-                    label="Artist"
-                /> */}
-                {props.searchToggles.map((toggle: any) => {
+                {props.searchToggles.map((toggle: Toggle) => {
                     return (
                         <FormControlLabel
                             control={
                                 <Switch
                                     checked={toggle.checked}
-                                    id={toggle.id}
+                                    id={toggle.id.toString()}
                                     onChange={props.handleSwitchChange}
                                     name={toggle.name}
                                 />
                             }
                             label={toggle.label}
-                            id={toggle.id}
+                            id={toggle.id.toString()}
                             key={toggle.name}
                         />
                     );
                 })}
-                {/* <FormControlLabel
-                    control={
-                        <Switch checked={props.trackschecked} onChange={props.handleSwitchChange} name="trackscheck" />
-                    }
-                    label="Tracks"
-                />
-                <FormControlLabel
-                    control={
-                        <Switch checked={props.albumschecked} onChange={props.handleSwitchChange} name="albumscheck" />
-                    }
-                    label="Albums"
-                /> */}
             </FormGroup>
         </div>
     );

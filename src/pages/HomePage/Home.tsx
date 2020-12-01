@@ -21,7 +21,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-            <HomePage appContext={appContext} homeContext={homeContext} />
+            <HomePage />
         </>
     );
 };

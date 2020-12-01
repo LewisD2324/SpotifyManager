@@ -49,21 +49,6 @@ CreatePlaylistFormProps) => {
         setDescription(value);
     };
 
-    // const handleChange = (event: any) => {
-    //     const { name, value, id, checked } = event.target;
-    //     dispatch(actions.clear_tracks());
-
-    //     const newArr = searchToggles.map((searchToggle, i) => {
-    //         if (parseInt(id) === i) {
-    //             return { ...searchToggle, checked: checked };
-    //         } 
-    //         else {
-    //             return { ...searchToggle};
-    //         }
-    //     });
-    //     setSearchToggles(newArr);
-    // };
-
     return (
         <div className={classes.root}>
             {/* <Typography component="h6" className={classes.createPlaylistTitle}>

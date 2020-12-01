@@ -14,7 +14,7 @@ const Playlist = () => {
 
     return (
         <>
-            <PlaylistPage appContext={appContext} myPlaylistsContext={myPlaylistsContext} />
+            <PlaylistPage />
         </>
     );
 };

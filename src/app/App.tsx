@@ -2,6 +2,8 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 import NavBar from '../components/NavBar/NavBar';
+import HomePage from '../pages/HomePage/HomePage';
+import PlaylistPage from '../pages/PlaylistPage/PlaylistPage';
 import './App.css';
 
 const App: React.FC = () => {
@@ -20,8 +22,8 @@ const App: React.FC = () => {
                     <header style={{ position: 'absolute' }}>{location.pathname === '/' ? null : <NavBar />}</header>
                     <Router>
                         <RouterPage path="/" pageComponent={<AuthPage />} />
-                        <RouterPage path="/Landing" pageComponent={<Home />} />
-                        <RouterPage path="/Playlist" pageComponent={<Playlist />} />
+                        <RouterPage path="/Landing" pageComponent={<HomePage />} />
+                        <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
                         <RouterPage default pageComponent={<PageNotFound />} />
                     </Router>
                 </Suspense>
