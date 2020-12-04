@@ -1,50 +1,70 @@
 import React from 'react';
+import styled from 'styled-components';
 
 const Footer = () => {
     return (
-        <div
+        <FooterRoot
             className="main-footer"
-            style={{
-                color: 'white',
-                backgroundColor: 'red',
-                position: 'relative',
-                bottom: 0,
-                width: '100%',
-                paddingTop: '3em',
-            }}
         >
-            <div className="container">
-                <div className="row">
+                <FooterRow1 className="row">
+
                     <div className="col">
+                        <List className="list-unstyled">
                         <h4>Spotify Manager INC</h4>
-                        <ul className="list-unstyled">
                             <li>0000-000-000</li>
                             <li>United Kingdown</li>
-                        </ul>
+                        </List>
                     </div>
                     <div className="col">
+                        <List className="list-unstyled" >
                         <h4>Stuff</h4>
-                        <ul className="list-unstyled">
                             <li>Other Stuff</li>
-                        </ul>
+                        </List>
                     </div>
                     <div className="col">
+                        <List className="list-unstyled">
                         <h4>Stuff again</h4>
-                        <ul className="list-unstyled">
                             <li>Other Stuff again</li>
-                        </ul>
+                        </List>
                     </div>
-                </div>
-                <div className="row">
-                    <hr />
+                </FooterRow1>
+                <hr />
+                <FooterRow2 className="row">
                     <p className="col-sm">
-                        &copy;{new Date().getFullYear()}Spotify Manager INC | All rights reserved | Terms Of Service |
+                        &copy;{new Date().getFullYear()} Spotify Manager INC | All rights reserved | Terms Of Service |
                         Privacy
                     </p>
-                </div>
-            </div>
-        </div>
+                </FooterRow2>
+        </FooterRoot>
     );
 };
 
 export default Footer;
+
+const FooterRoot = styled.div`
+ color: white;
+background-color: black;
+position: relative;
+bottom: 0;
+width: 100%;
+width: -moz-available;          /* WebKit-based browsers will ignore this. */
+width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+width: stretch;
+padding-top: 3em;
+
+`;
+const List = styled.ul`
+list-style-type: none ;
+`;
+
+const FooterRow1 = styled.div`
+display: flex;
+align-items: baseline;
+justify-content: space-evenly;
+`;
+
+const FooterRow2 = styled.div`
+display: flex;
+justify-content: center;
+
+`;

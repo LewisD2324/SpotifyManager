@@ -115,13 +115,6 @@ const HomePage: React.FC = () => {
 
     return (
         <div data-testid="home-page">
-            <SearchContainer>
-                <div
-                    style={{
-                        display: 'flex',
-                    }}
-                >
-                    <div>
                         <Search
                             handleChangeValue={handleSearchOnChange}
                             searchclick={handleSearchClick}
@@ -129,11 +122,7 @@ const HomePage: React.FC = () => {
                             searchToggles={searchToggles}
                             handleSwitchChange={handleSwitchChange}
                         />
-                    </div>
-                    <div style={{ marginTop: '186px' }}></div>
-                </div>
-            </SearchContainer>
-            <p style={{ marginLeft: '40px' }}>Add To Your Playlist</p>
+            <AddPlaylistText>Add To Your Playlist</AddPlaylistText>
             {appContext.state.playlists.length === 0 ? (
                 <CircularProgress />
             ) : (
@@ -178,7 +167,10 @@ const HomePage: React.FC = () => {
 
 export default HomePage;
 
-const SearchContainer = styled.div`
-    background-image: linear-gradient(-45deg, purple, #53025359);
-    height: 300px;
+
+const AddPlaylistText = styled.p`
+    margin-left: 70px;
+    font-family: 'Playfair Display',serif;
+    font-size: 1.6em;
+    font-weight: bold;
 `;

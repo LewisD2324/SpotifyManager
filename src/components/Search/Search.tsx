@@ -1,8 +1,9 @@
 import { Button, createStyles, makeStyles, TextField, Theme } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
+import styled from 'styled-components';
 import { Toggle } from '../../models/toggle';
-import SearchSwitches from '../SearchSwitches/SearchSwitches';
+import SearchToggles from '../SearchToggles/SearchToggles';
 
 export interface SearchProps {
     handleChangeValue: (event: any, value: string) => void;
@@ -15,45 +16,42 @@ export interface SearchProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         searchButton: {
-            marginTop: '170px',
-            marginLeft: '40px',
+            border: "none",
+            borderRadius: "20px",
+            cursor: "pointer",
+            transition: "all 0.3s ease 0s",
+            // textTransform: "none",
+            backgroundColor: "rgb(29 29 30 / 52%)",
+            color:  "white",
+            fontSize: "1.1em",
+            margin: "auto",
+            padding: "10px 20px 10px 20px",
+            
+        },
+        root: {
+            width: '500px',
+            transition: 'background-color .2s eas',
+           
         },
         inputRoot: {
-            '&&[class*="MuiOutlinedInput-root"] $input': {
-                backgroundColour: 'white',
-            },
+            "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              }
+            //   "&:hover .MuiOutlinedInput-notchedOutline": {
+            //     borderColor: "white",
+            //   },
         },
     })
 );
-
-// const Autocomplete : any= withStyles({
-//   root: {
-//     width: "500px",
-//           transition: "background-color .2s eas",
-//           border: "1px solid #f3f3f5",
-//           marginLeft: "40px",
-//           marginTop: "160px",
-//   },
-//   label: {
-//     textTransform: 'capitalize',
-//   },
-// })(Autocomplete);
 
 const Search = (props: SearchProps) => {
     const classes = useStyles();
 
     return (
-        <div style={{ display: 'flex' }}>
-            <div className={classes.inputRoot}>
+        <SearchRoot>
                 <Autocomplete
-                    style={{
-                        width: '500px',
-                        transition: 'background-color .2s eas',
-                        border: '1px solid #f3f3f5',
-                        marginLeft: '40px',
-                        marginTop: '160px',
-                    }}
-                    classes={{ inputRoot: classes.inputRoot }}
+                    className={classes.root}
+                    classes={{ inputRoot: classes.inputRoot } }
                     freeSolo
                     id="searchbox"
                     disableClearable
@@ -63,20 +61,35 @@ const Search = (props: SearchProps) => {
                     renderInput={(params) => (
                         <TextField
                             {...params}
-                            label="Search"
+                            label="Track, Artist or Album..."
                             margin="normal"
                             variant="outlined"
                             InputProps={{ ...params.InputProps, type: 'search' }}
                         />
                     )}
                 />
-            </div>
+            <SearchControlsContainer>
             <Button onClick={props.searchclick} className={classes.searchButton}>
                 Search
             </Button>
-            <SearchSwitches searchToggles={props.searchToggles} handleSwitchChange={props.handleSwitchChange} />
-        </div>
+            <SearchToggles searchToggles={props.searchToggles} handleSwitchChange={props.handleSwitchChange} />
+            </SearchControlsContainer>
+        </SearchRoot>
     );
 };
 
 export default Search;
+
+const SearchRoot = styled.div`
+display: flex;
+justify-content: space-between;
+    align-content: center;
+    padding: 150px 23% 0px 70px;
+`;
+
+const SearchControlsContainer = styled.div`
+display:flex;
+padding: 20px;
+`;
+
+

@@ -2,16 +2,14 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
 import NavBar from '../components/NavBar/NavBar';
-import HomePage from '../pages/HomePage/HomePage';
-import PlaylistPage from '../pages/PlaylistPage/PlaylistPage';
 import './App.css';
 
 const App: React.FC = () => {
     const AuthPage = React.lazy(() => import('../pages/AuthPage/AuthPage'));
-    const Home = React.lazy(() => import('../pages/HomePage/Home'));
+    const HomePage = React.lazy(() => import('../pages/HomePage/HomePage'));
     const PageNotFound = React.lazy(() => import('../pages/PageNotFound/PageNotFound'));
 
-    const Playlist = React.lazy(() => import('../pages/PlaylistPage/Playlist'));
+    const PlaylistPage = React.lazy(() => import('../pages/PlaylistPage/PlaylistPage'));
 
     const RouterPage = (props: { pageComponent: JSX.Element } & RouteComponentProps) => props.pageComponent;
 
@@ -19,16 +17,16 @@ const App: React.FC = () => {
         <div className="App">
             <div className="page-contents">
                 <Suspense fallback={<div>...loading</div>}>
-                    <header style={{ position: 'absolute' }}>{location.pathname === '/' ? null : <NavBar />}</header>
+                    {location.pathname === '/' ? null : <NavBar />}
                     <Router>
                         <RouterPage path="/" pageComponent={<AuthPage />} />
                         <RouterPage path="/Landing" pageComponent={<HomePage />} />
                         <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
                         <RouterPage default pageComponent={<PageNotFound />} />
                     </Router>
+                    {/* {location.pathname === "/" ? null : <Footer />} */}
                 </Suspense>
             </div>
-            {/* {location.pathname === "/" ? null : <Footer />} */}
 
             <ToastContainer autoClose={1000} />
         </div>

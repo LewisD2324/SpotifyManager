@@ -1,8 +1,9 @@
 import { createStyles, FormControlLabel, FormGroup, makeStyles, Switch, Theme } from '@material-ui/core';
 import React from 'react';
+import styled from 'styled-components';
 import { Toggle } from '../../models/toggle';
 
-export interface SearchSwitchesProps {
+export interface SearchTogglesProps {
     searchToggles: Toggle[];
     handleSwitchChange: (e: any) => void;
 }
@@ -10,6 +11,7 @@ export interface SearchSwitchesProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            color: "rgb(244 231 246 / 95%)"
             // position: "absolute",
             // top: "50%",
             // left: "50%",
@@ -17,11 +19,11 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const SearchSwitches = (props: SearchSwitchesProps) => {
+const SearchToggles = (props: SearchTogglesProps) => {
     const classes = useStyles();
 
     return (
-        <div style={{ display: 'flex' }}>
+        <SearchTogglesRoot>
             <FormGroup row className={classes.root}>
                 {props.searchToggles.map((toggle: Toggle) => {
                     return (
@@ -41,8 +43,13 @@ const SearchSwitches = (props: SearchSwitchesProps) => {
                     );
                 })}
             </FormGroup>
-        </div>
+        </SearchTogglesRoot>
     );
 };
 
-export default SearchSwitches;
+export default SearchToggles;
+
+const SearchTogglesRoot = styled.div`
+display: flex;
+margin-left: 25px;
+`;

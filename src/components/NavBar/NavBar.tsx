@@ -3,20 +3,15 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '@reach/router';
 import React from 'react';
+import styled from 'styled-components';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            display: 'flex',
-        },
-        // menuButton: {
-        //   marginRight: theme.spacing(2),
-        // },
         title: {
             // flexGrow: 1,
-            marginLeft: '40px',
             color: 'white',
         },
+      
     })
 );
 
@@ -24,54 +19,55 @@ const NavBar = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root} data-testid={'nav-bar'}>
+        <NavRoot data-testid={'nav-bar'}>
             {/* <nav> */}
             <Typography variant="h6" className={classes.title}>
                 Spotify Manager
             </Typography>
+            <NavContainer>
             <Button color="inherit">
-                <Link
-                    to="/Landing"
-                    style={{
-                        textDecoration: 'none',
-                        color: 'white',
-                        marginLeft: '1080px',
-                    }}
+                <NavLink
+                    to="/Landing" 
                 >
                     Home
-                </Link>
+                </NavLink>
             </Button>
             <Button color="inherit">
-                <Link to="/Playlist" style={{ textDecoration: 'none', color: 'white' }}>
+                <NavLink to="/Playlist">
                     My Playlists
-                </Link>
+                </NavLink>
             </Button>
-            {/* </nav> */}
-            {/* <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            Spotify Manager
-          </Typography>
-          <Button color="inherit">
-            <Link
-              to="/Landing"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              Home
-            </Link>
-          </Button>
-          <Button color="inherit">
-            <Link
-              to="/Playlist"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              My Playlists
-            </Link>
-          </Button>
-        </Toolbar>
-      </AppBar> */}
-        </div>
+            </NavContainer>
+        </NavRoot>
     );
 };
 
 export default NavBar;
+
+const NavRoot = styled.div`
+    display: flex;
+    background-image: linear-gradient(-45deg, purple, #53025359);
+    justify-content: space-between;
+    align-content: center;
+    padding: 30px 5% 190px;
+    position: absolute;
+    width: 100%;
+    width: -moz-available;          /* WebKit-based browsers will ignore this. */
+    width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    width: stretch;
+    z-index: -1;
+`;
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+  color: white;
+ transition: all 0.3s ease 0s;
+  &:hover {
+      color:red;
+  };
+`;
+
+const NavContainer = styled.div`
+display: inline-block;
+    padding: 0px 20px;
+`;
