@@ -1,15 +1,18 @@
+import { createStyles } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import React, { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components';
 import { get_playlist, userinfo } from '../../app/state/app.actions';
 import { useAppContext } from '../../app/state/app.store';
-import Albums from '../../components/Albums/Albums';
+import AlbumDisplay from "../../components/AlbumDisplay/AlbumDisplay";
 import Playlist from '../../components/Playlists/Playlists';
 import Search from '../../components/Search/Search';
 import TrackControls from '../../components/TrackControls/TrackControls';
-import TrackList from '../../components/TrackList/TrackList';
+import TrackDisplay from "../../components/TrackDisplay/TrackDisplay";
 import { Album } from '../../models/album';
 import { Artist } from '../../models/artist';
 import { Toggle } from '../../models/toggle';
@@ -17,7 +20,6 @@ import { Track } from '../../models/track';
 import { toggleValues } from '../../utils/constants/toggleValues';
 import * as actions from './state/home.actions';
 import { useHome } from './state/home.store';
-
 const HomePage: React.FC = () => {
     const { dispatch, state } = useHome();
     const appContext = useAppContext();
@@ -122,6 +124,7 @@ const HomePage: React.FC = () => {
                             searchToggles={searchToggles}
                             handleSwitchChange={handleSwitchChange}
                         />
+                            <div>
             <AddPlaylistText>Add To Your Playlist</AddPlaylistText>
             {appContext.state.playlists.length === 0 ? (
                 <CircularProgress />
@@ -132,45 +135,57 @@ const HomePage: React.FC = () => {
                     deletePlaylist={handleDeletePlaylist}
                 />
             )}
-            <div style={{ display: 'flex' }}>
-                {searchToggles[2].checked ? <Albums albums={state.albums} onClick={handleSearchAlbumTracks} /> : null}
-                <div style={{ position: 'absolute', left: '450px' }}>
-                    {searchToggles[0].checked || searchToggles[1].checked ? (
-                        <TrackList
-                            tracks={state.filtered_tracks}
-                            addtoplaylist={handleAddtoPlaylist}
-                            showPlaylistTrackControls={false}
-                        />
-                    ) : searchToggles[2].checked ? (
-                        <TrackList
-                            tracks={state.filtered_tracks}
-                            addtoplaylist={handleAddtoPlaylist}
-                            showPlaylistTrackControls={false}
-                            album_image={state.albums.find((album: any) => album.id === state.selected_album)}
-                        />
-                    ) : null}
-                </div>
             </div>
-            <div
-                style={{
-                    position: 'absolute',
-                    right: '7px',
-                    top: '620px',
-                    marginRight: '40px',
-                }}
+            <TrackContainer>
+            <AlbumDisplay searchToggles = {searchToggles} handleSearchAlbumTracks = {handleSearchAlbumTracks} albums = {state.albums}/>
+           <TrackDisplay searchToggles = {searchToggles} handleAddtoPlaylist = {handleAddtoPlaylist} filtered_tracks = {state.filtered_tracks}  albums = {state.albums} selected_album_id = {state.selected_album}/>
+            <ControlDisplay
             >
                 <TrackControls onBPMChange={handleBPMChange} />
-            </div>
+            </ControlDisplay>
+            </TrackContainer>
         </div>
     );
 };
 
 export default HomePage;
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        trackdisplay: {
+            position: "absolute",
+            left: "450px",
+            display: "flex"
+        },
+    })
+);
 
-const AddPlaylistText = styled.p`
+
+const AddPlaylistText = styled.h2`
     margin-left: 70px;
-    font-family: 'Playfair Display',serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 1.6em;
     font-weight: bold;
+`;
+
+
+
+// const TrackDisplay = styled.div`
+// position: absolute; 
+// left: 450px;
+// display: flex;
+// `;
+
+const TrackContainer = styled.div`
+display: flex;
+    justify-content: space-between;
+    align-content: center;
+`;
+
+const ControlDisplay = styled.div`
+position: relative;
+/* right: 7px;
+top: 620px;
+margin-right: 40px; */
+
 `;

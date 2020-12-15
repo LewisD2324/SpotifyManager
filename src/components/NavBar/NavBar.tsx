@@ -50,12 +50,10 @@ const NavRoot = styled.div`
     justify-content: space-between;
     align-content: center;
     padding: 30px 5% 190px;
-    position: absolute;
     width: 100%;
     width: -moz-available;          /* WebKit-based browsers will ignore this. */
     width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     width: stretch;
-    z-index: -1;
 `;
 
 const NavLink = styled(Link)`

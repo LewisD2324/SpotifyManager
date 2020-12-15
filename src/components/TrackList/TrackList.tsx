@@ -1,21 +1,12 @@
-import React, { useState, useRef } from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
-import AddIcon from '@material-ui/icons/Add';
-import Icon from '@material-ui/core/Icon';
-import { Box, Divider, Paper } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
-import AudioControl from '../AudioControl/AudioControl';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import { FixedSizeList } from 'react-window';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import React from 'react';
+import { FixedSizeList } from 'react-window';
+import AudioControl from '../AudioControl/AudioControl';
 
 interface TrackListProps {
     tracks: any;
@@ -28,10 +19,11 @@ interface TrackListProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            marginLeft: "10px",
             // width: "100%",
             // maxWidth: 1000,
             // backgroundColor: theme.palette.background.paper,
-            marginRight: '180px',
+          //  marginRight: '180px',
         },
         // audiocontrols: {
         //   width: "100%",
@@ -84,8 +76,8 @@ const TrackList = (props: TrackListProps) => {
         <div>
             <FixedSizeList
                 className={classes.root}
-                height={500}
-                width={500}
+                height={605}
+                width={580}
                 itemSize={80}
                 itemCount={props.tracks.length}
             >

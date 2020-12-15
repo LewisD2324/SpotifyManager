@@ -63,7 +63,6 @@ const PlaylistPage: React.FC = () => {
     return (
         <ContextProvider>
             <div data-testid="playlist-page">
-                <SearchContainer />
                 {appContext.state.playlists.length === 0 ? (
                     <CircularProgress />
                 ) : (

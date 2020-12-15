@@ -14,12 +14,9 @@ import CreatePlaylistForm from '../CreatePlaylistForm/CreatePlaylistForm';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            margin: '75px',
             display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            overflow: 'hidden',
-            margin: '40px',
-            backgroundColor: theme.palette.background.paper,
+            overflow: 'hidden'
         },
         gridList: {
             flexWrap: 'nowrap',

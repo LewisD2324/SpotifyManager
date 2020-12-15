@@ -1,6 +1,7 @@
 import { RouteComponentProps, Router } from '@reach/router';
 import React, { Suspense } from 'react';
 import { ToastContainer } from 'react-toastify';
+import Footer from '../components/Footer/Footer';
 import NavBar from '../components/NavBar/NavBar';
 import './App.css';
 
@@ -24,7 +25,7 @@ const App: React.FC = () => {
                         <RouterPage path="/Playlist" pageComponent={<PlaylistPage />} />
                         <RouterPage default pageComponent={<PageNotFound />} />
                     </Router>
-                    {/* {location.pathname === "/" ? null : <Footer />} */}
+                    {location.pathname === "/" ? null : <Footer />}
                 </Suspense>
             </div>
 

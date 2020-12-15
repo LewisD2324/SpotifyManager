@@ -1,4 +1,4 @@
-import { GridList, GridListTile, GridListTileBar, Paper } from '@material-ui/core';
+import { GridList, GridListTile, GridListTileBar } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
 
@@ -9,15 +9,21 @@ interface AlbumsProps {
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        root: {
-            display: 'flex',
-            height: '600px',
-            marginLeft: '40px',
-        },
+        // root: {
+        //     display: 'flex',
+        //     height: '600px',
+        //     // width: '290px',
+        //     // marginLeft: '40px',
+        // },
         gridList: {
-            width: '210px',
+            display: 'flex',
+            height: '890px',
+            width: '215px',
+            paddingLeft: '15px'
         },
         gridListTile: {
+            width: '100%',
+            height: '100%',
             transition: 'ease 0.4s all',
             '&:hover': {
                 background: '#f00',
@@ -68,11 +74,11 @@ const Albums = (props: AlbumsProps) => {
 
     return (
         <div>
-            <Paper className={classes.root}>
+            {/* <Paper className={classes.root}> */}
                 <GridList cols={1} className={classes.gridList}>
                     {renderalbums()}
                 </GridList>
-            </Paper>
+            {/* </Paper> */}
         </div>
     );
 };

@@ -84,7 +84,9 @@ const SearchRoot = styled.div`
 display: flex;
 justify-content: space-between;
     align-content: center;
-    padding: 150px 23% 0px 70px;
+    position: absolute;
+    top: 150px;
+    left: 75px;
 `;
 
 const SearchControlsContainer = styled.div`

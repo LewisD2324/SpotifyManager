@@ -51,6 +51,7 @@ width: -moz-available;          /* WebKit-based browsers will ignore this. */
 width: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
 width: stretch;
 padding-top: 3em;
+top: 150px;
 
 `;
 const List = styled.ul`
