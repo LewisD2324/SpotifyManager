@@ -1,5 +1,4 @@
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Slider from '@material-ui/core/Slider';
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,24 +7,28 @@ import React, { useState } from 'react';
 
 const useStyles = makeStyles({
     root: {
-        minWidth: 275,
-        minHeight: '480px',
-        marginRight: '70px'
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
+        // minWidth: 275,
+        // minHeight: '480px',
+        backgroundColor: "purple",
+        marginRight: '70px',
+        boxShadow: "0 4px 8px 0 grey, 0 6px 20px 0 grey"
     },
     slider: {
-        width: 300,
+        color:"#5a025a",
+        "& .MuiSlider-markLabel": {
+            color:"black"
+        }
+        
     },
+    cardContentRoot: {
+        borderStyle: "solid",
+        borderWidth: "medium",
+        margin: "15px",
+        borderColor: "black",
+        width: "300px",
+        backgroundColor: "white",
+
+    }
 });
 
 interface TrackControlProps {
@@ -54,26 +57,49 @@ const TrackControls = ({ onBPMChange }: TrackControlProps) => {
 
     return (
         <Card className={classes.root}>
-            <Typography>Track Controls</Typography>
-            <CardContent>
-                <div className={classes.slider}>
+            {/* <Typography>Track Controls</Typography> */}
+            <CardContent className = {classes.cardContentRoot}>
+                {/* <div className={classes.slider}> */}
                     <Typography id="range-slider" gutterBottom>
                         BPM range
                     </Typography>
                     <Slider
+                        className = {classes.slider}
                         value={value}
                         onChange={handleChange}
                         onChangeCommitted={onBPMChange}
                         valueLabelDisplay="auto"
                         aria-labelledby="range-slider"
-                        //   valueLabelFormat={valueLabelFormat}
                         marks={marks}
                         max={220}
-                        // getAriaValueText={valuetext}
                     />
-                </div>
+                     <Typography id="range-slider" gutterBottom>
+                        Something
+                    </Typography>
+                    <Slider
+                        className = {classes.slider}
+                        value={value}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="range-slider"
+                        marks={marks}
+                        max={220}
+                    />
+                     <Typography id="range-slider" gutterBottom>
+                     Something Else
+                    </Typography>
+                    <Slider
+                        className = {classes.slider}
+                        value={value}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="range-slider"
+                        marks={marks}
+                        max={220}
+                    />
+                {/* </div> */}
+            <button>Reset</button>
+
             </CardContent>
-            <CardActions></CardActions>
+            {/* <CardActions></CardActions> */}
         </Card>
     );
 };

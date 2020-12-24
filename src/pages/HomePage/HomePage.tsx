@@ -104,7 +104,7 @@ const HomePage: React.FC = () => {
     };
     const handleOnClickPlaylist = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         dispatch(actions.selected_playlist(e.currentTarget.id));
-        e.currentTarget.style.backgroundColor = '#f00';
+       // e.currentTarget.style.background = '#f00';
     };
 
     const handleBPMChange = (event: React.ChangeEvent<{}>, value: number[]) => {
@@ -162,10 +162,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 const AddPlaylistText = styled.h2`
-    margin-left: 70px;
+    margin-left: 75px;
     font-family: 'Open Sans', sans-serif;
     font-size: 1.6em;
     font-weight: bold;
+    color: white;
 `;
 
 

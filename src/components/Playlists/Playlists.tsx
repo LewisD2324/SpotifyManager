@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -6,6 +6,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 import * as actions from '../../app/state/app.actions';
 import { useAppContext } from '../../app/state/app.store';
 import CreatePlaylistForm from '../CreatePlaylistForm/CreatePlaylistForm';
@@ -24,17 +25,35 @@ const useStyles = makeStyles((theme: Theme) =>
             transform: 'translateZ(0)',
         },
         gridListTile: {
+            width: '180px !important',
             transition: 'ease 0.4s all',
             '&:hover': {
-                background: '#f00',
+                background: '#a19393',
                 cursor: 'pointer',
+          //      transform: 'scale(1.1, 1.1)'
             },
+            // '&:active': {
+            //     backgroundColor: '#f00'
+            // },
+            "& .MuiGridListTile-tile": {
+                // width: '180px',
+                 '&:hover': {
+            transition: 'ease 0.4s all',
+                transform: 'scale(1.1, 1.1)'
+            },
+              },
+            //   "& .MuiGridListTile-root": {
+            //     width: '180px',
+            //   },
+        },
+        gridListTileCreatePlaylist: {
+            backgroundColor: "white"
         },
         createPlaylistTitle: {
             textAlign: 'center',
         },
         title: {
-            color: theme.palette.primary.light,
+            color: 'rgb(255 236 255)',
             textAlign: 'center',
         },
         titleBar: {
@@ -46,9 +65,8 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'block',
             marginLeft: 'auto',
             marginRight: 'auto',
-            // "&:hover": {
-            //   height: "250px",
-            //   width: "250px",
+            // '&:hover': {
+            //     transform: 'scale(1.1, 1.1)'
             // },
         },
     })
@@ -73,8 +91,6 @@ const Playlists = React.memo((props: PlaylistsProps) => {
             document.removeEventListener('mousedown', handleCreatePlaylistClick);
         };
     }, []);
-
-    console.log('did i render');
 
     const [showPlaylistControls, setshowPlaylistControls] = useState('');
     const [showCreatePlaylistForm, setshowCreatePlaylistForm] = useState(false);
@@ -119,13 +135,14 @@ const Playlists = React.memo((props: PlaylistsProps) => {
                     key={items.id}
                     data-testid="playlist-item"
                 >
+                    <ImageContainer>
                     {showPlaylistControls === items.id ? (
                         <div onClick={props.deletePlaylist(items.id)}>
                             <RemoveCircleIcon />
                         </div>
                     ) : null}
-
                     <img src={image} className={classes.playlistimage} />
+                    </ImageContainer>     
                     <GridListTileBar
                         title={items.name}
                         classes={{
@@ -141,15 +158,15 @@ const Playlists = React.memo((props: PlaylistsProps) => {
 
     return (
         <Paper className={classes.root}>
-            <GridList className={classes.gridList} cols={4}>
-                {/* <GridListTile className={classes.gridListTile}>
-         
-        </GridListTile> */}
-                <GridListTile onClick={handleCreatePlaylistClick} ref={createPlaylistRef}>
+            <GridList className={classes.gridList} cols={6}>
+                <GridListTile className = {classes.gridListTileCreatePlaylist} onClick={handleCreatePlaylistClick} ref={createPlaylistRef}>
                     {showCreatePlaylistForm ? (
                         <CreatePlaylistForm onSubmit={handleSubmit} />
                     ) : (
-                        <Typography>Create a Playlist</Typography>
+                        
+                        <div>
+                        <CreatePlaylistText>Create a Playlist</CreatePlaylistText>
+                        </div>
                     )}
                 </GridListTile>
 
@@ -160,3 +177,17 @@ const Playlists = React.memo((props: PlaylistsProps) => {
 });
 
 export default Playlists;
+
+
+const CreatePlaylistText = styled.h4`
+        text-align: center;
+    font-size: 1.3em;
+    /* font-family: 'Open Sans',sans-serif; */
+`;
+
+const ImageContainer = styled.div`
+/* &:hover {
+                transform: 'scale(1.1, 1.1)'
+            } */
+`
+

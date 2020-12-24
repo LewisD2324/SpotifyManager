@@ -30,16 +30,21 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         root: {
             width: '500px',
-            transition: 'background-color .2s eas',
-           
+            "& .MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined": {
+                  color: "white"
+            }
         },
         inputRoot: {
+            color: "white",
             "& .MuiOutlinedInput-notchedOutline": {
                 borderColor: "white",
-              }
-            //   "&:hover .MuiOutlinedInput-notchedOutline": {
-            //     borderColor: "white",
-            //   },
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "purple"
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "purple"
+              },
         },
     })
 );
@@ -58,8 +63,16 @@ const Search = (props: SearchProps) => {
                     placeholder="Search by ...."
                     onInputChange={props.handleChangeValue}
                     options={props.suggestions}
+                    ListboxProps={
+                        {
+                          style:{
+                              maxHeight: '140px',
+                          }
+                        }
+                      }
                     renderInput={(params) => (
                         <TextField
+                            style= {{color: "white"}}
                             {...params}
                             label="Track, Artist or Album..."
                             margin="normal"

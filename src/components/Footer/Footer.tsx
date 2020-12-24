@@ -43,7 +43,8 @@ export default Footer;
 
 const FooterRoot = styled.div`
  color: white;
-background-color: black;
+//background-color: black;
+background-image: linear-gradient(-45deg,purple,rgb(83 2 83 / 35%));
 position: relative;
 bottom: 0;
 width: 100%;

@@ -34,35 +34,29 @@ const CreatePlaylistForm = ({
 CreatePlaylistFormProps) => {
     const classes = useStyles();
 
-    //TODO - change this to be done using 1 state 1 handlechange for both textboxes
     const [playlistName, setPlaylistName] = useState<string>('');
 
     const [description, setDescription] = useState<string>('');
 
-    const handlePlaylistNameChange = (event: any) => {
-        const { name, value } = event.target;
-        setPlaylistName(value);
-    };
-
-    const handleDescriptionChange = (event: any) => {
-        const { name, value } = event.target;
-        setDescription(value);
-    };
+    const handleTextChange = (
+        event:
+          | React.ChangeEvent<HTMLInputElement>
+      ) => {
+        const { name, value, type } = event.target;
+        name === "PlaylistName" ? setPlaylistName(value) : setDescription(value); 
+      };
 
     return (
         <div className={classes.root}>
-            {/* <Typography component="h6" className={classes.createPlaylistTitle}>
-        Create A Playlist:
-      </Typography> */}
             <TextField
                 id="standard-basic"
                 margin="normal"
                 label="Playlist Name"
-                name="Playlist Name"
+                name="PlaylistName"
                 inputProps={{ 'data-testid': 'playlistname-input' }}
                 placeholder="Name"
                 required
-                onChange={handlePlaylistNameChange}
+                onChange={handleTextChange}
             />
             <TextField
                 id="standard-basic"
@@ -71,7 +65,7 @@ CreatePlaylistFormProps) => {
                 inputProps={{ 'data-testid': 'playlistdescription-input' }}
                 label="Description"
                 placeholder="Description"
-                onChange={handleDescriptionChange}
+                onChange={handleTextChange}
             />
 
             {/* <Typography component="p" className={classes.ErrorText}>

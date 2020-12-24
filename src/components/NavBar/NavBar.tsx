@@ -46,7 +46,7 @@ export default NavBar;
 
 const NavRoot = styled.div`
     display: flex;
-    background-image: linear-gradient(-45deg, purple, #53025359);
+    background-image: linear-gradient(-45deg,purple,rgb(83 2 83 / 35%));
     justify-content: space-between;
     align-content: center;
     padding: 30px 5% 190px;
